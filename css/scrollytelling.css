@@ -1,0 +1,67 @@
+/* ============================================================
+   ECHOES OF SOL · scrollytelling.css
+   Secciones de scroll con ritmo narrativo (Diego · GSAP targets)
+   ============================================================ */
+
+.scrolly {
+  position: relative;
+  padding-top: 4rem;
+}
+
+.scrolly-step {
+  min-height: 100vh;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 clamp(1.2rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  will-change: transform, opacity;
+}
+
+.scrolly-kicker {
+  font-family: var(--font-mono);
+  font-size: clamp(0.6rem, 1.5vw, 0.72rem);
+  letter-spacing: 0.35em;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.scrolly-title {
+  font-size: clamp(2.4rem, 7vw, 4.6rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-shadow: 0 0 40px rgba(76, 201, 240, 0.15);
+}
+
+.scrolly-title em {
+  display: block;
+  color: var(--echo-accent);
+}
+
+.scrolly-text {
+  margin-top: 1.4rem;
+  font-size: clamp(1rem, 2.4vw, 1.15rem);
+  color: var(--muted);
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+.scrolly-step[data-step="3"] .hud-button { align-self: center; }
+
+/* Línea de telemetría decorativa entre pasos */
+.scrolly-step::after {
+  content: "";
+  display: block;
+  width: 1px; height: 60px;
+  margin: 2.5rem auto 0;
+  background: linear-gradient(180deg, var(--echo-accent), transparent);
+  opacity: 0.4;
+}
+.scrolly-step:last-child::after { display: none; }
+
+/* Sin movimiento preferido: pasos visibles de una vez */
+@media (prefers-reduced-motion: reduce) {
+  .scrolly-step { opacity: 1 !important; transform: none !important; }
+}
