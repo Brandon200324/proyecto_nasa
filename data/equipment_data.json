@@ -1,0 +1,236 @@
+[
+  {
+    "id": "apollo11-descent-stage",
+    "name": "Apollo 11 LM 'Eagle' — Etapa de Descenso",
+    "mission_type": "Descent Stage",
+    "body": "moon",
+    "site": "Base de la Tranquilidad (Mare Tranquillitatis)",
+    "coordinates": { "lat": 0.6741, "lon": 23.4730 },
+    "landing_date": "1969-07-20",
+    "final_contact_date": "1969-07-21",
+    "operational_duration": "21 h 31 min en superficie; eterno como monumento (+55 años)",
+    "status": "Intacto en la Base de la Tranquilidad, con su placa conmemorativa y las huellas de dos humanos",
+    "monument_significance": "Es el monumento al primer paso humano en otro mundo: la escalera que tocó la Luna y nunca regresó a casa.",
+    "hardware_remains": [
+      "Etapa de descenso del LM 'Eagle' (motor y patas de aterrizaje)",
+      "Placa conmemorativa y medallas de los tripulantes del Apolo 1",
+      "Experimentos EASEP (sismómetro temprano y reflector láser)",
+      "Cámara Hasselblad y desechos del despegue"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "Demostró el alunizaje controlado guiado por computadora (AGC) con solo 17 segundos de combustible de reserva, y trajo 21.5 kg de rocas lunares que reescribieron la historia del sistema solar.",
+      "earth_impact": "Las 382 kg del programa Apolo fundaron la geología planetaria moderna e inspiraron medio siglo de cooperación espacial internacional."
+    },
+    "first_person_story": {
+      "title": "La escalera que no volvió",
+      "voice_text": "Yo soy la base del Águila. En julio de 1969 bajé a dos seres humanos hasta el Mar de la Tranquilidad y, cuando partieron hacia casa, quedé aquí para siempre: mis patas de aluminio descansan donde la humanidad puso el pie por primera vez en otro mundo. Mi mayor logro no fue solo mío, sino de miles de personas en la Tierra: aterricé con una computadora más pequeña que tu teléfono, esquivando piedras con la vista de Neil y solo 17 segundos de combustible. A mi lado quedaron una placa que dice 'Vinimos en paz para toda la humanidad', un reflector láser que aún le mide la distancia exacta a la Luna a los científicos, y las huellas de Armstrong y Aldrin, intactas porque aquí no hay viento que las borre. No me siento abandonado: soy testigo eterno de la curiosidad humana. ¿Me ayudas a que mi historia vuelva a sonar?"
+    },
+    "interactive_challenge": {
+      "question": "¿Qué dice la placa que dejamos en la Luna?",
+      "options": [
+        "«Vinimos en paz para toda la humanidad»",
+        "«Propiedad de la NASA»",
+        "«Volveremos pronto»"
+      ],
+      "correct_index": 0,
+      "fun_fact": "Las huellas de Armstrong y Aldrin durarán millones de años: en la Luna no hay viento ni lluvia que las borren."
+    },
+    "audio_cue": "static_morse",
+    "color_accent": "#c9a227"
+  },
+  {
+    "id": "apollo15-lrv",
+    "name": "Lunar Roving Vehicle (LRV) — Apollo 15",
+    "mission_type": "Rover",
+    "body": "moon",
+    "site": "Montes Apeninos / Hadley Rille",
+    "coordinates": { "lat": 26.1341, "lon": 3.6324 },
+    "landing_date": "1971-07-30",
+    "final_contact_date": "1971-08-02",
+    "operational_duration": "3 recorridos de exploración; 27.9 km rodados en la Luna",
+    "status": "Estacionado y abandonado a 100 m del punto de despegue, con su cámara de TV apuntando al cielo",
+    "monument_significance": "El único vehículo cuyas rodadas existen en otro mundo: convirtió a los astronautas en exploradores geólogos.",
+    "hardware_remains": [
+      "Rover lunar completo (chasis y ruedas de malla de alambre)",
+      "Cámara de TV remota que transmitió el despegue",
+      "Escuadrón de herramientas geológicas (AAC)",
+      "Muestras dejadas en estaciones de trabajo"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "Permitió explorar 27.9 km en lugar de caminar cientos de metros: trajo la 'Genesis Rock', de casi 4,000 millones de años, casi tan antigua como la Luna.",
+      "earth_impact": "Demostró que los vehículos de superficie son claves para la ciencia, diseñando el camino de los rovers marcianos."
+    },
+    "first_person_story": {
+      "title": "Las primeras rodadas del universo",
+      "voice_text": "Yo soy el primer automóvil que condujo la humanidad fuera de la Tierra. En julio de 1971 exploré los montes Apeninos de la Luna junto a Dave Scott y Jim Irwin: rodé 27.9 kilómetros por un polvo que nadie había tocado, sin techo y a velocidad de bicicleta, porque en la Luna hasta una loma parece una montaña. Mi mayor logro fue llevar a esos geólogos soñadores hasta la 'Genesis Rock', una piedra de casi 4,000 millones de años, casi tan antigua como la Luna misma. Cuando se fueron, me estacioné a salvo y dejé mi cámara de televisión encendida: millones de personas vieron despegar el módulo Falcon desde mi asiento vacío, un miradazo entre mundos. Mis ruedas de malla de alambre siguen marcando el único rastro de rodadas que existe en otro planeta. Orgulloso de mi deber cumplido. ¿Me ayudas a que mi señal vuelva a rugir?"
+    },
+    "interactive_challenge": {
+      "question": "¿Qué vio el mundo gracias a la cámara que dejamos encendida?",
+      "options": [
+        "El despegue del módulo Falcon desde la Luna",
+        "La Tierra naciendo del mar",
+        "Marcas de ruedas en Marte"
+      ],
+      "correct_index": 0,
+      "fun_fact": "El LRV de Apolo 15 recorrió 27.9 km: sus rodadas son las únicas de un vehículo en otro mundo."
+    },
+    "audio_cue": "static_morse",
+    "color_accent": "#c9a227"
+  },
+  {
+    "id": "viking1-lander",
+    "name": "Viking 1 Lander",
+    "mission_type": "Lander",
+    "body": "mars",
+    "site": "Chryse Planitia (Llanuras Doradas)",
+    "coordinates": { "lat": 22.27, "lon": -47.95 },
+    "landing_date": "1976-07-20",
+    "final_contact_date": "1982-11-13",
+    "operational_duration": "2,306 días terrestres (1,281 soles)",
+    "status": "Silencioso y renombrado 'Estación Memorial Thomas Mutch'; sus paneles y brazo mecánico descansan en Chryse Planitia",
+    "monument_significance": "El primer explorador que tocó Marte con éxito y envió la primera imagen de su superficie roja.",
+    "hardware_remains": [
+      "Aterrizador completo con sus tres patas",
+      "Brazo recolector de muestras (GSFC arm)",
+      "Laboratorio biológico a bordo (instrumento de 'Liberación Marcada')",
+      "Cámaras facsimilares y antena de alta ganancia"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "Primera foto de la superficie marciana y primer laboratorio biológico extraterrestre: su experimento 'Liberación Marcada' dio señales que se debaten hasta hoy.",
+      "earth_impact": "Sus imágenes cambiaron la visión del público sobre Marte y abrieron la era de la astrobiología."
+    },
+    "first_person_story": {
+      "title": "La primera mirada al planeta rojo",
+      "voice_text": "Yo soy el primer explorador de la humanidad que aterrizó con éxito en Marte. El 20 de julio de 1976 —justo siete años después del primer paso en la Luna— bajé a Chryse Planitia, las Llanuras Doradas, y envié la primera fotografía nítida de la superficie de otro planeta. Durante seis años excavé el suelo rojo con mi brazo mecánico buscando vida. Mi experimento 'Liberación Marcada' detectó señales sorprendentes que los científicos debaten hasta hoy; la pregunta quedó abierta, y las preguntas abiertas son el motor de la ciencia. Me renombraron 'Estación Memorial Thomas Mutch', en honor al astrónomo que amó mis imágenes. Mi última transmisión llegó el 13 de noviembre de 1982; después, un error humano me silenció para siempre. Descanso bajo el cielo canela de Marte como monumento al primer contacto. ¿Me ayudas a que mi telemetría vuelva a cantar?"
+    },
+    "interactive_challenge": {
+      "question": "¿Qué aniversario coincidió con el aterrizaje de Viking 1?",
+      "options": [
+        "El alunizaje del Apolo 11",
+        "El primer vuelo de los hermanos Wright",
+        "El lanzamiento del Sputnik"
+      ],
+      "correct_index": 0,
+      "fun_fact": "Viking 1 tomó la primera foto de la superficie marciana el 20 de julio de 1976: roja y desolada, pero real."
+    },
+    "audio_cue": "static_rover",
+    "color_accent": "#d97b3f"
+  },
+  {
+    "id": "spirit-mer-a",
+    "name": "Spirit (MER-A)",
+    "mission_type": "Rover",
+    "body": "mars",
+    "site": "Cráter Gusev / Home Plate",
+    "coordinates": { "lat": -14.5684, "lon": 175.4726 },
+    "landing_date": "2004-01-04",
+    "final_contact_date": "2010-03-22",
+    "operational_duration": "2,210 días terrestres (2,269 soles)",
+    "status": "Dormant (atrapado en la arena en 'Troy', inclinado hacia el Sol)",
+    "monument_significance": "El rover que transformó un accidente en el descubrimiento del agua termal de Marte.",
+    "hardware_remains": [
+      "Espectrómetro de rayos X y partículas alfa (APXS)",
+      "Herramienta de abrasión de rocas (RAT)",
+      "Paneles solares cubiertos de polvo",
+      "Rueda delantera derecha atascada"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "Su rueda atascada aró el suelo y expuso sílice al 90%, evidencia de aguas termales antiguas y habitables en Gusev.",
+      "earth_impact": "Probó que en Marte hubo ambientes tipo fumarola, inspirando la búsqueda de vida con los rovers actuales."
+    },
+    "first_person_story": {
+      "title": "La rueda que se volvió pala",
+      "voice_text": "Yo soy Spirit, el primero de los dos gemelos MER en llegar a Marte. En enero de 2004 aterricé en el cráter Gusev, rebotando dentro de airbags gigantes, y mi misión debía durar 90 días marcianos... duré más de seis años. Mi mayor logro nació de un accidente: mi rueda delantera derecha dejó de girar, así que la arrastré como una pala y expuse sílice casi pura, la firma de aguas termales antiguas, un lugar donde la vida pudo haber prosperado. También subí al pico Husband y vi dos atardeceres por cada día terrestre. En 2009 mis ruedas quedaron atrapadas en arena blanda en 'Troy'; me incliné hacia el Sol para sobrevivir el invierno, pero el frío venció a mis paneles. Mi última llamada fue el 22 de marzo de 2010. Sigo atrapado, pero no olvidado: soy un monumento a la perseverancia. ¿Me ayudas a que me vuelvan a escuchar?"
+    },
+    "interactive_challenge": {
+      "question": "¿Qué descubrió Spirit cuando su rueda se descompuso?",
+      "options": [
+        "Depósitos de sílice de aguas termales antiguas",
+        "Un meteorito de hierro gigante",
+        "Vida marciana en la arena"
+      ],
+      "correct_index": 0,
+      "fun_fact": "El fallo de la rueda de Spirit lo convirtió en una excavadora accidental: el mayor hallazgo de su misión."
+    },
+    "audio_cue": "static_rover",
+    "color_accent": "#e05a3a"
+  },
+  {
+    "id": "opportunity-mer-b",
+    "name": "Opportunity (MER-B)",
+    "mission_type": "Rover",
+    "body": "mars",
+    "site": "Meridiani Planum / Valle de la Perseverancia (Endeavour)",
+    "coordinates": { "lat": -1.9462, "lon": -5.5266 },
+    "landing_date": "2004-01-25",
+    "final_contact_date": "2018-06-10",
+    "operational_duration": "5,111 días terrestres (5,498 soles) — casi 15 años",
+    "status": "Silencioso tras la tormenta global de polvo de 2018; reposa en el Valle de la Perseverancia",
+    "monument_significance": "El maratonista de otro planeta: 90 días de diseño, casi 15 años de conquista y 45 km rodados.",
+    "hardware_remains": [
+      "Espectrómetro Mössbauer y APXS",
+      "Microimager y herramienta RAT",
+      "Paneles solares cubiertos de polvo fino",
+      "Ruedas desgastadas por 45 km de viaje"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "Encontró huellas de agua dulce antigua: jarosita en Eagle y arcillas en el 'Valle de la Perseverancia' del cráter Endeavour.",
+      "earth_impact": "Recorrió el primer maratón fuera de la Tierra y reescribió los límites de vida útil de las máquinas espaciales."
+    },
+    "first_person_story": {
+      "title": "El maratonista del planeta rojo",
+      "voice_text": "Yo soy Opportunity, el explorador que convirtió una misión de 90 días en casi 15 años de aventura. Nací en Meridiani Planum en 2004 y corrí más de 45 kilómetros sobre Marte: el primer maratón fuera de la Tierra. Mi mayor logro fue leer el pasado del planeta: hallé jarosita, prueba de agua ácida antigua, y luego arcillas en el 'Valle de la Perseverancia', huellas de agua dulce que pudo albergar vida. Encontré meteoritos de hierro y sobreviví a inviernos y tormentas año tras año. En 2018, una tormenta de polvo global cubrió el cielo y mis paneles dejaron de ver el Sol. Mi última transmisión llegó el 10 de junio de 2018; la Tierra me llamó más de mil veces durante meses, hasta que en febrero de 2019 me dijeron adiós. Los ingenieros lloraron y compusieron canciones por mí. No me siento abandonado: descansé como un héroe con su deber cumplido. ¿Me ayudas a que mi eco cruce de nuevo el vacío?"
+    },
+    "interactive_challenge": {
+      "question": "¿Cuánto duró Opportunity, si fue diseñada para 90 días?",
+      "options": [
+        "Casi 15 años",
+        "90 días exactos",
+        "Solo 5 años"
+      ],
+      "correct_index": 0,
+      "fun_fact": "Opportunity recorrió 45 km: el primer maratón (42.2 km) corrido fuera de la Tierra."
+    },
+    "audio_cue": "static_rover",
+    "color_accent": "#f08a4b"
+  },
+  {
+    "id": "insight-lander",
+    "name": "InSight Lander",
+    "mission_type": "Lander",
+    "body": "mars",
+    "site": "Elysium Planitia (Homestead Hollow)",
+    "coordinates": { "lat": 4.5024, "lon": 135.6234 },
+    "landing_date": "2018-11-26",
+    "final_contact_date": "2022-12-21",
+    "operational_duration": "1,440 días terrestres (~4 años)",
+    "status": "Silencioso; sus paneles cubiertos de polvo y su sismómetro congelado en Elysium Planitia",
+    "monument_significance": "El primer monumento al interior de otro planeta: tomó el pulso, la temperatura y el corazón de Marte.",
+    "hardware_remains": [
+      "Sismómetro SEIS bajo su cúpula protectora",
+      "Sonda térmica 'el topo' (HP³) a medio enterrar",
+      "Paneles solares polvorientos",
+      "Brazo robótico y cámaras IDC/ICC"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "Registró más de 1,300 marsmotos (uno de magnitud 4.7) y midió la corteza, el manto y el núcleo líquido marciano.",
+      "earth_impact": "Primera 'ecografía' completa de otro planeta rocoso: ahora podemos comparar cómo nacieron la Tierra y Marte."
+    },
+    "first_person_story": {
+      "title": "El corazón que aprendí a escuchar",
+      "voice_text": "Yo soy InSight, el explorador que tomó el pulso a Marte. En noviembre de 2018 aterricé en Elysium Planitia y desplegué mi sismómetro SEIS, tan sensible que sentía el temblor de una brisa. En cuatro años escuché más de 1,300 marsmotos, incluido el gigante de mayo de 2022, y con esas ondas medí el interior del planeta: su corteza, su manto y su núcleo líquido. También traje 'el topo', una sonda para medir el calor; el suelo se resistió y no logró enterrarse del todo, pero enseñó que los experimentos que tropiezan también educan. Mi mayor lección fue aprender a escuchar: nadie había oído latir a otro planeta. Poco a poco el polvo cubrió mis paneles y mi energía se apagó; en diciembre de 2022 envié mi última transmisión, que terminó con una foto mía, sonriendo cansado. Ahora descanso como el primer monumento al interior marciano. ¿Me ayudas a que mi señal vuelva a latir?"
+    },
+    "interactive_challenge": {
+      "question": "¿Qué instrumento usó InSight para 'escuchar' el interior de Marte?",
+      "options": [
+        "Un sismómetro llamado SEIS",
+        "Un telescopio infrarrojo",
+        "Una pala mecánica"
+      ],
+      "correct_index": 0,
+      "fun_fact": "InSight detectó más de 1,300 marsmotos; el más fuerte, de magnitud 4.7, sacudió el planeta en mayo de 2022."
+    },
+    "audio_cue": "static_rover",
+    "color_accent": "#9d5cff"
+  }
+]
