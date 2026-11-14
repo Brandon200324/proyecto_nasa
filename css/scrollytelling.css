@@ -65,3 +65,20 @@
 @media (prefers-reduced-motion: reduce) {
   .scrolly-step { opacity: 1 !important; transform: none !important; }
 }
+
+/* ============================================================
+   Barra de progreso de scroll (Diego · feature/ui-scrollytelling)
+   Se anima con GSAP desde js/ui/scroll.js → initProgress()
+   ============================================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 90; /* bajo el trivia (80) pero visible sobre todo lo demás */
+  height: 3px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--echo-accent), var(--mars));
+  box-shadow: 0 0 12px var(--echo-accent);
+  pointer-events: none;
+}
