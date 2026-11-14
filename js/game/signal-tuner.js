@@ -91,6 +91,23 @@ function injectStyles() {
       letter-spacing: 0.08em; text-align: center;
       animation: st-blink 1.6s ease-in-out infinite;
     }
+    /* Subtítulos en vivo: resaltan la palabra que pronuncia la voz */
+    .st-captions {
+      display: none; margin-top: 0.8rem; padding: 0.7rem 0.9rem;
+      border-left: 3px solid var(--echo-accent);
+      background: rgba(0, 0, 0, 0.35); border-radius: 0 8px 8px 0;
+      font-size: 0.85rem; line-height: 1.65; color: var(--text);
+      max-height: 6.6em; overflow-y: auto;
+    }
+    .st-captions mark {
+      background: var(--echo-accent); color: #04070f;
+      border-radius: 3px; padding: 0 2px; font-weight: 700;
+    }
+    .st-captions .st-caption-end {
+      display: block; margin-top: 0.5rem;
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase;
+    }
     .st-actions { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
     .st-btn {
       flex: 1; min-width: 140px; padding: 0.7rem 0.9rem;
@@ -152,6 +169,7 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
       </div>
 
       <div class="st-success" role="status"></div>
+      <p class="st-captions" aria-live="polite"></p>
     </div>
   `;
 
@@ -162,6 +180,7 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
   const valueEl = overlay.querySelector('.st-value');
   const feedback = overlay.querySelector('.st-feedback');
   const successBox = overlay.querySelector('.st-success');
+  const captionsBox = overlay.querySelector('.st-captions');
   const syncBtn = overlay.querySelector('[data-action="sync"]');
   const soundBtn = overlay.querySelector('[data-action="sound"]');
 
@@ -290,13 +309,60 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
     }
   }
 
+  /* ---------- Subtítulos sincronizados con la voz ----------
+     Cada palabra se ilumina al ritmo exacto del habla gracias al
+     evento `boundary` de SpeechSynthesis (estilo karaoke).       */
   function speak(text) {
-    if (!('speechSynthesis' in window) || !text) return;
+    if (!text) return;
+
+    if (!('speechSynthesis' in window)) {
+      // Fallback: mostrar el texto completo sin sincronía
+      captionsBox.textContent = text;
+      captionsBox.style.display = 'block';
+      return;
+    }
+
     speechSynthesis.cancel();
+
+    // Mapear cada palabra a su posición en el texto original
+    const words = [];
+    for (const match of text.matchAll(/\S+/g)) {
+      words.push({ text: match[0], start: match.index, end: match.index + match[0].length });
+    }
+    const current = { word: null };
+    const render = () => {
+      captionsBox.innerHTML = words.map((w) => (
+        w === current.word ? `<mark>${w.text}</mark>` : w.text
+      )).join(' ');
+    };
+    current.word = words[0];
+    render();
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'es-ES';
     utterance.rate = 0.95;
     utterance.pitch = 1.05;
+
+    // El navegador avisa justo cuando empieza CADA palabra
+    utterance.onboundary = (e) => {
+      if (e.charIndex == null) return;
+      const spoken = words.find((w) => e.charIndex >= w.start && e.charIndex < w.end);
+      if (spoken && spoken !== current.word) {
+        current.word = spoken;
+        render();
+        // Desplaza la vista para que la palabra activa siempre se vea
+        const mark = captionsBox.querySelector('mark');
+        if (mark) mark.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    };
+    utterance.onend = () => {
+      current.word = null;
+      render();
+      captionsBox.insertAdjacentHTML('beforeend',
+        '<span class="st-caption-end">— fin de transmisión · eco registrado —</span>');
+    };
+
+    captionsBox.style.display = 'block';
     speechSynthesis.speak(utterance);
   }
 
