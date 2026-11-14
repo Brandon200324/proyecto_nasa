@@ -44,6 +44,22 @@ class EchoMarker extends HTMLElement {
         <h2 class="marker-title">${escapeHtml(a.name)}</h2>
         <p class="marker-site">📍 ${escapeHtml(a.site || '')}</p>
 
+        ${a.image ? `
+        <figure class="marker-photo" style="margin: 0.75rem 0;">
+          <img src="${a.image}" alt="Imagen real de la NASA: ${escapeHtml(a.name)}"
+               loading="lazy"
+               style="width: 100%; border-radius: 10px; border: 1px solid var(--line);
+                      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45); display: block;
+                      aspect-ratio: 16 / 10; object-fit: cover;
+                      background: rgba(0, 0, 0, 0.4);"
+               onerror="this.parentElement.hidden = true" />
+          <figcaption style="font-family: var(--font-mono); font-size: 0.65rem;
+                      letter-spacing: 0.15em; color: var(--muted); margin-top: 0.35rem;
+                      text-transform: uppercase;">
+            📷 Foto real · NASA (${escapeHtml(a.body === 'moon' ? 'Luna' : 'Marte')})
+          </figcaption>
+        </figure>` : ''}
+
         <div class="marker-stats">
           <div class="stat"><b>ATERRIZAJE</b><span>${escapeHtml(a.landing_date)}</span></div>
           <div class="stat"><b>ÚLTIMA SEÑAL</b><span>${escapeHtml(a.final_contact_date)}</span></div>

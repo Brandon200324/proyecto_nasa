@@ -1,6 +1,7 @@
 [
   {
     "id": "apollo11-descent-stage",
+    "image": "assets/images/apollo11-descent-stage.jpg",
     "name": "Apollo 11 LM 'Eagle' — Etapa de Descenso",
     "mission_type": "Descent Stage",
     "body": "moon",
@@ -40,6 +41,7 @@
   },
   {
     "id": "apollo15-lrv",
+    "image": "assets/images/apollo15-lrv.jpg",
     "name": "Lunar Roving Vehicle (LRV) — Apollo 15",
     "mission_type": "Rover",
     "body": "moon",
@@ -79,6 +81,7 @@
   },
   {
     "id": "viking1-lander",
+    "image": "assets/images/viking1-lander.jpg",
     "name": "Viking 1 Lander",
     "mission_type": "Lander",
     "body": "mars",
@@ -118,6 +121,7 @@
   },
   {
     "id": "spirit-mer-a",
+    "image": "assets/images/spirit-mer-a.jpg",
     "name": "Spirit (MER-A)",
     "mission_type": "Rover",
     "body": "mars",
@@ -157,6 +161,7 @@
   },
   {
     "id": "opportunity-mer-b",
+    "image": "assets/images/opportunity-mer-b.jpg",
     "name": "Opportunity (MER-B)",
     "mission_type": "Rover",
     "body": "mars",
@@ -196,6 +201,7 @@
   },
   {
     "id": "insight-lander",
+    "image": "assets/images/insight-lander.jpg",
     "name": "InSight Lander",
     "mission_type": "Lander",
     "body": "mars",
