@@ -415,14 +415,19 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
     utterance.rate = 0.95;
     utterance.pitch = 1.05;
 
-    // Voz explícitamente en español: el sistema podría intentar usar
-    // una voz en inglés (suenia ilegible). Se elige la mejor voz es-*.
+    // Voz explícitamente en español, con preferencia por ESPAÑOL DE
+    // ECUADOR (voz natural "Microsoft Luis/Andrea" incluida en Edge).
+    // Fallback progresivo: es-EC → cualquier es-* → por nombre.
     const pickSpanishVoice = () => {
       const voices = speechSynthesis.getVoices();
-      const es = voices.find((v) => v.lang?.toLowerCase().startsWith('es'))
-        || voices.find((v) => /spanish|espa/i.test(v.name));
-      if (es) utterance.voice = es;
-      return es;
+      const norm = (v) => (v.lang || '').toLowerCase().replace('_', '-');
+      const ecuatoriana = voices.find((v) => norm(v).startsWith('es-ec'))
+        || voices.find((v) => /ecuador/i.test(v.name));
+      const cualquierEspanol = voices.find((v) => norm(v).startsWith('es'));
+      const porNombre = voices.find((v) => /spanish|espa/i.test(v.name));
+      const elegida = ecuatoriana || cualquierEspanol || porNombre;
+      if (elegida) utterance.voice = elegida;
+      return elegida;
     };
     pickSpanishVoice();
     // Algunos navegadores cargan las voces de forma asíncrona:
