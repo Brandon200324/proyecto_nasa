@@ -102,16 +102,10 @@
    estirado (bloque lila). display:block es el fix real. */
 echo-globe { display: block; }
 .globe-wrap {
-  width: min(1100px, 96vw);
-  height: min(72vh, 640px);
-  margin: 0 auto;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: rgba(4, 8, 18, 0.4);
-  overflow: hidden;
-  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.5), 0 20px 60px rgba(0, 0, 0, 0.45);
-}
-echo-globe { display: block; } /* fix: los custom elements nacen 'inline' y clientWidth=0 rompía el tamaño del renderer (canvas 1x1) */
+    display: block;            /* ← línea nueva */
+    width: min(1100px, 96vw);
+    height: min(72vh, 640px); 
+  }
 .globe-wrap canvas { width: 100% !important; height: 100% !important; }
 .globe-hint {
   margin-top: 0.8rem; text-align: center;

@@ -89,12 +89,22 @@ function badgeEarned(id) {
 
 function callsignOf(id) {
   const names = {
+    'apollo-11-descent-stage': 'EAGLE',
     'apollo11-descent-stage': 'EAGLE',
+    'surveyor-3': 'SURVEYOR',
+    'apollo-15-lrv': 'FALCON',
     'apollo15-lrv': 'FALCON',
+    'apollo-alsep-lrrr': 'ALSEP',
+    'apollo17-lrv': 'CHALLENGER',
+    'viking-1-lander': 'VIKING',
     'viking1-lander': 'VIKING',
+    'viking2-lander': 'VIKING-2',
+    'pathfinder-sojourner': 'SOJOURNER',
     'spirit-mer-a': 'SPIRIT',
     'opportunity-mer-b': 'OPPY',
+    'phoenix-lander': 'PHOENIX',
     'insight-lander': 'INSIGHT',
+    'ingenuity-helicopter': 'INGENUITY'
   };
   return names[id] || 'ECHO';
 }
