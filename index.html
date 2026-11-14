@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/hud.css" />
   <link rel="stylesheet" href="css/scrollytelling.css" />
+  <link rel="stylesheet" href="css/pages.css" />
 
   <!-- Three.js vía import map (requiere servir con `npx serve .`) -->
   <script type="importmap">
@@ -42,6 +43,11 @@
       <span class="hud-logo-dot" aria-hidden="true"></span>
       ECHOES<em>OF</em>SOL
     </a>
+    <nav class="hud-nav" aria-label="Navegación principal">
+      <button type="button" class="hud-nav__btn" data-page="glosario">GLOSARIO</button>
+      <button type="button" class="hud-nav__btn" data-page="misiones">MISIONES</button>
+      <button type="button" class="hud-nav__btn" data-page="equipo">EQUIPO</button>
+    </nav>
     <div class="hud-top-actions">
       <echo-badge id="badge-tracker" aria-label="Insignias restauradas"></echo-badge>
       <echo-audio aria-label="Control de audio"></echo-audio>

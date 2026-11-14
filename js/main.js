@@ -8,6 +8,7 @@ import './components/echo-marker.js';
 import './components/echo-audio.js';
 import './components/echo-badge.js';
 import { initScroll } from './ui/scroll.js';
+import { initPages } from './ui/pages.js';
 import { soundscape } from './audio/soundscape.js';
 
 const globe = document.getElementById('globe');
@@ -70,6 +71,14 @@ function initGlobeEvents() {
     markerPanel.close();
     globe.reset();
   });
+
+  // Las páginas emergentes (js/ui/pages.js) piden abrir una ficha
+  document.addEventListener('echo:open-artifact', (e) => {
+    const artifact = ECHO_DATA.find((a) => a.id === e.detail.id);
+    if (!artifact) return;
+    globe.focus(e.detail.id);
+    markerPanel.open(artifact, badgeEarned(artifact.id));
+  });
 }
 
 /* ---------- Insignias (localStorage) ---------- */
@@ -102,6 +111,7 @@ async function boot() {
     initGlobeEvents();
     initBodySwitch();
     initScroll();
+    initPages();
   } catch (err) {
     console.error('[Echoes of Sol]', err);
     const sub = document.getElementById('preloader-sub');
