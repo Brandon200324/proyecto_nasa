@@ -101,7 +101,8 @@ git add . && git commit -m "feat: …" && git push -u origin feature/tu-rama
 ## 📜 Créditos
 
 - Datos y coordenadas: NASA NSSDCA / Planetary Data System.
-- Texturas: NASA/USGS vía [Solar System Scope](https://www.solarsystemscope.com/textures/) (CC-BY 4.0).
+- Texturas globales: **NASA/USGS** — Mars Viking MDIM 2.1 Color Mosaic (datos NASA/JPL/USGS, dominio público) y Lunar Reconnaissance Orbiter WAC Color Global Mosaic (NASA SVS, dominio público).
+- Fotos de artefactos: NASA Image and Video Library (`images-api.nasa.gov`), dominio público.
 - Historias: monólogos educativos basados en la línea de tiempo oficial de cada misión.
 
 ¡Vamos por ese premio global! 🌟
