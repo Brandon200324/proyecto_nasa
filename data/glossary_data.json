@@ -1,0 +1,132 @@
+[
+  {
+    "id": "retroreflector-laser-lrrr",
+    "term": "Retroreflector Láser Lunar (LRRR)",
+    "category": "Instrumento Científico",
+    "cadet_summary": "¡Una diana de luz en la Luna! Devuelve pulsos láser hacia la Tierra para que podamos medir la distancia entre ambos mundos.",
+    "how_it_works": "Sus prismas de esquina reflejan la luz hacia la dirección de donde llegó. Un observatorio terrestre envía un pulso láser y mide cuánto tarda en regresar una pequeña parte de esa luz. Con ese tiempo y la velocidad de la luz se calcula la distancia, dividiendo el recorrido total entre dos. El perfil de radio de esta ficha es ficticio y pertenece al simulador de la Academia de 2099; el reflector real es óptico y pasivo.",
+    "associated_artifacts": [
+      "apollo-11-descent-stage"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 240.5,
+      "signal_type": "Telemetry Pulse",
+      "difficulty": "Cadet (Fácil)"
+    },
+    "field_manual_did_you_know": "El reflector del Apollo 11 tiene 100 prismas y funciona sin baterías: la energía de cada medición llega desde la Tierra en forma de luz."
+  },
+  {
+    "id": "ruedas-malla-metalica-odometria",
+    "term": "Ruedas de Malla Metálica y Odometría del LRV",
+    "category": "Ingeniería de Movilidad",
+    "cadet_summary": "Las ruedas del vehículo lunar combinaban una malla flexible con un sistema para estimar la distancia recorrida. ¡Así los astronautas podían explorar y mantener una referencia de su camino!",
+    "how_it_works": "La malla metálica se deformaba al pasar sobre irregularidades y sus bandas de rodadura ayudaban a conseguir tracción. La odometría estimaba la distancia a partir del giro de las ruedas y de su tamaño efectivo, aunque el deslizamiento podía introducir errores. El sistema de navegación combinaba esa información con datos de dirección para estimar la posición respecto al módulo lunar. El perfil de radio de esta ficha es ficticio y pertenece al simulador de la Academia de 2099.",
+    "associated_artifacts": [
+      "apollo-15-lrv"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 241.5,
+      "signal_type": "Telemetry Pulse",
+      "difficulty": "Cadet (Fácil)"
+    },
+    "field_manual_did_you_know": "Las ruedas no necesitaban aire y cada una tenía su propio motor eléctrico: el rover del Apollo 15 recorrió unos 28 kilómetros."
+  },
+  {
+    "id": "cromatografo-gases-espectrometro-masas-gcms",
+    "term": "Cromatógrafo de Gases y Espectrómetro de Masas (GCMS)",
+    "category": "Instrumento Científico",
+    "cadet_summary": "Este laboratorio separaba mezclas de gases y buscaba pistas sobre sus componentes. ¡Era como ordenar un rompecabezas químico antes de estudiar sus piezas!",
+    "how_it_works": "El instrumento podía estudiar gases atmosféricos y gases liberados al calentar muestras del suelo. El cromatógrafo separaba componentes porque atravesaban sus columnas a velocidades diferentes. El espectrómetro ionizaba las moléculas y analizaba sus iones según la relación entre masa y carga para ayudar a identificar sustancias. El perfil de radio de esta ficha es ficticio y pertenece al simulador de la Academia de 2099.",
+    "associated_artifacts": [
+      "viking-1-lander"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 242.5,
+      "signal_type": "Carrier Wave",
+      "difficulty": "Specialist (Medio)"
+    },
+    "field_manual_did_you_know": "Identificar una molécula orgánica no demostraría por sí solo la existencia de vida: también hay procesos sin seres vivos que producen compuestos orgánicos."
+  },
+  {
+    "id": "espectrometro-rayos-x-particulas-alfa-apxs",
+    "term": "Espectrómetro de Rayos X de Partículas Alfa (APXS)",
+    "category": "Instrumento Científico",
+    "cadet_summary": "Este instrumento ayudaba a descubrir qué elementos químicos contenían las rocas y el suelo. ¡Permitía comparar sus ingredientes sin traer las muestras a la Tierra!",
+    "how_it_works": "Una fuente radiactiva de curio-244 emitía partículas alfa hacia una muestra cercana; un producto de su desintegración, el plutonio-240, aportaba rayos X que también irradiaban la muestra. Esa interacción hacía que los átomos de la muestra emitieran rayos X con energías características de sus elementos. Un detector registraba esas energías y sus intensidades para estimar la composición elemental. El perfil de radio de esta ficha es ficticio y pertenece al simulador de la Academia de 2099.",
+    "associated_artifacts": [
+      "spirit-mer-a",
+      "opportunity-mer-b"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 243.5,
+      "signal_type": "Telemetry Pulse",
+      "difficulty": "Specialist (Medio)"
+    },
+    "field_manual_did_you_know": "Saber qué elementos contiene una roca no equivale a identificar todos sus minerales: los equipos científicos combinaban el APXS con cámaras y otros instrumentos."
+  },
+  {
+    "id": "herramienta-abrasion-rocas-rat",
+    "term": "Herramienta de Abrasión de Rocas (RAT)",
+    "category": "Instrumento Científico",
+    "cadet_summary": "La superficie de una roca puede esconder su historia bajo polvo y capas alteradas. La RAT abría una pequeña ventana para examinar material menos expuesto al ambiente marciano.",
+    "how_it_works": "Un cabezal abrasivo motorizado desgastaba una zona circular de la roca. Sus mecanismos combinaban movimientos de giro para retirar una capa superficial, y un cepillo ayudaba a quitar residuos. Después, otros instrumentos examinaban la superficie preparada para compararla con el exterior original. El perfil de radio de esta ficha es ficticio y pertenece al simulador de la Academia de 2099.",
+    "associated_artifacts": [
+      "spirit-mer-a",
+      "opportunity-mer-b"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 244.5,
+      "signal_type": "Morse",
+      "difficulty": "Cadet (Fácil)"
+    },
+    "field_manual_did_you_know": "RAT significa Rock Abrasion Tool, pero también es la palabra inglesa para rata: ¡una herramienta con nombre de animal que desgastaba rocas en Marte!"
+  },
+  {
+    "id": "esferulas-hematita-arandanos-marcianos",
+    "term": "Esférulas Ricas en Hematita o Arándanos Marcianos",
+    "category": "Geología Planetaria",
+    "cadet_summary": "Opportunity encontró pequeñas bolitas minerales que parecían arándanos. ¡Su composición y distribución ayudaron a reconstruir la historia del agua antigua de Marte!",
+    "how_it_works": "Las esférulas se interpretan como concreciones: acumulaciones minerales que crecieron dentro de sedimentos cuando circuló agua subterránea. Los minerales precipitados fueron formando cuerpos redondeados enriquecidos en hematita, un óxido de hierro. Al erosionarse la roca que los rodeaba, muchas bolitas quedaron expuestas o sueltas sobre el suelo. El perfil de radio de esta ficha es ficticio y pertenece al simulador de la Academia de 2099; las esférulas no emiten señales de radio propias.",
+    "associated_artifacts": [
+      "opportunity-mer-b"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 245.5,
+      "signal_type": "Morse",
+      "difficulty": "Cadet (Fácil)"
+    },
+    "field_manual_did_you_know": "Su apodo describe su aspecto, no su naturaleza: no son frutas ni fósiles, y la presencia de agua antigua no demuestra por sí sola que hubiera vida."
+  },
+  {
+    "id": "sismometro-banda-ancha-seis",
+    "term": "Experimento Sísmico para la Estructura Interior (SEIS)",
+    "category": "Instrumento Científico",
+    "cadet_summary": "SEIS detectaba vibraciones diminutas del suelo marciano. ¡Sus registros permitieron investigar capas profundas de un planeta sin tener que perforar hasta ellas!",
+    "how_it_works": "Sus sensores utilizaban masas suspendidas y sistemas de medición sensibles al movimiento del suelo. El conjunto combinaba tres sensores de banda muy ancha con tres de período corto para registrar diferentes tipos de vibraciones. Los científicos analizaban cómo viajaban las ondas, mientras un escudo reducía las perturbaciones del viento y de los cambios de temperatura. El perfil de radio de esta ficha es ficticio y pertenece al simulador de la Academia de 2099.",
+    "associated_artifacts": [
+      "insight-lander"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 246.5,
+      "signal_type": "Telemetry Pulse",
+      "difficulty": "Specialist (Medio)"
+    },
+    "field_manual_did_you_know": "InSight registró 1.319 sismos marcianos y también vibraciones de impactos de meteoritos: las ondas ayudaron a estudiar la corteza, el manto y el núcleo."
+  },
+  {
+    "id": "sonda-flujo-calor-propiedades-fisicas-hp3",
+    "term": "Paquete de Flujo de Calor y Propiedades Físicas (HP3), el Topo",
+    "category": "Instrumento Científico",
+    "cadet_summary": "El Topo intentó introducir sensores bajo el suelo para investigar cómo escapa el calor del interior de Marte. Aunque no alcanzó la profundidad necesaria, enseñó mucho sobre las dificultades de excavar en otro planeta.",
+    "how_it_works": "Un mecanismo de martilleo interno impulsaba el penetrador, que necesitaba fricción con el suelo para avanzar. Al penetrar, debía arrastrar una cinta con sensores de temperatura hasta una profundidad prevista de entre tres y cinco metros. El experimento buscaba combinar el cambio de temperatura con la profundidad y la conductividad térmica del suelo para calcular el flujo de calor, pero no logró completar esa medición prevista. El perfil de radio de esta ficha es ficticio y pertenece al simulador de la Academia de 2099.",
+    "associated_artifacts": [
+      "insight-lander"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 247.5,
+      "signal_type": "Carrier Wave",
+      "difficulty": "Specialist (Medio)"
+    },
+    "field_manual_did_you_know": "El penetrador medía unos 40 centímetros de largo: para avanzar necesitaba apoyarse mediante fricción en el terreno que lo rodeaba."
+  }
+]
