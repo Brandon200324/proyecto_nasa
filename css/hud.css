@@ -372,6 +372,6 @@ echo-audio { display: inline-flex; }
   .marker-stats { grid-template-columns: 1fr; }
   .hud-logo em { display: none; }
   .hud-top-actions .badge-pill { font-size: 0.64rem; padding: 0.35rem 0.6rem; }
-  /* En pantallas táctiles el escaneoconsume CPU sin aportar: se apaga */
+  /* En pantallas táctiles el escaneo consume CPU sin aportar: se apaga */
   .hud-scan { display: none; }
 }
