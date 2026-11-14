@@ -12,7 +12,6 @@
 const PAGES = {
   glosario: { title: 'GLOSARIO DE LA ACADEMIA', file: 'pages/glosario.html', dynamic: 'glossary' },
   misiones: { title: 'ARCHIVO DE MISIONES', file: 'pages/misiones.html', dynamic: 'missions' },
-  equipo:   { title: 'TRIPULACIÓN ECHOES OF SOL', file: 'pages/equipo.html', dynamic: null },
 };
 
 let overlay = null;
@@ -27,12 +26,21 @@ let lastFocused = null;
 export function initPages() {
   buildOverlay();
 
-  document.querySelectorAll('[data-page]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const page = btn.dataset.page;
-      if (location.hash !== `#${page}`) location.hash = page;
-      else openPage(page);
-    });
+  /* Botones [data-page] por DELEGACIÓN: funciona también para los
+     botones que se crean dinámicamente (p. ej. en el panel de éxito
+     del minijuego signal-tuner). */
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-page]');
+    if (!btn || !PAGES[btn.dataset.page]) return;
+
+    // Si el minijuego está abierto, ciérralo primero: su botón "Cerrar"
+    // detiene la voz, la estática y la animación de forma limpia.
+    const tunerClose = document.querySelector('.st-overlay [data-action="close"]');
+    if (tunerClose) tunerClose.click();
+
+    const page = btn.dataset.page;
+    if (location.hash !== `#${page}`) location.hash = page;
+    else openPage(page);
   });
 
   // Botón ATRÁS del navegador: hash vacío → cerrar página

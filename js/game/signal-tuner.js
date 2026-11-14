@@ -361,6 +361,8 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
           <div class="st-success" style="display: block;">🛰️ CONEXIÓN RESTABLECIDA</div>
           <p class="st-captions" aria-live="polite"></p>
           <div class="st-actions">
+            <button type="button" class="st-btn ghost" data-page="glosario">📖 Glosario</button>
+            <button type="button" class="st-btn ghost" data-page="misiones">🛰️ Misiones</button>
             <button type="button" class="st-btn ghost" data-action="close">Cerrar</button>
           </div>
         </div>
