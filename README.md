@@ -41,7 +41,9 @@ proyecto_nasa/
 │   ├── three/                  # scene.js · markers.js · textures.js
 │   ├── audio/soundscape.js     # Estática, Morse, ambiente, chime
 │   ├── ui/scroll.js            # GSAP + ScrollTrigger
-│   └── game/trivia.js          # Minijuego "restaurar señal"
+│   └── game/
+│       ├── signal-tuner.js     # Minijuego "Restaurar la Frecuencia" (dial + onda + estática)
+│       └── trivia.js           # Minijuego de trivia por artefacto
 ├── data/equipment_data.json    # 6 artefactos (2 Luna + 4 Marte)
 └── assets/textures/            # 2k_mars.jpg · 2k_moon.jpg
 ```

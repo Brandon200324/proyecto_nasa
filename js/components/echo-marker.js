@@ -2,7 +2,7 @@
    ECHOES OF SOL · components/echo-marker.js
    Panel de ficha del artefacto: monólogo, hardware y CTA (Michelle)
    ============================================================ */
-import { openTrivia } from '../game/trivia.js';
+import { openSignalTuner } from '../game/signal-tuner.js';
 import { soundscape } from '../audio/soundscape.js';
 
 function escapeHtml(str) {
@@ -78,7 +78,7 @@ class EchoMarker extends HTMLElement {
     this.querySelector('.marker-close')?.addEventListener('click', () => this.close());
     this.querySelector('.marker-cta')?.addEventListener('click', () => {
       soundscape.playCue(a.audio_cue, null);
-      openTrivia(a, this._badgeEarned);
+      openSignalTuner(a, this._badgeEarned);
     });
   }
 }
