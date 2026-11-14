@@ -27,13 +27,18 @@ export function createMarkers(artifacts, radius = 1) {
   const dots = [];
   const rings = [];
 
+  // La Luna tiene menos artefactos y se ve más vacía:
+  // sus marcadores son más grandes para mantener la legibilidad.
+  const body = artifacts[0]?.body;
+  const scale = body === 'moon' ? 1.4 : 1;
+
   artifacts.forEach((artifact, i) => {
     const accent = new THREE.Color(artifact.color_accent || '#4cc9f0');
     const pos = latLonToVector3(artifact.coordinates.lat, artifact.coordinates.lon, radius * 1.005);
 
     // Punto central (objetivo del raycaster)
     const dot = new THREE.Mesh(
-      new THREE.SphereGeometry(0.022, 16, 16),
+      new THREE.SphereGeometry(0.022 * scale, 16, 16),
       new THREE.MeshBasicMaterial({ color: accent })
     );
     dot.position.copy(pos);
@@ -43,7 +48,7 @@ export function createMarkers(artifacts, radius = 1) {
 
     // Anillo pulsante
     const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(0.05, 0.004, 8, 48),
+      new THREE.TorusGeometry(0.05 * scale, 0.004 * scale, 8, 48),
       new THREE.MeshBasicMaterial({ color: accent, transparent: true, opacity: 0.8 })
     );
     ring.position.copy(pos);
@@ -54,7 +59,7 @@ export function createMarkers(artifacts, radius = 1) {
 
     // Estela vertical corta (fijo sobre la superficie)
     const stem = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.0015, 0.0015, 0.09, 6),
+      new THREE.CylinderGeometry(0.0015 * scale, 0.0015 * scale, 0.09 * scale, 6),
       new THREE.MeshBasicMaterial({ color: accent, transparent: true, opacity: 0.5 })
     );
     const mid = pos.clone().multiplyScalar(1.048);

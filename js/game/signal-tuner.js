@@ -125,6 +125,37 @@ function injectStyles() {
     .st-btn.ghost { border-color: var(--line); color: var(--muted); }
     .st-btn.ghost:hover { background: var(--line); color: var(--text); box-shadow: none; }
     @media (max-width: 480px) { .st-canvas { height: 110px; } }
+    /* --- Anti-congelamiento: al arrastrar el dial, se desactiva el
+           desenfoque de fondo y las animaciones (repaint barato) --- */
+    .st-overlay.st-dragging {
+      backdrop-filter: none; -webkit-backdrop-filter: none;
+      background: rgba(3, 6, 14, 0.85);
+    }
+    .st-overlay.st-dragging .st-led,
+    .st-overlay.st-dragging .st-success { animation: none; }
+    /* --- Vista de éxito: modelo real a la izquierda, texto a la derecha --- */
+    .st-success-layout {
+      display: grid;
+      grid-template-columns: minmax(150px, 240px) 1fr;
+      gap: 1.1rem; align-items: start;
+    }
+    .st-model { margin: 0; }
+    .st-model img {
+      width: 100%; border-radius: 10px; border: 1px solid var(--line);
+      aspect-ratio: 1 / 1; object-fit: cover; display: block;
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+    }
+    .st-model figcaption {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.15em; color: var(--muted);
+      margin-top: 0.4rem; text-align: center; text-transform: uppercase;
+    }
+    .st-side-title { font-size: 1rem; margin: 0.4rem 0 0.7rem; line-height: 1.25; }
+    @media (max-width: 560px) {
+      .st-success-layout { grid-template-columns: 1fr; }
+      .st-model { max-width: 220px; margin: 0 auto; }
+    }
   `;
   document.head.appendChild(style);
   stylesInjected = true;
@@ -150,7 +181,7 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
   overlay.innerHTML = `
     <div class="st-card" role="dialog" aria-modal="true" aria-label="Minijuego de restauración de frecuencia de ${artifact.name}">
       <p class="st-kicker"><span class="st-led"></span> RESTAURANDO ENLACE · ${artifact.id.replace(/-/g, ' ').toUpperCase()}</p>
-      <h3 class="st-title">Restaurar la Frecuencia</h3>
+      <h3 class="st-title">${artifact.name}</h3>
       <p class="st-desc">El transmisor de <strong>${artifact.name}</strong> quedó en silencio en ${artifact.site || 'su sitio'}. Ajusta el dial de 100 a 500 MHz hasta sintonizar su señal oculta. La onda se limpia y la estática baja cuando te acercas.</p>
 
       <canvas class="st-canvas" width="640" height="150" aria-hidden="true"></canvas>
@@ -167,9 +198,6 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
         <button type="button" class="st-btn ghost" data-action="sound" aria-pressed="false">🔊 Estática</button>
         <button type="button" class="st-btn ghost" data-action="close">Cerrar</button>
       </div>
-
-      <div class="st-success" role="status"></div>
-      <p class="st-captions" aria-live="polite"></p>
     </div>
   `;
 
@@ -179,15 +207,16 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
   const slider = overlay.querySelector('.st-dial');
   const valueEl = overlay.querySelector('.st-value');
   const feedback = overlay.querySelector('.st-feedback');
-  const successBox = overlay.querySelector('.st-success');
-  const captionsBox = overlay.querySelector('.st-captions');
   const syncBtn = overlay.querySelector('[data-action="sync"]');
   const soundBtn = overlay.querySelector('[data-action="sound"]');
+  let captionsBox = null; // se crea en la vista de éxito
 
   /* ---------- Estado ---------- */
   let raf = 0;
   let synced = false;
   let staticOn = false;
+  let dragging = false;      // true mientras el usuario arrastra el dial
+  let autoTimer = 0;         // temporizador de auto-sincronización (1 s)
   let staticNodes = null; // { src, band, gain }
 
   /* ---------- Estática sonora continua (Web Audio) ----------
@@ -270,6 +299,26 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
   slider.addEventListener('input', () => {
     valueEl.textContent = parseFloat(slider.value).toFixed(1);
     feedback.textContent = '';
+    clearTimeout(autoTimer);
+
+    // Auto-sincronización: si se mantiene ~1 s en la frecuencia
+    // correcta, el enlace se restablece solo (sin pulsar el botón).
+    const freq = parseFloat(slider.value);
+    if (!synced && Math.abs(freq - TARGET) <= MARGIN) {
+      feedback.textContent = '🔒 Señal estable · sincronizando…';
+      autoTimer = setTimeout(succeed, 1000);
+    }
+  });
+
+  /* Anti-congelamiento: durante el arrastre se pausan efectos caros
+     (backdrop-filter, animaciones CSS y scrollIntoView de subtítulos). */
+  slider.addEventListener('pointerdown', () => {
+    dragging = true;
+    overlay.classList.add('st-dragging');
+  });
+  window.addEventListener('pointerup', () => {
+    dragging = false;
+    overlay.classList.remove('st-dragging');
   });
 
   /* ---------- Botones ---------- */
@@ -286,19 +335,42 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
 
   soundBtn.addEventListener('click', () => setStatic(!staticOn));
 
-  /* ---------- Éxito: conexión restablecida ---------- */
+  /* ---------- Éxito: conexión restablecida ----------
+     La tarjeta cambia a una vista de dos columnas:
+     izquierda = imagen real del objeto (modelo exacto),
+     derecha   = mensaje restaurado + subtítulos sincronizados. */
   function succeed() {
+    if (synced) return;
     synced = true;
+    clearTimeout(autoTimer);
+    cancelAnimationFrame(raf);          // detiene la onda (libera la UI)
     slider.disabled = true;
-    syncBtn.disabled = true;
-    syncBtn.textContent = 'Señal sincronizada ✓';
     if (staticNodes) staticNodes.gain.gain.setTargetAtTime(0, soundscape.ctx.currentTime, 0.03);
+
+    const card = overlay.querySelector('.st-card');
+    card.innerHTML = `
+      <div class="st-success-layout">
+        <figure class="st-model">
+          <img src="${artifact.image || ''}" alt="Modelo real de ${artifact.name}"
+               onerror="this.style.display = 'none'" />
+          <figcaption>📷 Modelo real · NASA</figcaption>
+        </figure>
+        <div class="st-side">
+          <p class="st-kicker"><span class="st-led"></span> ENLACE RESTABLECIDO</p>
+          <h3 class="st-side-title">${artifact.name}</h3>
+          <div class="st-success" style="display: block;">🛰️ CONEXIÓN RESTABLECIDA</div>
+          <p class="st-captions" aria-live="polite"></p>
+          <div class="st-actions">
+            <button type="button" class="st-btn ghost" data-action="close">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    `;
+    card.querySelector('[data-action="close"]').addEventListener('click', close);
+    captionsBox = card.querySelector('.st-captions');
 
     soundscape.chime();                                   // armonía de éxito
     soundscape.morse(CALLSIGNS[artifact.id] || 'ECHO');   // callsign en Morse
-
-    successBox.textContent = `🛰️ CONEXIÓN RESTABLECIDA · Reproduciendo mensaje de ${artifact.name}…`;
-    successBox.style.display = 'block';
 
     // Mensaje de voz del rover: first_person_story.voice_text del JSON
     speak(artifact.first_person_story?.voice_text || '');
@@ -343,6 +415,26 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
     utterance.rate = 0.95;
     utterance.pitch = 1.05;
 
+    // Voz explícitamente en español, con preferencia por ESPAÑOL DE
+    // ECUADOR (voz natural "Microsoft Luis/Andrea" incluida en Edge).
+    // Fallback progresivo: es-EC → cualquier es-* → por nombre.
+    const pickSpanishVoice = () => {
+      const voices = speechSynthesis.getVoices();
+      const norm = (v) => (v.lang || '').toLowerCase().replace('_', '-');
+      const ecuatoriana = voices.find((v) => norm(v).startsWith('es-ec'))
+        || voices.find((v) => /ecuador/i.test(v.name));
+      const cualquierEspanol = voices.find((v) => norm(v).startsWith('es'));
+      const porNombre = voices.find((v) => /spanish|espa/i.test(v.name));
+      const elegida = ecuatoriana || cualquierEspanol || porNombre;
+      if (elegida) utterance.voice = elegida;
+      return elegida;
+    };
+    pickSpanishVoice();
+    // Algunos navegadores cargan las voces de forma asíncrona:
+    speechSynthesis.onvoiceschanged = () => {
+      if (!utterance.voice) pickSpanishVoice();
+    };
+
     // El navegador avisa justo cuando empieza CADA palabra
     utterance.onboundary = (e) => {
       if (e.charIndex == null) return;
@@ -351,8 +443,11 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
         current.word = spoken;
         render();
         // Desplaza la vista para que la palabra activa siempre se vea
-        const mark = captionsBox.querySelector('mark');
-        if (mark) mark.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        // (se omite durante el arrastre del dial para evitar jank)
+        if (!dragging) {
+          const mark = captionsBox.querySelector('mark');
+          if (mark) mark.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
       }
     };
     utterance.onend = () => {
