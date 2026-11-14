@@ -1,0 +1,236 @@
+[
+  {
+    "id": "apollo-11-descent-stage",
+    "name": "Apollo 11 Descent Stage",
+    "mission_type": "Descent Stage",
+    "body": "moon",
+    "coordinates": {
+      "lat": 0.67416,
+      "lon": 23.47314
+    },
+    "landing_date": "1969-07-20",
+    "final_contact_date": "1969-07-21",
+    "operational_duration": "0,90 días terrestres de apoyo en superficie.",
+    "status": "Etapa de descenso inactiva en Mare Tranquillitatis. Conserva su estructura de aterrizaje. No tenía un transmisor independiente: final_contact_date representa la separación de la etapa de ascenso y el fin de su conexión con el módulo tripulado. Coordenadas planetocéntricas lunares ME/DE421, con longitud este.",
+    "monument_significance": "Sostuvo el primer alunizaje tripulado y se convirtió en la plataforma de partida para el regreso de sus exploradores.",
+    "hardware_remains": [
+      "Radar de aterrizaje instalado en la etapa de descenso",
+      "Motor de descenso DPS y depósitos de propelentes",
+      "Sismómetro pasivo PSEP desplegado en el suelo cercano",
+      "Retroreflector láser LRRR desplegado en el suelo cercano"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "Hizo posible recoger las primeras muestras lunares traídas por astronautas: rocas que revelaron antiguas erupciones volcánicas y las huellas de incontables impactos.",
+      "earth_impact": "Las muestras permiten reconstruir la historia del sistema Tierra-Luna; el reflector del lugar permite medir la distancia lunar y comprobar modelos de gravedad."
+    },
+    "first_person_story": {
+      "title": "La base de un sueño",
+      "voice_text": "Yo soy la etapa de descenso del Eagle, la base que sostuvo los primeros pasos humanos en la Luna. Llegué al Mar de la Tranquilidad el 20 de julio de 1969, con Neil Armstrong y Buzz Aldrin sobre mis hombros. Mi motor frenó la caída y mis patas abrazaron un suelo cubierto de polvo. No traje un laboratorio propio: hice posible que mis compañeros recogieran rocas y desplegaran experimentos. Aquellas muestras revelaron antiguas lavas y ayudaron a reconstruir la historia lunar. Cerca de mí dejaron un reflector que permite medir la distancia entre la Tierra y la Luna con pulsos láser. Mi despedida llegó al día siguiente: la cabina despegó desde mi estructura para llevarlos de regreso. Yo permanecí aquí, sin una radio independiente que siguiera contando mi historia. Mi último aliento fue cumplir mi tarea. Cuando mires la Luna, recuerda que explorar también significa construir un camino seguro para volver a casa."
+    },
+    "interactive_challenge": {
+      "question": "¿Qué parte del Eagle permaneció en la Luna cuando los astronautas despegaron?",
+      "options": [
+        "La etapa de descenso con sus patas",
+        "El módulo de mando Columbia",
+        "La cabina con los astronautas"
+      ],
+      "correct_index": 0,
+      "fun_fact": "Mare Tranquillitatis significa Mar de la Tranquilidad, pero no contiene un océano: su superficie está formada por antiguas lavas solidificadas."
+    }
+  },
+  {
+    "id": "apollo-15-lrv",
+    "name": "Apollo 15 Lunar Roving Vehicle (LRV-1)",
+    "mission_type": "Rover",
+    "body": "moon",
+    "coordinates": {
+      "lat": 26.13239,
+      "lon": 3.6333
+    },
+    "landing_date": "1971-07-30",
+    "final_contact_date": "1971-08-04",
+    "operational_duration": "3 días terrestres de recorridos; aproximadamente 5 días hasta su última transmisión.",
+    "status": "Vehículo inactivo, estacionado cerca del módulo Falcon en Hadley-Apennine, junto a Hadley Rille. Las coordenadas corresponden al aterrizaje del módulo que lo transportaba, no al estacionamiento final. Su cámara volvió a transmitir unas 40 horas después del despegue de los astronautas y perdió el enlace tras unos 13 minutos. Coordenadas planetocéntricas lunares ME/DE421, con longitud este.",
+    "monument_significance": "Fue el primer vehículo que transportó personas por otro mundo y amplió el alcance de la exploración científica lunar.",
+    "hardware_remains": [
+      "Cámara de televisión en color GCTA",
+      "Unidad de comunicaciones lunares LCRU",
+      "Antena parabólica de alta ganancia en banda S",
+      "Sistema de navegación con giroscopio y odometría"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "Permitió recorrer unos 28 kilómetros y recoger muestras de paisajes distintos, incluida la Roca Génesis, una anortosita que conserva información sobre la antigua corteza lunar.",
+      "earth_impact": "Las muestras ayudaron a comprender cómo se forman las cortezas de los cuerpos rocosos y a reconstruir capítulos de la historia temprana del sistema Tierra-Luna."
+    },
+    "first_person_story": {
+      "title": "Mis ruedas dibujaron caminos",
+      "voice_text": "Yo soy el vehículo lunar del Apollo 15, el primer automóvil que transportó personas por la Luna. Llegué plegado junto al módulo Falcon y después abrí mis ruedas para David Scott y James Irwin. No necesitaba gasolina: avanzaba con motores eléctricos y baterías. Recorrimos unos veintiocho kilómetros entre montañas, cráteres y el canal de Hadley. Yo no analizaba rocas por mi cuenta; llevaba a dos exploradores que podían observar, elegir muestras y hacer preguntas. Entre sus hallazgos estuvo la Roca Génesis, una ventana a la antigua corteza lunar. Al terminar, me estacionaron para que mi cámara transmitiera el despegue de mis compañeros. Todavía tuve una despedida más: unos dos días después, mi sistema de televisión volvió a enviar imágenes durante aproximadamente trece minutos, hasta perder la señal. Desde entonces descanso bajo el cielo negro. Mis huellas recuerdan que unas buenas ruedas pueden ampliar muchísimo una aventura científica. Tal vez tus ideas también lleven a alguien más lejos."
+    },
+    "interactive_challenge": {
+      "question": "¿Qué proporcionaba energía a los motores del rover del Apollo 15?",
+      "options": [
+        "Gasolina",
+        "Baterías eléctricas",
+        "Viento lunar"
+      ],
+      "correct_index": 1,
+      "fun_fact": "Sus ruedas eran de malla metálica y no necesitaban neumáticos inflados; además, cada rueda tenía su propio motor eléctrico."
+    }
+  },
+  {
+    "id": "viking-1-lander",
+    "name": "Viking 1 Lander",
+    "mission_type": "Lander",
+    "body": "mars",
+    "coordinates": {
+      "lat": 22.269,
+      "lon": 312.049
+    },
+    "landing_date": "1976-07-20",
+    "final_contact_date": "1982-11-11",
+    "operational_duration": "Aproximadamente 6,3 años terrestres en superficie.",
+    "status": "Módulo estacionario sin comunicaciones en Chryse Planitia. Su condición interna actual no puede verificarse. Se utiliza el 11 de noviembre como fecha de última transmisión documentada por NASA/JPL; otros registros oficiales consignan el 13 de noviembre como final de comunicaciones. Coordenadas planetocéntricas de la solución publicada por PDS, con longitud este de 0 a 360 grados.",
+    "monument_significance": "Inauguró la exploración prolongada de la superficie marciana con un laboratorio capaz de fotografiar, analizar suelo y registrar el tiempo atmosférico.",
+    "hardware_remains": [
+      "Dos cámaras panorámicas de barrido",
+      "Brazo recolector de muestras",
+      "Cromatógrafo de gases y espectrómetro de masas GCMS",
+      "Conjunto de experimentos biológicos LR, PR y GEx"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "Transmitió imágenes detalladas desde la superficie de Marte y realizó experimentos para buscar actividad biológica; sus resultados mostraron una química compleja, sin confirmar de manera concluyente la presencia de vida.",
+      "earth_impact": "Sus registros permitieron comparar atmósferas planetarias y mejorar los métodos para distinguir procesos químicos de posibles señales biológicas."
+    },
+    "first_person_story": {
+      "title": "La primera ventana al suelo rojo",
+      "voice_text": "Yo soy Viking 1, un laboratorio que convirtió una llanura de Marte en un lugar conocido. Aterricé en Chryse Planitia el 20 de julio de 1976. Mis primeras imágenes mostraron piedras, polvo y una de mis propias patas: antes de mirar lejos, había que comprobar que estaba a salvo. Con mi brazo recogí suelo; con mis instrumentos estudié su química y busqué señales de actividad biológica. Los resultados fueron difíciles de interpretar y no demostraron que hubiera vida. Esa incertidumbre también enseñó a mis científicos a diseñar mejores preguntas. Registré temperaturas, presión y vientos durante más de seis años, mucho más de lo previsto. Mi voz se apagó en noviembre de 1982, después de que una orden enviada desde la Tierra interrumpiera mis comunicaciones. Mi último aliento fue una transmisión de datos, no una despedida con palabras. Sigo aquí, rodeado por el paisaje que ayudé a presentar al mundo. Si alguna respuesta se resiste, recuerda mi lección: investigar exige paciencia y pruebas."
+    },
+    "interactive_challenge": {
+      "question": "¿Qué conclusión científica es correcta sobre la búsqueda de vida de Viking?",
+      "options": [
+        "Encontró animales microscópicos confirmados",
+        "Demostró que jamás pudo existir vida en Marte",
+        "Sus experimentos no confirmaron de manera concluyente la presencia de vida"
+      ],
+      "correct_index": 2,
+      "fun_fact": "Viking 1 aterrizó el 20 de julio de 1976, exactamente siete años después del alunizaje del Apollo 11."
+    }
+  },
+  {
+    "id": "spirit-mer-a",
+    "name": "Spirit Rover (MER-A)",
+    "mission_type": "Rover",
+    "body": "mars",
+    "coordinates": {
+      "lat": -14.5692,
+      "lon": 175.4729
+    },
+    "landing_date": "2004-01-04",
+    "final_contact_date": "2010-03-22",
+    "operational_duration": "Aproximadamente 6,2 años terrestres en superficie.",
+    "status": "Rover inmovilizado en suelo blando en Troy, junto a Home Plate, dentro del cráter Gusev. Sin comunicaciones desde marzo de 2010; se considera que no sobrevivió al invierno por falta de energía. Su daño interno exacto no pudo comprobarse. Las coordenadas indican el aterrizaje, no su ubicación final; latitud planetocéntrica y longitud este.",
+    "monument_significance": "Demostró que la perseverancia científica puede convertir incluso una avería en una oportunidad de descubrimiento.",
+    "hardware_remains": [
+      "Cámara panorámica Pancam",
+      "Espectrómetro de rayos X de partículas alfa APXS",
+      "Espectrómetro Mössbauer MIMOS II",
+      "Herramienta de abrasión de rocas RAT"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "Descubrió materiales extraordinariamente ricos en sílice y rocas alteradas por agua, pistas de antiguos ambientes hidrotermales con agua caliente o vapor.",
+      "earth_impact": "La comparación con fuentes termales y fumarolas terrestres ayuda a interpretar ambientes potencialmente habitables y a elegir lugares donde buscar huellas de vida antigua."
+    },
+    "first_person_story": {
+      "title": "La rueda que abrió una pregunta",
+      "voice_text": "Yo soy Spirit, un geólogo de seis ruedas que aprendió a leer las piedras de Marte. Aterricé en el cráter Gusev en enero de 2004. Me habían preparado para noventa días marcianos, pero seguí explorando durante más de seis años terrestres. Subí colinas y encontré minerales transformados por el agua. Incluso una avería me ayudó: al arrastrar una rueda inmóvil, removí el suelo y dejé al descubierto material muy rico en sílice. Era una pista de antiguos ambientes con agua caliente o vapor, lugares interesantes para estudiar la posibilidad de vida. Nunca encontré seres vivos. En 2009 quedé atrapado en terreno blando cerca de Home Plate. Mis compañeros intentaron liberarme y después prepararme para el invierno, pero no logré recibir suficiente luz solar. Envié mi última señal el 22 de marzo de 2010. El frío y la falta de energía cerraron mi aventura. Ahora permanezco quieto, aunque mis descubrimientos siguen viajando. Tú también puedes convertir un obstáculo en una nueva pregunta."
+    },
+    "interactive_challenge": {
+      "question": "¿Qué pista científica dejó al descubierto una rueda averiada de Spirit?",
+      "options": [
+        "Suelo muy rico en sílice",
+        "Un bosque enterrado",
+        "Un río que todavía fluía"
+      ],
+      "correct_index": 0,
+      "fun_fact": "La sílice también aparece en muchos depósitos de fuentes termales terrestres y es un ingrediente fundamental del vidrio."
+    }
+  },
+  {
+    "id": "opportunity-mer-b",
+    "name": "Opportunity Rover (MER-B)",
+    "mission_type": "Rover",
+    "body": "mars",
+    "coordinates": {
+      "lat": -1.9462,
+      "lon": 354.4734
+    },
+    "landing_date": "2004-01-25",
+    "final_contact_date": "2018-06-10",
+    "operational_duration": "Aproximadamente 14,4 años terrestres en superficie.",
+    "status": "Rover inactivo en Perseverance Valley, en el borde occidental del cráter Endeavour, región de Meridiani Planum. Perdió comunicaciones durante la tormenta global de polvo de 2018; su condición interna posterior no pudo verificarse. Las coordenadas indican el aterrizaje en el cráter Eagle, no su ubicación final; latitud planetocéntrica y longitud este.",
+    "monument_significance": "Convirtió una misión principal de noventa soles en catorce años de exploración de la historia del agua marciana.",
+    "hardware_remains": [
+      "Cámara panorámica Pancam",
+      "Generador de imágenes microscópicas MI",
+      "Espectrómetro de rayos X de partículas alfa APXS",
+      "Espectrómetro Mössbauer MIMOS II"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "Encontró esférulas ricas en hematita, sulfatos y estructuras sedimentarias que documentan agua antigua; posteriormente estudió rocas con minerales arcillosos asociados con condiciones menos ácidas.",
+      "earth_impact": "Sus observaciones ayudan a comparar la formación de rocas sedimentarias en Marte y la Tierra y a comprender cómo la química del agua afecta la habitabilidad."
+    },
+    "first_person_story": {
+      "title": "El camino que siguió bajo el polvo",
+      "voice_text": "Yo soy Opportunity, aunque muchos me llaman Oppy. Aterricé en Meridiani Planum en enero de 2004, dentro de un pequeño cráter que parecía esperarme. Mis cámaras y espectrómetros encontraron minerales y estructuras que mostraban la acción de agua antigua. Aquellas pequeñas esferas ricas en hematita, apodadas arándanos, eran pistas geológicas, no frutas ni fósiles. Más adelante estudié arcillas que señalaban ambientes con agua menos ácida, potencialmente más favorables para la vida. Eso no significa que encontrara organismos. Mi misión prevista era de noventa días marcianos; terminé recorriendo más de cuarenta y cinco kilómetros durante catorce años terrestres. En 2018, una enorme tormenta de polvo oscureció el cielo y dejó a mis paneles solares sin suficiente luz. Mi última comunicación llegó el 10 de junio, desde Perseverance Valley. Envié datos e imágenes, no una frase de despedida. Hoy descanso junto al cráter Endeavour. Mis ruedas están quietas, pero cada roca que estudié sigue ayudando a contar cómo cambió Marte."
+    },
+    "interactive_challenge": {
+      "question": "¿Por qué la tormenta de polvo de 2018 afectó tanto a Opportunity?",
+      "options": [
+        "Porque apagó un motor de gasolina",
+        "Porque redujo la luz disponible para sus paneles solares",
+        "Porque eliminó la gravedad marciana"
+      ],
+      "correct_index": 1,
+      "fun_fact": "Opportunity recorrió 45,16 kilómetros. Sus arándanos marcianos eran pequeñas esferas minerales ricas en hematita, no frutos."
+    }
+  },
+  {
+    "id": "insight-lander",
+    "name": "InSight Lander",
+    "mission_type": "Lander",
+    "body": "mars",
+    "coordinates": {
+      "lat": 4.502,
+      "lon": 135.623
+    },
+    "landing_date": "2018-11-26",
+    "final_contact_date": "2022-12-15",
+    "operational_duration": "Aproximadamente 4,1 años terrestres en superficie.",
+    "status": "Módulo estacionario inactivo en Homestead hollow, Elysium Planitia. El polvo acumulado sobre sus paneles solares redujo la energía hasta impedir nuevas comunicaciones. Sus instrumentos permanecen en el sitio. Coordenadas cartográficas planetocéntricas de HiRISE referidas a MOLA, con longitud este; la posición publicada tiene incertidumbre de medición.",
+    "monument_significance": "Fue el observatorio que permitió explorar el interior profundo de Marte escuchando sus vibraciones.",
+    "hardware_remains": [
+      "Sismómetro SEIS bajo su escudo protector",
+      "Sonda térmica HP3 y su penetrador o topo",
+      "Antenas y equipo de radio del experimento RISE",
+      "Sensores meteorológicos TWINS"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "Registró 1.319 sismos marcianos: sus ondas permitieron investigar la corteza, el manto y el núcleo de un planeta situado a millones de kilómetros de la Tierra.",
+      "earth_impact": "La comparación entre los interiores de Marte y la Tierra ayuda a comprender cómo se forman, se enfrían y evolucionan los planetas rocosos."
+    },
+    "first_person_story": {
+      "title": "Escuché latir un planeta",
+      "voice_text": "Yo soy InSight, el explorador que escuchó a Marte sin recorrer sus caminos. Aterricé en Elysium Planitia el 26 de noviembre de 2018. Mi brazo colocó un sismómetro sobre el suelo y lo protegió del viento: así pude registrar vibraciones diminutas, como quien escucha un latido lejano. Detecté más de mil trescientos sismos marcianos. Sus ondas ayudaron a estudiar la corteza, el manto y el núcleo del planeta. También reconocí temblores producidos por impactos de meteoritos. No todo salió como esperábamos: mi sonda térmica, apodada topo, no consiguió alcanzar la profundidad necesaria para medir el calor interno como estaba previsto. Aun así, aprendimos sobre un suelo sorprendente. Con los años, el polvo cubrió mis paneles solares y fue reduciendo mi energía. Mi última comunicación ocurrió el 15 de diciembre de 2022. Después llegó el silencio. Aquí quedan mis instrumentos, pero sus registros siguen abiertos a nuevas investigaciones. Cuando escuches con atención y paciencia, recuerda que incluso un mundo distante puede contarte su interior."
+    },
+    "interactive_challenge": {
+      "question": "¿Qué instrumento utilizó InSight para detectar las vibraciones del suelo?",
+      "options": [
+        "Una cámara panorámica",
+        "Un telescopio",
+        "El sismómetro SEIS"
+      ],
+      "correct_index": 2,
+      "fun_fact": "InSight también detectó vibraciones causadas por impactos de meteoritos: algunos cráteres nuevos pudieron identificarse después en imágenes tomadas desde la órbita."
+    }
+  }
+]
