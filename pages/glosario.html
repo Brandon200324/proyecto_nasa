@@ -1,0 +1,14 @@
+<!-- ============================================================
+     ECHOES OF SOL · pages/glosario.html (fragmento emergente)
+     La lista se rellena dinámicamente desde data/glossary_data.json
+     (lo hace js/ui/pages.js → renderGlossary)
+     ============================================================ -->
+<div>
+  <p class="page-intro">
+    Fichas técnicas de los instrumentos y sistemas que quedaron en la Luna y en Marte.
+    Cada ficha incluye su perfil de radio para el simulador de la Academia de 2099.
+  </p>
+  <input id="glossary-search" class="page-search" type="search"
+         placeholder="🔍 Buscar término, categoría o función…" aria-label="Buscar en el glosario" />
+  <div id="glossary-list" class="page-grid" aria-live="polite"></div>
+</div>
