@@ -1,6 +1,6 @@
 [
   {
-    "id": "apollo-11-descent-stage",
+    "id": "apollo11-descent-stage",
     "name": "Apollo 11 Descent Stage — Eagle",
     "nssdca_id": "1969-059C",
     "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C",
@@ -53,7 +53,7 @@
     "site": "Oceanus Procellarum — Surveyor Crater",
     "coordinates": {
       "lat": -3.0162,
-      "lon": 336.582
+      "lon": -23.418
     },
     "landing_date": "1967-04-20",
     "final_contact_date": "1967-05-04",
@@ -220,7 +220,7 @@
     "audio_cue": "static_rover"
   },
   {
-    "id": "viking-1-lander",
+    "id": "viking1-lander",
     "name": "Viking 1 Lander",
     "nssdca_id": "1975-075C",
     "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C",
@@ -229,7 +229,7 @@
     "site": "Chryse Planitia",
     "coordinates": {
       "lat": 22.269,
-      "lon": 312.049
+      "lon": -47.951
     },
     "landing_date": "1976-07-20",
     "final_contact_date": "1982-11-11",
@@ -317,7 +317,7 @@
     "site": "Ares Vallis — Carl Sagan Memorial Station",
     "coordinates": {
       "lat": 19.33,
-      "lon": 326.45
+      "lon": -33.55
     },
     "landing_date": "1997-07-04",
     "final_contact_date": "1997-09-27",
@@ -405,7 +405,7 @@
     "site": "Meridiani Planum — Perseverance Valley, Endeavour Crater",
     "coordinates": {
       "lat": -1.946,
-      "lon": 354.473
+      "lon": -5.527
     },
     "landing_date": "2004-01-25",
     "final_contact_date": "2018-06-10",
@@ -449,7 +449,7 @@
     "site": "Green Valley — Vastitas Borealis",
     "coordinates": {
       "lat": 68.218,
-      "lon": 234.248
+      "lon": -125.752
     },
     "landing_date": "2008-05-25",
     "final_contact_date": "2008-11-02",
