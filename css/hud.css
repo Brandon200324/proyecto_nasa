@@ -97,6 +97,10 @@
   background: var(--echo-accent);
   box-shadow: 0 0 18px rgba(76, 201, 240, 0.35);
 }
+/* Web Component del globo: por defecto los custom elements son
+   display:inline y IGNORAN width/height → el canvas quedaba en 1×1px
+   estirado (bloque lila). display:block es el fix real. */
+echo-globe { display: block; }
 .globe-wrap {
   width: min(1100px, 96vw);
   height: min(72vh, 640px);
