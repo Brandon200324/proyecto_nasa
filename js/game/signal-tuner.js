@@ -209,7 +209,6 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
   const feedback = overlay.querySelector('.st-feedback');
   const syncBtn = overlay.querySelector('[data-action="sync"]');
   const soundBtn = overlay.querySelector('[data-action="sound"]');
-  let captionsBox = null; // se crea en la vista de éxito
 
   /* ---------- Estado ---------- */
   let raf = 0;
@@ -335,10 +334,10 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
 
   soundBtn.addEventListener('click', () => setStatic(!staticOn));
 
-  /* ---------- Éxito: conexión restablecida ----------
-     La tarjeta cambia a una vista de dos columnas:
-     izquierda = imagen real del objeto (modelo exacto),
-     derecha   = mensaje restaurado + subtítulos sincronizados. */
+  /* ---------- Éxito: conexión restablecida → exito.html ----------
+     Al sincronizar se guarda el artefacto en sessionStorage y se
+     redirige a la página dedicada exito.html (con su propia barra
+     de navegación y botón de regreso). */
   function succeed() {
     if (synced) return;
     synced = true;
@@ -347,120 +346,26 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
     slider.disabled = true;
     if (staticNodes) staticNodes.gain.gain.setTargetAtTime(0, soundscape.ctx.currentTime, 0.03);
 
-    const card = overlay.querySelector('.st-card');
-    card.innerHTML = `
-      <div class="st-success-layout">
-        <figure class="st-model">
-          <img src="${artifact.image || ''}" alt="Modelo real de ${artifact.name}"
-               onerror="this.style.display = 'none'" />
-          <figcaption>📷 Modelo real · NASA</figcaption>
-        </figure>
-        <div class="st-side">
-          <p class="st-kicker"><span class="st-led"></span> ENLACE RESTABLECIDO</p>
-          <h3 class="st-side-title">${artifact.name}</h3>
-          <div class="st-success" style="display: block;">🛰️ CONEXIÓN RESTABLECIDA</div>
-          <p class="st-captions" aria-live="polite"></p>
-          <div class="st-actions">
-            <button type="button" class="st-btn ghost" data-page="glosario">📖 Glosario</button>
-            <button type="button" class="st-btn ghost" data-page="misiones">🛰️ Misiones</button>
-            <button type="button" class="st-btn ghost" data-action="close">Cerrar</button>
-          </div>
-        </div>
-      </div>
-    `;
-    card.querySelector('[data-action="close"]').addEventListener('click', close);
-    captionsBox = card.querySelector('.st-captions');
+    // El artefacto sincronizado lo lee exito.js en la página nueva
+    try { sessionStorage.setItem('echo:exito-artifact', artifact.id); } catch (_) { /* modo privado */ }
 
     soundscape.chime();                                   // armonía de éxito
     soundscape.morse(CALLSIGNS[artifact.id] || 'ECHO');   // callsign en Morse
-
-    // Mensaje de voz del rover: first_person_story.voice_text del JSON
-    speak(artifact.first_person_story?.voice_text || '');
 
     // La insignia la otorga el sistema global (igual que la trivia)
     if (!alreadyEarned) {
       document.dispatchEvent(new CustomEvent('echo:badge-earned', { detail: { id: artifact.id } }));
     }
-  }
 
-  /* ---------- Subtítulos sincronizados con la voz ----------
-     Cada palabra se ilumina al ritmo exacto del habla gracias al
-     evento `boundary` de SpeechSynthesis (estilo karaoke).       */
-  function speak(text) {
-    if (!text) return;
+    const card = overlay.querySelector('.st-card');
+    card.innerHTML = `
+      <p class="st-kicker"><span class="st-led"></span> ENLACE RESTABLECIDO</p>
+      <h3 class="st-title">${artifact.name}</h3>
+      <div class="st-success" style="display: block;">🛰️ CONEXIÓN RESTABLECIDA · ABRIENDO SALA DE TRANSMISIÓN…</div>
+    `;
 
-    if (!('speechSynthesis' in window)) {
-      // Fallback: mostrar el texto completo sin sincronía
-      captionsBox.textContent = text;
-      captionsBox.style.display = 'block';
-      return;
-    }
-
-    speechSynthesis.cancel();
-
-    // Mapear cada palabra a su posición en el texto original
-    const words = [];
-    for (const match of text.matchAll(/\S+/g)) {
-      words.push({ text: match[0], start: match.index, end: match.index + match[0].length });
-    }
-    const current = { word: null };
-    const render = () => {
-      captionsBox.innerHTML = words.map((w) => (
-        w === current.word ? `<mark>${w.text}</mark>` : w.text
-      )).join(' ');
-    };
-    current.word = words[0];
-    render();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'es-ES';
-    utterance.rate = 0.95;
-    utterance.pitch = 1.05;
-
-    // Voz explícitamente en español, con preferencia por ESPAÑOL DE
-    // ECUADOR (voz natural "Microsoft Luis/Andrea" incluida en Edge).
-    // Fallback progresivo: es-EC → cualquier es-* → por nombre.
-    const pickSpanishVoice = () => {
-      const voices = speechSynthesis.getVoices();
-      const norm = (v) => (v.lang || '').toLowerCase().replace('_', '-');
-      const ecuatoriana = voices.find((v) => norm(v).startsWith('es-ec'))
-        || voices.find((v) => /ecuador/i.test(v.name));
-      const cualquierEspanol = voices.find((v) => norm(v).startsWith('es'));
-      const porNombre = voices.find((v) => /spanish|espa/i.test(v.name));
-      const elegida = ecuatoriana || cualquierEspanol || porNombre;
-      if (elegida) utterance.voice = elegida;
-      return elegida;
-    };
-    pickSpanishVoice();
-    // Algunos navegadores cargan las voces de forma asíncrona:
-    speechSynthesis.onvoiceschanged = () => {
-      if (!utterance.voice) pickSpanishVoice();
-    };
-
-    // El navegador avisa justo cuando empieza CADA palabra
-    utterance.onboundary = (e) => {
-      if (e.charIndex == null) return;
-      const spoken = words.find((w) => e.charIndex >= w.start && e.charIndex < w.end);
-      if (spoken && spoken !== current.word) {
-        current.word = spoken;
-        render();
-        // Desplaza la vista para que la palabra activa siempre se vea
-        // (se omite durante el arrastre del dial para evitar jank)
-        if (!dragging) {
-          const mark = captionsBox.querySelector('mark');
-          if (mark) mark.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        }
-      }
-    };
-    utterance.onend = () => {
-      current.word = null;
-      render();
-      captionsBox.insertAdjacentHTML('beforeend',
-        '<span class="st-caption-end">— fin de transmisión · eco registrado —</span>');
-    };
-
-    captionsBox.style.display = 'block';
-    speechSynthesis.speak(utterance);
+    // Direccionamiento a la página HTML dedicada
+    setTimeout(() => { location.href = 'exito.html'; }, 900);
   }
 
   /* ---------- Cierre y limpieza ---------- */

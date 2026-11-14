@@ -1,0 +1,173 @@
+/* ============================================================
+   ECHOES OF SOL · exito.css (Diego · feature/nav-pages)
+   Página dedicada exito.html: sala de transmisión tras
+   sincronizar una señal en el minijuego.
+   ============================================================ */
+
+.exito-main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 5.5rem clamp(1rem, 4vw, 2.5rem) 3rem;
+  display: grid;
+  gap: 1.1rem;
+}
+
+/* Botón de regreso arriba del todo */
+.exito-top-back { justify-self: start; }
+
+.exito-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.3em;
+  color: var(--echo-accent);
+  text-transform: uppercase;
+}
+.exito-led {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--echo-accent);
+  box-shadow: 0 0 10px var(--echo-accent);
+  animation: beacon 1.6s ease-in-out infinite;
+}
+
+.exito-title {
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  line-height: 1.15;
+  text-shadow: 0 0 30px color-mix(in srgb, var(--echo-accent) 25%, transparent);
+}
+
+.exito-badge-line {
+  justify-self: start;
+  padding: 0.7rem 1.2rem;
+  border: 1px solid var(--echo-accent);
+  border-radius: 10px;
+  color: var(--echo-accent);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-align: center;
+  animation: beacon 2.2s ease-in-out infinite;
+}
+
+/* ---------- Tarjeta dos columnas: modelo + mensaje ---------- */
+.exito-layout {
+  display: grid;
+  grid-template-columns: minmax(180px, 280px) 1fr;
+  gap: 1.4rem;
+  align-items: start;
+  margin-top: 0.6rem;
+}
+.exito-model { margin: 0; }
+.exito-model img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+.exito-model figcaption {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  margin-top: 0.4rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ---------- Subtítulos estilo karaoke ---------- */
+.exito-captions {
+  min-height: 7.2em;
+  max-height: 14em;
+  overflow-y: auto;
+  padding: 0.9rem 1rem;
+  border-left: 3px solid var(--echo-accent);
+  border-radius: 0 8px 8px 0;
+  background: rgba(0, 0, 0, 0.35);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text);
+  scrollbar-width: thin;
+  scrollbar-color: var(--echo-accent) transparent;
+}
+.exito-captions mark {
+  background: var(--echo-accent);
+  color: #04070f;
+  border-radius: 3px;
+  padding: 0 2px;
+  font-weight: 700;
+}
+.exito-captions .exito-caption-end {
+  display: block;
+  margin-top: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.exito-hint {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.exito-actions {
+  display: flex;
+  gap: 0.7rem;
+  margin: 1rem 0 1.2rem;
+  flex-wrap: wrap;
+}
+.exito-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #04070f;
+  background: var(--echo-accent);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--echo-accent) 40%, transparent);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.exito-btn:hover { transform: translateY(-2px); }
+.exito-btn--ghost {
+  color: var(--text);
+  background: var(--panel);
+  border-color: var(--line);
+  box-shadow: none;
+}
+.exito-btn--ghost:hover { border-color: var(--echo-accent); color: var(--echo-accent); }
+
+.exito-error {
+  color: #ffb0b0;
+  border: 1px solid rgba(255, 90, 90, 0.4);
+  background: rgba(255, 90, 90, 0.08);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 640px) {
+  .exito-layout { grid-template-columns: 1fr; }
+  .exito-model { max-width: 240px; margin: 0 auto; }
+  .exito-main { padding-top: 4.5rem; }
+  .hud-nav { margin-right: 0; }
+}
+
+/* ---------- Accesibilidad: menos movimiento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .exito-led, .exito-badge-line { animation: none; }
+  .exito-btn:hover { transform: none; }
+}

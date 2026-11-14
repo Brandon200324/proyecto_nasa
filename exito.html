@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Echoes of Sol — Enlace restablecido: mensaje del artefacto restaurado." />
+  <title>Enlace Restablecido · Echoes of Sol</title>
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/hud.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/exito.css" />
+
+  <!-- GSAP (clásico) para la animación de entrada -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+  <!-- Barra HUD superior con navegación general -->
+  <header class="hud-top" role="banner">
+    <a class="hud-logo" href="index.html" aria-label="Volver al inicio de Echoes of Sol">
+      <span class="hud-logo-dot" aria-hidden="true"></span>
+      ECHOES<em>OF</em>SOL
+    </a>
+    <nav class="hud-nav" aria-label="Navegación general">
+      <a class="hud-nav__btn" href="index.html#glosario">GLOSARIO</a>
+      <a class="hud-nav__btn" href="index.html#misiones">MISIONES</a>
+    </nav>
+  </header>
+
+  <main class="exito-main">
+    <!-- Botón de regreso (el pide del diseño: siempre presente) -->
+    <button type="button" class="page-back exito-top-back" id="back-home">← REGRESAR AL CONSULTORIO</button>
+
+    <p class="exito-kicker"><span class="exito-led"></span> ENLACE RESTABLECIDO</p>
+    <h1 class="exito-title" id="exito-name">CARGANDO TRANSMISIÓN…</h1>
+    <div class="exito-badge-line">🛰️ CONEXIÓN RESTABLECIDA</div>
+
+    <div class="exito-layout">
+      <figure class="exito-model">
+        <img id="exito-img" src="" alt="Modelo real del artefacto restaurado" />
+        <figcaption>📷 MODELO REAL · NASA</figcaption>
+      </figure>
+
+      <section class="exito-side" aria-label="Mensaje restaurado">
+        <p class="exito-hint">Pulsa reproducir para escuchar el monólogo del artefacto con subtítulos en vivo:</p>
+        <div class="exito-captions" id="exito-captions" aria-live="polite"></div>
+        <div class="exito-actions">
+          <button type="button" class="exito-btn" id="btn-speak">🔊 REPRODUCIR MENSAJE</button>
+          <a class="exito-btn exito-btn--ghost" href="index.html">🏠 CONSULTORIO</a>
+        </div>
+        <echo-badge id="badge-exito" aria-label="Insignias restauradas"></echo-badge>
+      </section>
+    </div>
+
+    <p class="exito-error" id="exito-error" hidden>
+      ⚠ No se encontró el artefacto sincronizado. Vuelve al
+      <a href="index.html">consultorio orbital</a> y sincroniza una señal.
+    </p>
+  </main>
+
+  <footer class="hud-footer">
+    <p>ECHOES OF SOL · NASA Space Apps Challenge 2026</p>
+  </footer>
+
+  <script type="module" src="js/components/echo-badge.js"></script>
+  <script type="module" src="js/exito.js"></script>
+</body>
+</html>
