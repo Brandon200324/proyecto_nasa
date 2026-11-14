@@ -415,6 +415,21 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
     utterance.rate = 0.95;
     utterance.pitch = 1.05;
 
+    // Voz explícitamente en español: el sistema podría intentar usar
+    // una voz en inglés (suenia ilegible). Se elige la mejor voz es-*.
+    const pickSpanishVoice = () => {
+      const voices = speechSynthesis.getVoices();
+      const es = voices.find((v) => v.lang?.toLowerCase().startsWith('es'))
+        || voices.find((v) => /spanish|espa/i.test(v.name));
+      if (es) utterance.voice = es;
+      return es;
+    };
+    pickSpanishVoice();
+    // Algunos navegadores cargan las voces de forma asíncrona:
+    speechSynthesis.onvoiceschanged = () => {
+      if (!utterance.voice) pickSpanishVoice();
+    };
+
     // El navegador avisa justo cuando empieza CADA palabra
     utterance.onboundary = (e) => {
       if (e.charIndex == null) return;
