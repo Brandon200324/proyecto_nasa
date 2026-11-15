@@ -4,7 +4,6 @@
    Al acertar → chime + Morse + insignia (evento echo:badge-earned)
    ============================================================ */
 import { soundscape } from '../audio/soundscape.js';
-import { completeArtifact, isArtifactCompleted } from './progress.js';
 
 /**
  * @param {object} artifact - registro de equipment_data.json
@@ -50,7 +49,6 @@ export function openTrivia(artifact, alreadyEarned = false) {
       }
 
       // Acertó: congela el juego y muestra el dato curioso
-      const completedBefore = alreadyEarned || isArtifactCompleted(artifact.id);
       optionsBox.querySelectorAll('.trivia-option').forEach((b) => (b.disabled = true));
       soundscape.chime();
       soundscape.morse(callsign(artifact.id));
@@ -61,42 +59,35 @@ export function openTrivia(artifact, alreadyEarned = false) {
         </div>`;
       afterBox.hidden = false;
       restoreBtn.hidden = false;
-      restoreBtn.disabled = completedBefore;
-      restoreBtn.textContent = completedBefore ? 'TRIVIA YA COMPLETADA ✓' : 'TRIVIA COMPLETADA ✓';
+      restoreBtn.disabled = alreadyEarned;
+      restoreBtn.textContent = alreadyEarned ? 'INSIGNIA YA GANADA ✓' : 'SEÑAL RESTAURADA ✓';
 
-      completeArtifact(artifact.id);
+      if (!alreadyEarned) {
+        document.dispatchEvent(new CustomEvent('echo:badge-earned', { detail: { id: artifact.id } }));
+      }
     });
     optionsBox.appendChild(btn);
   });
 
-  const close = () => {
-    document.removeEventListener('keydown', esc);
-    overlay.remove();
-  };
-  const esc = (e) => { if (e.key === 'Escape') close(); };
+  const close = () => overlay.remove();
   overlay.querySelector('[data-action="close"]').addEventListener('click', close);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
-  document.addEventListener('keydown', esc);
+  document.addEventListener('keydown', function esc(e) {
+    if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); }
+  });
   document.body.appendChild(overlay);
   optionsBox.querySelector('.trivia-option')?.focus();
 }
 
-/** Callsign corto para el Morse a partir del id estable del artefacto. */
+/** Callsign corto para el Morse a partir del id. */
 function callsign(id) {
   const names = {
-    'apollo-11-descent-stage': 'EAGLE',
-    'surveyor-3': 'SURVEYOR',
-    'apollo-15-lrv': 'FALCON',
-    'apollo-alsep-lrrr': 'ALSEP',
-    'apollo17-lrv': 'CHALLENGER',
-    'viking-1-lander': 'VIKING',
-    'viking2-lander': 'VIKING-2',
-    'pathfinder-sojourner': 'SOJOURNER',
+    'apollo11-descent-stage': 'EAGLE',
+    'apollo15-lrv': 'FALCON',
+    'viking1-lander': 'VIKING',
     'spirit-mer-a': 'SPIRIT',
     'opportunity-mer-b': 'OPPY',
-    'phoenix-lander': 'PHOENIX',
     'insight-lander': 'INSIGHT',
-    'ingenuity-helicopter': 'INGENUITY',
   };
   return names[id] || 'ECHO';
 }

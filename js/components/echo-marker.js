@@ -1,9 +1,8 @@
 /* ============================================================
    ECHOES OF SOL · components/echo-marker.js
-   Panel de ficha del artefacto: datos, hardware y acceso a sintonización
+   Panel de ficha del artefacto: monólogo, hardware y CTA (Michelle)
    ============================================================ */
 import { openSignalTuner } from '../game/signal-tuner.js';
-import { isArtifactCompleted } from '../game/progress.js';
 import { soundscape } from '../audio/soundscape.js';
 
 function escapeHtml(str) {
@@ -15,23 +14,10 @@ function escapeHtml(str) {
 class EchoMarker extends HTMLElement {
   connectedCallback() {
     this.render();
-    this._onCompleted = (event) => {
-      if (event.detail?.id === this._artifact?.id) {
-        this._badgeEarned = true;
-        this.render();
-      }
-    };
-    document.addEventListener('echo:badge-earned', this._onCompleted);
-  }
-
-  disconnectedCallback() {
-    clearTimeout(this._closeTimer);
-    document.removeEventListener('echo:badge-earned', this._onCompleted);
   }
 
   /** Abre el panel con los datos del artefacto. */
   open(artifact, badgeEarned = false) {
-    clearTimeout(this._closeTimer);
     this._artifact = artifact;
     this._badgeEarned = badgeEarned;
     this.style.setProperty('--echo-accent', artifact.color_accent || '#4cc9f0');
@@ -43,8 +29,7 @@ class EchoMarker extends HTMLElement {
 
   close() {
     this.classList.remove('is-open');
-    clearTimeout(this._closeTimer);
-    this._closeTimer = setTimeout(() => { this.hidden = true; }, 450);
+    setTimeout(() => { this.hidden = true; }, 450);
   }
 
   render() {
@@ -84,6 +69,12 @@ class EchoMarker extends HTMLElement {
 
         <blockquote class="marker-monument">${escapeHtml(a.monument_significance)}</blockquote>
 
+        <div class="marker-story">
+          <h3>MONÓLOGO EN PRIMERA PERSONA</h3>
+          <p class="story-title"><em>${escapeHtml(a.first_person_story?.title || '')}</em></p>
+          <p class="voice-text">${escapeHtml(a.first_person_story?.voice_text || '')}</p>
+        </div>
+
         <div class="marker-hardware" aria-label="Hardware que permanece en el lugar">
           ${(a.hardware_remains || []).map((h) => `<span class="chip">${escapeHtml(h)}</span>`).join('')}
         </div>
@@ -94,22 +85,16 @@ class EchoMarker extends HTMLElement {
           <p class="voice-text"><strong>Impacto en la Tierra:</strong> ${escapeHtml(a.scientific_legacy?.earth_impact || '')}</p>
         </div>
 
-        <p class="marker-site" role="status">${isArtifactCompleted(a.id)
-          ? '✅ Trivia respondida correctamente'
-          : 'Trivia pendiente · sintoniza la voz para continuar'}</p>
-
-        <div class="marker-cta-group">
-          <button type="button" class="marker-cta" data-action="tuner">
-            📡 SINTONIZAR VOZ ▸
-          </button>
-        </div>
+        <button type="button" class="marker-cta">
+          ${this._badgeEarned ? 'REVISAR TRIVIA DE ESTE ECO' : 'RESTAURAR SU SEÑAL ▸'}
+        </button>
       </aside>
     `;
 
     this.querySelector('.marker-close')?.addEventListener('click', () => this.close());
-    this.querySelector('[data-action="tuner"]')?.addEventListener('click', () => {
+    this.querySelector('.marker-cta')?.addEventListener('click', () => {
       soundscape.playCue(a.audio_cue, null);
-      openSignalTuner(a, this._badgeEarned || isArtifactCompleted(a.id));
+      openSignalTuner(a, this._badgeEarned);
     });
   }
 }
