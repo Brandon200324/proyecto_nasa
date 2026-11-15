@@ -386,35 +386,8 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
     const q = quality(freq, target);
     const noise = (1 - q) ** 2; // al cuadrado: se "limpia" de forma progresiva
 
-    const photoReady = narrationStarted && artifactImage.complete && artifactImage.naturalWidth;
-    if (photoReady) {
-      const pixelRatio = window.devicePixelRatio || 1;
-      const width = Math.round(canvas.clientWidth * pixelRatio);
-      const height = Math.round(canvas.clientHeight * pixelRatio);
-      if (width && height && (canvas.width !== width || canvas.height !== height)) {
-        canvas.width = width;
-        canvas.height = height;
-      }
-    }
     const w = canvas.width, h = canvas.height;
     ctx2d.clearRect(0, 0, w, h);
-
-    // Durante el relato, la foto ocupa el espacio de la onda sin cambiar el panel.
-    if (photoReady) {
-      const scale = Math.min(w / artifactImage.naturalWidth, h / artifactImage.naturalHeight);
-      const imageWidth = artifactImage.naturalWidth * scale;
-      const imageHeight = artifactImage.naturalHeight * scale;
-      ctx2d.drawImage(artifactImage, (w - imageWidth) / 2, (h - imageHeight) / 2,
-        imageWidth, imageHeight);
-      if (canvas.hasAttribute('aria-hidden')) {
-        canvas.removeAttribute('aria-hidden');
-        canvas.setAttribute('role', 'img');
-        canvas.setAttribute('aria-label', `Imagen del artefacto: ${artifact.name}`);
-      }
-      updateVoiceHighlight();
-      raf = requestAnimationFrame(draw);
-      return;
-    }
 
     ctx2d.lineWidth = 2;
 
