@@ -71,13 +71,20 @@ function injectStyles() {
       padding: 1rem;
     }
     .st-card {
-      width: min(640px, 100%);
+      width: 90vw;
+      max-height: 85vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--echo-accent) transparent;
       background: var(--panel-strong);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: clamp(1rem, 4vw, 1.75rem);
       box-shadow: 0 0 40px rgba(76, 201, 240, 0.15);
     }
+    .st-card::-webkit-scrollbar { width: 10px; }
+    .st-card::-webkit-scrollbar-track { background: rgba(76, 201, 240, 0.06); border-radius: 8px; }
+    .st-card::-webkit-scrollbar-thumb { background: var(--echo-accent); border-radius: 8px; }
     .st-kicker {
       font-family: var(--font-mono);
       font-size: 0.72rem; letter-spacing: 0.25em;
@@ -126,9 +133,17 @@ function injectStyles() {
       display: none; margin-top: 0.8rem; padding: 0.7rem 0.9rem;
       border-left: 3px solid var(--echo-accent);
       background: rgba(0, 0, 0, 0.35); border-radius: 0 8px 8px 0;
-      font-size: 0.85rem; line-height: 1.65; color: var(--text);
-      max-height: 6.6em; overflow-y: auto;
+      font-size: 1.2rem; line-height: 1.7; color: var(--text);
+      max-height: min(55vh, 560px); overflow-y: auto;
     }
+    /* Cursor lateral temático para la caja de subtítulos (añadido, no modifica lo existente) */
+    .st-captions {
+      scrollbar-width: thin;
+      scrollbar-color: var(--echo-accent) transparent;
+    }
+    .st-captions::-webkit-scrollbar { width: 8px; }
+    .st-captions::-webkit-scrollbar-track { background: rgba(76, 201, 240, 0.06); border-radius: 8px; }
+    .st-captions::-webkit-scrollbar-thumb { background: var(--echo-accent); border-radius: 8px; }
     .st-captions mark,
     .st-captions .st-word.is-speaking {
       background: var(--echo-accent); color: #04070f;
