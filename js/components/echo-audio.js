@@ -8,14 +8,15 @@ class EchoAudio extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
       <button type="button" class="audio-toggle" aria-pressed="false"
-              aria-label="Activar audio inmersivo" title="Audio inmersivo">🔇</button>
+              aria-label="Activar sonido ambiental espacial (Web Audio)" title="Sonido ambiental espacial (Web Audio)">🔇</button>
     `;
     this._btn = this.querySelector('.audio-toggle');
     const renderState = (on) => {
       this._btn.classList.toggle('on', on);
       this._btn.setAttribute('aria-pressed', String(on));
       this._btn.textContent = on ? '🔊' : '🔇';
-      this._btn.setAttribute('aria-label', on ? 'Silenciar audio inmersivo' : 'Activar audio inmersivo');
+      this._btn.setAttribute('aria-label', on ? 'Silenciar sonido ambiental espacial' : 'Activar sonido ambiental espacial (Web Audio)');
+      this._btn.setAttribute('title', on ? 'Silenciar sonido ambiental espacial' : 'Sonido ambiental espacial (Web Audio)');
     };
     this._btn.addEventListener('click', () => {
       const on = soundscape.toggle();

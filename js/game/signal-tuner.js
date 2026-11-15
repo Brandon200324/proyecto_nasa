@@ -494,6 +494,7 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
         await voicePlayer.play();
       } catch (_) {
         playVoiceBtn.textContent = '▶ INICIAR RELATO';
+        playVoiceBtn.style.boxShadow = '0 0 20px var(--echo-accent)';
         feedback.textContent = 'El audio está listo: pulsa ▶ INICIAR RELATO para escucharlo.';
       }
     } catch (error) {

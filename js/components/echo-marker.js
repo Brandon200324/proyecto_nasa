@@ -27,6 +27,7 @@ class EchoMarker extends HTMLElement {
 
   /** Abre el panel con los datos del artefacto. */
   open(artifact, badgeEarned = false) {
+    this.pauseVoice();
     this._artifact = artifact;
     this._badgeEarned = badgeEarned;
     this.style.setProperty('--echo-accent', artifact.color_accent || '#4cc9f0');
@@ -36,7 +37,23 @@ class EchoMarker extends HTMLElement {
     this.querySelector('.marker-close')?.focus();
   }
 
+  pauseVoice() {
+    const audio = this.querySelector('#marker-voice-audio');
+    const btn = this.querySelector('[data-action="play-voice"]');
+    if (audio && !audio.paused) {
+      audio.pause();
+    }
+    if (btn) {
+      const icon = btn.querySelector('.voice-icon');
+      const label = btn.querySelector('.voice-label');
+      if (icon) icon.textContent = '▶';
+      if (label) label.textContent = 'ESCUCHAR RELATO';
+      btn.style.background = 'rgba(76, 201, 240, 0.12)';
+    }
+  }
+
   close() {
+    this.pauseVoice();
     this.classList.remove('is-open');
     setTimeout(() => { this.hidden = true; }, 450);
   }
@@ -79,9 +96,22 @@ class EchoMarker extends HTMLElement {
         <blockquote class="marker-monument">${escapeHtml(a.monument_significance)}</blockquote>
 
         <div class="marker-story">
-          <h3>MONÓLOGO EN PRIMERA PERSONA</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h3 style="margin: 0;">MONÓLOGO EN PRIMERA PERSONA</h3>
+            <button type="button" class="btn-voice-inline" data-action="play-voice"
+                    aria-label="Escuchar monólogo en audio de ${escapeHtml(a.name)}"
+                    style="display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.35rem 0.85rem;
+                           font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em;
+                           color: var(--echo-accent); background: rgba(76, 201, 240, 0.12);
+                           border: 1px solid var(--echo-accent); border-radius: 999px; cursor: pointer;
+                           transition: all 0.2s ease;">
+              <span class="voice-icon">▶</span>
+              <span class="voice-label">ESCUCHAR RELATO</span>
+            </button>
+          </div>
           <p class="story-title"><em>${escapeHtml(a.first_person_story?.title || '')}</em></p>
           <p class="voice-text">${escapeHtml(a.first_person_story?.voice_text || '')}</p>
+          <audio id="marker-voice-audio" preload="none" src="assets/audio/${escapeHtml(a.id)}.mp3"></audio>
         </div>
 
         <div class="marker-hardware" aria-label="Hardware que permanece en el lugar">
@@ -107,13 +137,52 @@ class EchoMarker extends HTMLElement {
 
     this.querySelector('.marker-close')?.addEventListener('click', () => this.close());
     this.querySelector('[data-action="tuner"]')?.addEventListener('click', () => {
+      this.pauseVoice();
       soundscape.playCue(a.audio_cue, null);
       openSignalTuner(a, this._badgeEarned || badgeAlreadyEarned(a.id));
     });
     this.querySelector('[data-action="trivia"]')?.addEventListener('click', () => {
+      this.pauseVoice();
       soundscape.playCue(a.audio_cue, null);
       openTrivia(a, this._badgeEarned || badgeAlreadyEarned(a.id));
     });
+
+    const voiceBtn = this.querySelector('[data-action="play-voice"]');
+    const voiceAudio = this.querySelector('#marker-voice-audio');
+
+    if (voiceBtn && voiceAudio) {
+      voiceBtn.addEventListener('click', () => {
+        const icon = voiceBtn.querySelector('.voice-icon');
+        const label = voiceBtn.querySelector('.voice-label');
+        if (voiceAudio.paused) {
+          voiceAudio.play().then(() => {
+            if (icon) icon.textContent = '⏸';
+            if (label) label.textContent = 'PAUSAR';
+            voiceBtn.style.background = 'color-mix(in srgb, var(--echo-accent) 28%, transparent)';
+          }).catch((err) => {
+            console.error('[Echoes of Sol] Error reproduciendo audio:', err);
+          });
+        } else {
+          voiceAudio.pause();
+          if (icon) icon.textContent = '▶';
+          if (label) label.textContent = 'REANUDAR';
+          voiceBtn.style.background = 'rgba(76, 201, 240, 0.12)';
+        }
+      });
+
+      voiceAudio.addEventListener('ended', () => {
+        const icon = voiceBtn.querySelector('.voice-icon');
+        const label = voiceBtn.querySelector('.voice-label');
+        if (icon) icon.textContent = '▶';
+        if (label) label.textContent = 'ESCUCHAR RELATO';
+        voiceBtn.style.background = 'rgba(76, 201, 240, 0.12)';
+      });
+
+      voiceAudio.addEventListener('error', () => {
+        const label = voiceBtn.querySelector('.voice-label');
+        if (label) label.textContent = 'AUDIO NO DISPONIBLE';
+      });
+    }
   }
 }
 
