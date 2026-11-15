@@ -54,14 +54,18 @@ index.html
              + markerPanel.open(artefacto, insigniaYaGanada)
 
 5. FICHA (echo-marker)
-   Monólogo, stats, hardware, legado, CTA
-   → botón "Restaurar su señal" → openTrivia(artefacto, yaGanada)
+   Stats, hardware, legado y estado de la trivia; no incluye texto ni audio del monólogo.
+   → "Sintonizar voz" → dial con frecuencia propia por artefacto (js/game/frequencies.js).
+   → Mantener la frecuencia correcta ±5 MHz durante 1 segundo desbloquea imagen, voz y texto.
+   → Al terminar el relato aparece el acceso a la trivia.
 
 6. TRIVIA (game/trivia.js)
-   Acertar → chime + Morse del callsign + dato curioso
-          → document.dispatchEvent('echo:badge-earned', { id })
-   → echo-badge: guarda id en localStorage('echoes_badges')
-                → render contador + toast "X/6 ECOS"
+   Acertar → chime + Morse del callsign + dato curioso.
+   → progress.js guarda el id canónico en localStorage('echoes_badges').
+   → Después emite document.dispatchEvent('echo:badge-earned', { id }).
+   → echo-badge actualiza contador y toast; el globo muestra un visto verde sobre el punto.
+   → Ficha, contador y vistos se restauran al recargar y al cambiar entre Luna y Marte.
+   → Una respuesta incorrecta, abrir la ficha o sintonizar no completan la trivia.
 
 7. CIERRE DE FICHA
    Botón ✕ o clic en el globo (no en marcador) → echo:marker-deselect
@@ -74,7 +78,7 @@ index.html
 | :--- | :--- | :--- | :--- |
 | `echo:marker-selected` | `echo-globe` (clic en marcador) | `main.js` | `{ id: string, index: number }` |
 | `echo:marker-deselect` | `echo-globe` (clic fuera de marcadores) | `main.js` | — |
-| `echo:badge-earned` | `game/trivia.js` (al acertar) | `echo-badge` | `{ id: string }` |
+| `echo:badge-earned` | `game/progress.js`, llamado por trivia al acertar y después de guardar el progreso | `echo-badge`, ficha y globo | `{ id: string }` |
 | `echo:data-ready` | `main.js` (tras fetch OK) | `echo-badge` | `{ total: number }` |
 
 **Para agregar un evento nuevo:** crea el nombre con prefijo `echo:`, documenta aquí,

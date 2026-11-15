@@ -10,12 +10,15 @@ import './components/echo-badge.js';
 import { initScroll } from './ui/scroll.js';
 import { initPages } from './ui/pages.js';
 import { soundscape } from './audio/soundscape.js';
+import { isArtifactCompleted } from './game/progress.js';
 
 const globe = document.getElementById('globe');
 const markerPanel = document.getElementById('marker-panel');
 const badgeTracker = document.getElementById('badge-tracker');
 
 let ECHO_DATA = [];
+let glossaryPromise = null;
+let manualDialog = null;
 
 /* ---------- Carga de datos ---------- */
 async function loadData() {
@@ -63,7 +66,7 @@ function initGlobeEvents() {
     if (!artifact) return;
     globe.focus(e.detail.id);
     soundscape.playCue(artifact.audio_cue, callsignOf(artifact.id));
-    const earned = badgeEarned(artifact.id);
+    const earned = isArtifactCompleted(artifact.id);
     markerPanel.open(artifact, earned);
   });
 
@@ -82,11 +85,6 @@ function initGlobeEvents() {
 }
 
 /* ---------- Insignias (localStorage) ---------- */
-function badgeEarned(id) {
-  try { return (JSON.parse(localStorage.getItem('echoes_badges') || '[]')).includes(id); }
-  catch (_) { return false; }
-}
-
 function callsignOf(id) {
   const names = {
     'apollo-11-descent-stage': 'EAGLE',
@@ -109,6 +107,154 @@ function callsignOf(id) {
   return names[id] || 'ECHO';
 }
 
+/* ---------- Manual del Cadete (glosario) ---------- */
+function loadGlossary() {
+  if (!glossaryPromise) {
+    glossaryPromise = fetch('data/glossary_data.json')
+      .then((res) => {
+        if (!res.ok) throw new Error(`No se pudo cargar el glosario (${res.status})`);
+        return res.json();
+      })
+      .then((terms) => {
+        if (!Array.isArray(terms)) throw new Error('El glosario no tiene formato de lista.');
+        return terms;
+      })
+      .catch((err) => {
+        glossaryPromise = null;
+        throw err;
+      });
+  }
+  return glossaryPromise;
+}
+
+function makeManualField(label, value, className = '') {
+  if (!value) return null;
+  const section = document.createElement('section');
+  if (className) section.className = className;
+  const heading = document.createElement('h4');
+  heading.textContent = label;
+  const text = document.createElement('p');
+  text.textContent = value;
+  section.append(heading, text);
+  return section;
+}
+
+function ensureManualDialog(button) {
+  if (manualDialog) return manualDialog;
+
+  const dialog = document.createElement('dialog');
+  dialog.id = 'cadet-manual';
+  dialog.className = 'manual-dialog';
+  dialog.setAttribute('aria-labelledby', 'manual-title');
+
+  const header = document.createElement('header');
+  header.className = 'manual-header';
+  const titleGroup = document.createElement('div');
+  const kicker = document.createElement('p');
+  kicker.className = 'manual-kicker';
+  kicker.textContent = 'ARCHIVO DE CAMPO · ACADEMIA 2099';
+  const title = document.createElement('h2');
+  title.className = 'manual-title';
+  title.id = 'manual-title';
+  title.textContent = 'Manual del Cadete';
+  titleGroup.append(kicker, title);
+
+  const closeButton = document.createElement('button');
+  closeButton.type = 'button';
+  closeButton.className = 'manual-close';
+  closeButton.setAttribute('aria-label', 'Cerrar Manual del Cadete');
+  closeButton.textContent = '✕';
+  closeButton.addEventListener('click', () => dialog.close());
+  header.append(titleGroup, closeButton);
+
+  const content = document.createElement('div');
+  content.className = 'manual-content';
+  content.setAttribute('aria-live', 'polite');
+  dialog.append(header, content);
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog.addEventListener('close', () => {
+    button.setAttribute('aria-expanded', 'false');
+    button.focus();
+  });
+
+  document.body.appendChild(dialog);
+  manualDialog = dialog;
+  return dialog;
+}
+
+async function populateManual(dialog) {
+  const content = dialog.querySelector('.manual-content');
+  const loading = document.createElement('p');
+  loading.className = 'manual-status';
+  loading.textContent = 'Cargando los términos científicos…';
+  content.replaceChildren(loading);
+
+  try {
+    const terms = await loadGlossary();
+    const cards = document.createDocumentFragment();
+
+    terms.forEach((term) => {
+      const card = document.createElement('article');
+      card.className = 'manual-term';
+      const heading = document.createElement('h3');
+      heading.textContent = term.term || 'Término sin nombre';
+      const category = document.createElement('p');
+      category.className = 'manual-category';
+      category.textContent = term.category || 'Campo científico';
+      card.append(heading, category);
+
+      const summary = makeManualField('En pocas palabras', term.cadet_summary);
+      const explanation = makeManualField('Cómo funciona', term.how_it_works);
+      const fact = makeManualField('¿Sabías que…?', term.field_manual_did_you_know, 'manual-fact');
+      [summary, explanation, fact].forEach((field) => {
+        if (field) card.appendChild(field);
+      });
+
+      const profile = term.radio_telemetry_profile;
+      if (profile) {
+        const simulated = document.createElement('p');
+        simulated.className = 'manual-simulated';
+        simulated.textContent = `SIMULACIÓN 2099 · No es telemetría NASA: ${profile.frequency_mhz} MHz · ${profile.signal_type} · ${profile.difficulty}`;
+        card.appendChild(simulated);
+      }
+      cards.appendChild(card);
+    });
+
+    content.replaceChildren(cards);
+  } catch (error) {
+    const message = document.createElement('p');
+    message.className = 'manual-status';
+    message.textContent = `No se pudo abrir el manual. ${error.message}`;
+    const retry = document.createElement('button');
+    retry.type = 'button';
+    retry.className = 'manual-retry';
+    retry.textContent = 'Reintentar';
+    retry.addEventListener('click', () => populateManual(dialog), { once: true });
+    message.appendChild(retry);
+    content.replaceChildren(message);
+  }
+}
+
+async function openManual(button) {
+  const dialog = ensureManualDialog(button);
+  if (dialog.open) return;
+  button.setAttribute('aria-expanded', 'true');
+  dialog.showModal();
+  dialog.querySelector('.manual-close').focus();
+  await populateManual(dialog);
+}
+
+function initManual() {
+  const button = document.getElementById('btn-manual');
+  if (!button) return;
+  button.addEventListener('click', () => {
+    openManual(button).catch((error) => console.error('[Echoes of Sol] Manual:', error));
+  });
+}
+
 /* ---------- Preloader ---------- */
 function hidePreloader() {
   document.getElementById('preloader')?.classList.add('is-done');
@@ -117,6 +263,7 @@ function hidePreloader() {
 /* ---------- Arranque ---------- */
 async function boot() {
   try {
+    initManual();
     await loadData();
     initGlobeEvents();
     initBodySwitch();
