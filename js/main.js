@@ -9,6 +9,7 @@ import './components/echo-audio.js';
 import './components/echo-badge.js';
 import { initScroll } from './ui/scroll.js';
 import { soundscape } from './audio/soundscape.js';
+import { isArtifactCompleted } from './game/progress.js';
 
 const globe = document.getElementById('globe');
 const markerPanel = document.getElementById('marker-panel');
@@ -64,7 +65,7 @@ function initGlobeEvents() {
     if (!artifact) return;
     globe.focus(e.detail.id);
     soundscape.playCue(artifact.audio_cue, callsignOf(artifact.id));
-    const earned = badgeEarned(artifact.id);
+    const earned = isArtifactCompleted(artifact.id);
     markerPanel.open(artifact, earned);
   });
 
@@ -75,11 +76,6 @@ function initGlobeEvents() {
 }
 
 /* ---------- Insignias (localStorage) ---------- */
-function badgeEarned(id) {
-  try { return (JSON.parse(localStorage.getItem('echoes_badges') || '[]')).includes(id); }
-  catch (_) { return false; }
-}
-
 function callsignOf(id) {
   const names = {
     'apollo-11-descent-stage': 'EAGLE',

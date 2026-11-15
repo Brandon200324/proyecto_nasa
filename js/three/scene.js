@@ -6,7 +6,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { loadPlanetTexture } from './textures.js';
-import { createMarkers, updateMarkerPulse } from './markers.js';
+import { createMarkers, updateMarkerPulse, updateMarkerCompletion, disposeMarkers } from './markers.js';
+import { BADGES_STORAGE_KEY } from '../game/progress.js';
 
 const RADIUS = 1;
 
@@ -57,6 +58,12 @@ export class PlanetScene {
     this.planetMesh = null;
     this.markerGroup = null;
     this.artifacts = [];
+    this._onCompleted = () => updateMarkerCompletion(this.markerGroup);
+    this._onStorage = (event) => {
+      if (event.key === BADGES_STORAGE_KEY || event.key === null) this._onCompleted();
+    };
+    document.addEventListener('echo:badge-earned', this._onCompleted);
+    window.addEventListener('storage', this._onStorage);
 
     // Interacción (raycaster)
     this.raycaster = new THREE.Raycaster();
@@ -99,7 +106,10 @@ export class PlanetScene {
     this.globe.add(this.planetMesh);
 
     // Marcadores
-    if (this.markerGroup) this.globe.remove(this.markerGroup);
+    if (this.markerGroup) {
+      this.globe.remove(this.markerGroup);
+      disposeMarkers(this.markerGroup);
+    }
     this.markerGroup = createMarkers(artifacts, RADIUS);
     this.globe.add(this.markerGroup);
 
@@ -171,7 +181,8 @@ export class PlanetScene {
     this._pointerToNDC(e);
     this.raycaster.setFromCamera(this.pointer, this.camera);
     const dots = this.markerGroup?.userData?.dots || [];
-    const hits = this.raycaster.intersectObjects(dots, false);
+    const checks = (this.markerGroup?.userData?.completionChecks || []).filter((check) => check.visible);
+    const hits = this.raycaster.intersectObjects([...dots, ...checks], false);
     return hits.length ? hits[0].object : null;
   }
 
@@ -216,6 +227,9 @@ export class PlanetScene {
   }
 
   dispose() {
+    document.removeEventListener('echo:badge-earned', this._onCompleted);
+    window.removeEventListener('storage', this._onStorage);
+    disposeMarkers(this.markerGroup);
     this.renderer.setAnimationLoop(null);
     this._resizeObserver.disconnect();
     this.renderer.dispose();

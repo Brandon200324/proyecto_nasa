@@ -3,6 +3,30 @@
    Conversión lat/lon → XYZ y construcción de marcadores 3D
    ============================================================ */
 import * as THREE from 'three';
+import { canonicalArtifactId, completedArtifactIds } from '../game/progress.js';
+
+function completionMaterial() {
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 64;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#07140d';
+  ctx.beginPath();
+  ctx.arc(32, 32, 29, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#4ade80';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  ctx.lineWidth = 7;
+  ctx.lineCap = ctx.lineJoin = 'round';
+  ctx.beginPath();
+  ctx.moveTo(18, 32);
+  ctx.lineTo(28, 42);
+  ctx.lineTo(46, 22);
+  ctx.stroke();
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
+}
 
 /**
  * Convierte coordenadas planetarias (lat/lon en grados) a posición
@@ -26,6 +50,8 @@ export function createMarkers(artifacts, radius = 1) {
   const group = new THREE.Group();
   const dots = [];
   const rings = [];
+  const completionChecks = [];
+  const checkMaterial = completionMaterial();
 
   artifacts.forEach((artifact, i) => {
     const accent = new THREE.Color(artifact.color_accent || '#4cc9f0');
@@ -40,6 +66,15 @@ export function createMarkers(artifacts, radius = 1) {
     dot.userData = { artifactId: artifact.id, index: i };
     group.add(dot);
     dots.push(dot);
+
+    // Visto verde por encima del punto: visible solo si su trivia está resuelta.
+    const check = new THREE.Sprite(checkMaterial);
+    check.position.copy(pos.clone().multiplyScalar(1.09));
+    check.scale.set(0.1, 0.1, 1);
+    check.center.set(0.5, 0);
+    check.userData = { artifactId: artifact.id, index: i };
+    group.add(check);
+    completionChecks.push(check);
 
     // Anillo pulsante
     const ring = new THREE.Mesh(
@@ -64,8 +99,33 @@ export function createMarkers(artifacts, radius = 1) {
     group.add(stem);
   });
 
-  group.userData = { dots, rings };
+  group.userData = { dots, rings, completionChecks };
+  updateMarkerCompletion(group);
   return group;
+}
+
+export function updateMarkerCompletion(group) {
+  if (!group) return;
+  const completed = new Set(completedArtifactIds());
+  (group.userData.dots || []).forEach((dot) => {
+    dot.userData.completed = completed.has(canonicalArtifactId(dot.userData.artifactId));
+  });
+  (group.userData.completionChecks || []).forEach((check) => {
+    check.visible = completed.has(canonicalArtifactId(check.userData.artifactId));
+  });
+}
+
+export function disposeMarkers(group) {
+  if (!group) return;
+  const materials = new Set();
+  group.traverse((object) => {
+    if (object.isMesh) object.geometry?.dispose();
+    if (object.material) materials.add(object.material);
+  });
+  materials.forEach((material) => {
+    material.map?.dispose();
+    material.dispose();
+  });
 }
 
 /** Anima los anillos (llamar cada frame con el tiempo en segundos). */

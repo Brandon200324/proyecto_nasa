@@ -2,7 +2,7 @@
    ECHOES OF SOL · game/signal-tuner.js
    Minijuego "Restaurar la Frecuencia" (Priscila · Prompt 4)
    ------------------------------------------------------------
-   1. Dial de 100 a 500 MHz; señal oculta en 240 MHz (±5).
+   1. Dial de 100 a 500 MHz; frecuencia propia por artefacto (±5).
    2. Onda de canvas que se limpia al acercarse al objetivo.
    3. Estática sonora continua con Web Audio API (volumen ∝ distancia).
    4. Al sincronizar: chime + Morse + audio narrado local con
@@ -10,12 +10,10 @@
    ============================================================ */
 import { soundscape } from '../audio/soundscape.js';
 import { openTrivia } from './trivia.js';
+import { FREQ_MIN, FREQ_MAX, MARGIN, targetFrequency } from './frequencies.js';
+import { isArtifactCompleted } from './progress.js';
 
 /* ---------- Configuración del juego (según Prompt 4) ---------- */
-const FREQ_MIN = 100;   // MHz — mínimo del dial
-const FREQ_MAX = 500;   // MHz — máximo del dial
-const TARGET = 240;     // MHz — señal oculta del artefacto
-const MARGIN = 5;       // ±5 MHz = sincronía exitosa
 const VOICE_TRACKS_URL = 'data/voice_tracks.json';
 
 let voiceTracksManifestPromise = null;
@@ -166,8 +164,9 @@ function injectStyles() {
 }
 
 /** 1 = perfecto en el objetivo · 0 = en el extremo del rango. */
-function quality(freq) {
-  return Math.max(0, 1 - Math.abs(freq - TARGET) / ((FREQ_MAX - FREQ_MIN) / 2));
+function quality(freq, target) {
+  const maxDistance = Math.max(target - FREQ_MIN, FREQ_MAX - target);
+  return Math.max(0, 1 - Math.abs(freq - target) / maxDistance);
 }
 
 /**
@@ -177,6 +176,7 @@ function quality(freq) {
  */
 export function openSignalTuner(artifact, alreadyEarned = false) {
   injectStyles();
+  const target = targetFrequency(artifact.id);
   const accent = getComputedStyle(document.documentElement)
     .getPropertyValue('--echo-accent').trim() || '#4cc9f0';
 
@@ -186,7 +186,7 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
     <div class="st-card" role="dialog" aria-modal="true" aria-label="Minijuego de restauración de frecuencia de ${artifact.name}">
       <p class="st-kicker"><span class="st-led"></span> RESTAURANDO ENLACE · ${artifact.id.replace(/-/g, ' ').toUpperCase()}</p>
       <h3 class="st-title">Restaurar la Frecuencia</h3>
-      <p class="st-desc">El transmisor de <strong>${artifact.name}</strong> quedó en silencio en ${artifact.site || 'su sitio'}. Mueve el dial: la estática se limpiará al acercarte. Si mantienes la frecuencia correcta durante un segundo, escucharás su mensaje.</p>
+      <p class="st-desc">El transmisor de <strong>${artifact.name}</strong> quedó en silencio en ${artifact.site || 'su sitio'}. Cada artefacto tiene una frecuencia propia. Mueve el dial: la estática se limpiará al acercarte. Si mantienes la frecuencia correcta durante un segundo, escucharás su mensaje.</p>
 
       <canvas class="st-canvas" width="640" height="150" aria-hidden="true"></canvas>
       <div class="st-readout" aria-live="polite"><span class="st-value">100.0</span> <small>MHz</small></div>
@@ -220,10 +220,13 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
   const voicePlayer = overlay.querySelector('.st-narration');
   const captionsBox = overlay.querySelector('.st-captions');
   const soundBtn = overlay.querySelector('[data-action="sound"]');
+  const artifactImage = new Image();
+  if (artifact.image) artifactImage.src = artifact.image;
 
   /* ---------- Estado ---------- */
   let raf = 0;
   let synced = false;
+  let narrationStarted = false;
   let staticOn = false;
   let lockTimer = null;
   let voiceWords = [];
@@ -271,7 +274,7 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
 
   function updateStatic(freq) {
     if (!staticOn || !staticNodes || !soundscape.ctx) return;
-    const q = quality(freq);
+    const q = quality(freq, target);
     const t = soundscape.ctx.currentTime;
     const noise = (1 - q) ** 1.7;
 
@@ -365,11 +368,39 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
   /* ---------- Osciloscopio en canvas ---------- */
   function draw() {
     const freq = parseFloat(slider.value);
-    const q = quality(freq);
+    const q = quality(freq, target);
     const noise = (1 - q) ** 2; // al cuadrado: se "limpia" de forma progresiva
 
+    const photoReady = narrationStarted && artifactImage.complete && artifactImage.naturalWidth;
+    if (photoReady) {
+      const pixelRatio = window.devicePixelRatio || 1;
+      const width = Math.round(canvas.clientWidth * pixelRatio);
+      const height = Math.round(canvas.clientHeight * pixelRatio);
+      if (width && height && (canvas.width !== width || canvas.height !== height)) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+    }
     const w = canvas.width, h = canvas.height;
     ctx2d.clearRect(0, 0, w, h);
+
+    // Durante el relato, la foto ocupa el espacio de la onda sin cambiar el panel.
+    if (photoReady) {
+      const scale = Math.min(w / artifactImage.naturalWidth, h / artifactImage.naturalHeight);
+      const imageWidth = artifactImage.naturalWidth * scale;
+      const imageHeight = artifactImage.naturalHeight * scale;
+      ctx2d.drawImage(artifactImage, (w - imageWidth) / 2, (h - imageHeight) / 2,
+        imageWidth, imageHeight);
+      if (canvas.hasAttribute('aria-hidden')) {
+        canvas.removeAttribute('aria-hidden');
+        canvas.setAttribute('role', 'img');
+        canvas.setAttribute('aria-label', `Imagen del artefacto: ${artifact.name}`);
+      }
+      updateVoiceHighlight();
+      raf = requestAnimationFrame(draw);
+      return;
+    }
+
     ctx2d.lineWidth = 2;
 
     // Color: entre gris estático y el acento del artefacto
@@ -403,11 +434,11 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
       lockTimer = null;
     }
 
-    if (Math.abs(freq - TARGET) <= MARGIN) {
+    if (Math.abs(freq - target) <= MARGIN) {
       feedback.textContent = '✓ Señal localizada · mantén el dial quieto durante 1 segundo…';
       lockTimer = window.setTimeout(() => {
         lockTimer = null;
-        if (!synced && Math.abs(parseFloat(slider.value) - TARGET) <= MARGIN) succeed();
+        if (!synced && Math.abs(parseFloat(slider.value) - target) <= MARGIN) succeed();
       }, 1000);
     } else {
       feedback.textContent = 'Señal débil · sigue moviendo el dial hasta limpiar la onda.';
@@ -459,6 +490,7 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
 
     captionsBox.style.display = 'block';
     captionsBox.textContent = 'Cargando la transmisión de voz…';
+    narrationStarted = true;
 
     try {
       const track = await narrationPromise;
@@ -514,7 +546,7 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
     triviaBtn.textContent = '🧩 RESPONDER DESAFÍO TRIVIA ➜';
     triviaBtn.addEventListener('click', () => {
       close();
-      openTrivia(artifact, alreadyEarned);
+      openTrivia(artifact, alreadyEarned || isArtifactCompleted(artifact.id));
     });
     overlay.querySelector('.st-actions')?.appendChild(triviaBtn);
   }

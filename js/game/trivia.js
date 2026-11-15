@@ -4,6 +4,7 @@
    Al acertar → chime + Morse + insignia (evento echo:badge-earned)
    ============================================================ */
 import { soundscape } from '../audio/soundscape.js';
+import { completeArtifact, isArtifactCompleted } from './progress.js';
 
 /**
  * @param {object} artifact - registro de equipment_data.json
@@ -49,6 +50,7 @@ export function openTrivia(artifact, alreadyEarned = false) {
       }
 
       // Acertó: congela el juego y muestra el dato curioso
+      const completedBefore = alreadyEarned || isArtifactCompleted(artifact.id);
       optionsBox.querySelectorAll('.trivia-option').forEach((b) => (b.disabled = true));
       soundscape.chime();
       soundscape.morse(callsign(artifact.id));
@@ -59,22 +61,22 @@ export function openTrivia(artifact, alreadyEarned = false) {
         </div>`;
       afterBox.hidden = false;
       restoreBtn.hidden = false;
-      restoreBtn.disabled = alreadyEarned;
-      restoreBtn.textContent = alreadyEarned ? 'INSIGNIA YA GANADA ✓' : 'SEÑAL RESTAURADA ✓';
+      restoreBtn.disabled = completedBefore;
+      restoreBtn.textContent = completedBefore ? 'TRIVIA YA COMPLETADA ✓' : 'TRIVIA COMPLETADA ✓';
 
-      if (!alreadyEarned) {
-        document.dispatchEvent(new CustomEvent('echo:badge-earned', { detail: { id: artifact.id } }));
-      }
+      completeArtifact(artifact.id);
     });
     optionsBox.appendChild(btn);
   });
 
-  const close = () => overlay.remove();
+  const close = () => {
+    document.removeEventListener('keydown', esc);
+    overlay.remove();
+  };
+  const esc = (e) => { if (e.key === 'Escape') close(); };
   overlay.querySelector('[data-action="close"]').addEventListener('click', close);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
-  document.addEventListener('keydown', function esc(e) {
-    if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); }
-  });
+  document.addEventListener('keydown', esc);
   document.body.appendChild(overlay);
   optionsBox.querySelector('.trivia-option')?.focus();
 }
