@@ -79,15 +79,22 @@ export function openTrivia(artifact, alreadyEarned = false) {
   optionsBox.querySelector('.trivia-option')?.focus();
 }
 
-/** Callsign corto para el Morse a partir del id. */
+/** Callsign corto para el Morse a partir del id estable del artefacto. */
 function callsign(id) {
   const names = {
-    'apollo11-descent-stage': 'EAGLE',
-    'apollo15-lrv': 'FALCON',
-    'viking1-lander': 'VIKING',
+    'apollo-11-descent-stage': 'EAGLE',
+    'surveyor-3': 'SURVEYOR',
+    'apollo-15-lrv': 'FALCON',
+    'apollo-alsep-lrrr': 'ALSEP',
+    'apollo17-lrv': 'CHALLENGER',
+    'viking-1-lander': 'VIKING',
+    'viking2-lander': 'VIKING-2',
+    'pathfinder-sojourner': 'SOJOURNER',
     'spirit-mer-a': 'SPIRIT',
     'opportunity-mer-b': 'OPPY',
+    'phoenix-lander': 'PHOENIX',
     'insight-lander': 'INSIGHT',
+    'ingenuity-helicopter': 'INGENUITY',
   };
   return names[id] || 'ECHO';
 }

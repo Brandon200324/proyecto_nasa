@@ -23,7 +23,7 @@ npx serve .
 | Estilos | CSS moderno: variables, grid, glassmorphism, `@keyframes` |
 | Render 3D | Three.js (WebGL) + OrbitControls |
 | Animación | GSAP + ScrollTrigger |
-| Audio | Web Audio API (100% sintetizado, sin archivos) |
+| Audio | Web Audio API para estática/Morse + narraciones MP3 locales con tiempos por palabra |
 | Datos | `data/equipment_data.json` (única fuente de verdad) |
 
 ## 📁 Estructura
@@ -45,6 +45,8 @@ proyecto_nasa/
 │       ├── signal-tuner.js     # Minijuego "Restaurar la Frecuencia" (dial + onda + estática)
 │       └── trivia.js           # Minijuego de trivia por artefacto
 ├── data/equipment_data.json    # 6 artefactos (2 Luna + 4 Marte)
+├── data/voice_tracks.json      # Rutas de narración y marcas de tiempo por palabra
+├── assets/audio/               # Narraciones MP3 locales por artefacto
 └── assets/textures/            # 2k_mars.jpg · 2k_moon.jpg
 ```
 

@@ -3,12 +3,21 @@
    Panel de ficha del artefacto: monólogo, hardware y CTA (Michelle)
    ============================================================ */
 import { openSignalTuner } from '../game/signal-tuner.js';
+import { openTrivia } from '../game/trivia.js';
 import { soundscape } from '../audio/soundscape.js';
 
 function escapeHtml(str) {
   return String(str ?? '').replace(/[&<>"']/g, (c) => (
     { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
   ));
+}
+
+function badgeAlreadyEarned(id) {
+  try {
+    return JSON.parse(localStorage.getItem('echoes_badges') || '[]').includes(id);
+  } catch (_) {
+    return false;
+  }
 }
 
 class EchoMarker extends HTMLElement {
@@ -85,16 +94,25 @@ class EchoMarker extends HTMLElement {
           <p class="voice-text"><strong>Impacto en la Tierra:</strong> ${escapeHtml(a.scientific_legacy?.earth_impact || '')}</p>
         </div>
 
-        <button type="button" class="marker-cta">
-          ${this._badgeEarned ? 'REVISAR TRIVIA DE ESTE ECO' : 'RESTAURAR SU SEÑAL ▸'}
-        </button>
+        <div class="marker-cta-group">
+          <button type="button" class="marker-cta" data-action="tuner">
+            📡 SINTONIZAR VOZ ▸
+          </button>
+          <button type="button" class="marker-cta secondary" data-action="trivia">
+            🧩 DESAFÍO TRIVIA ✦
+          </button>
+        </div>
       </aside>
     `;
 
     this.querySelector('.marker-close')?.addEventListener('click', () => this.close());
-    this.querySelector('.marker-cta')?.addEventListener('click', () => {
+    this.querySelector('[data-action="tuner"]')?.addEventListener('click', () => {
       soundscape.playCue(a.audio_cue, null);
-      openSignalTuner(a, this._badgeEarned);
+      openSignalTuner(a, this._badgeEarned || badgeAlreadyEarned(a.id));
+    });
+    this.querySelector('[data-action="trivia"]')?.addEventListener('click', () => {
+      soundscape.playCue(a.audio_cue, null);
+      openTrivia(a, this._badgeEarned || badgeAlreadyEarned(a.id));
     });
   }
 }

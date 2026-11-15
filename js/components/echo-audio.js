@@ -11,12 +11,18 @@ class EchoAudio extends HTMLElement {
               aria-label="Activar audio inmersivo" title="Audio inmersivo">🔇</button>
     `;
     this._btn = this.querySelector('.audio-toggle');
-    this._btn.addEventListener('click', () => {
-      const on = soundscape.toggle();
+    const renderState = (on) => {
       this._btn.classList.toggle('on', on);
       this._btn.setAttribute('aria-pressed', String(on));
       this._btn.textContent = on ? '🔊' : '🔇';
       this._btn.setAttribute('aria-label', on ? 'Silenciar audio inmersivo' : 'Activar audio inmersivo');
+    };
+    this._btn.addEventListener('click', () => {
+      const on = soundscape.toggle();
+      renderState(on);
+    });
+    document.addEventListener('echo:audio-state', (event) => {
+      renderState(Boolean(event.detail?.enabled));
     });
   }
 }

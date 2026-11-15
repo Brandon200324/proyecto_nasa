@@ -5,25 +5,57 @@
    1. Dial de 100 a 500 MHz; señal oculta en 240 MHz (±5).
    2. Onda de canvas que se limpia al acercarse al objetivo.
    3. Estática sonora continua con Web Audio API (volumen ∝ distancia).
-   4. Al sincronizar: chime + Morse + mensaje de voz del rover
-      (SpeechSynthesis lee first_person_story.voice_text del JSON).
+   4. Al sincronizar: chime + Morse + audio narrado local con
+      marcas de tiempo para resaltar cada palabra.
    ============================================================ */
 import { soundscape } from '../audio/soundscape.js';
+import { openTrivia } from './trivia.js';
 
 /* ---------- Configuración del juego (según Prompt 4) ---------- */
 const FREQ_MIN = 100;   // MHz — mínimo del dial
 const FREQ_MAX = 500;   // MHz — máximo del dial
 const TARGET = 240;     // MHz — señal oculta del artefacto
 const MARGIN = 5;       // ±5 MHz = sincronía exitosa
+const VOICE_TRACKS_URL = 'data/voice_tracks.json';
+
+let voiceTracksManifestPromise = null;
+
+async function loadVoiceTrack(id) {
+  if (!voiceTracksManifestPromise) {
+    voiceTracksManifestPromise = fetch(VOICE_TRACKS_URL)
+      .then((response) => {
+        if (!response.ok) throw new Error(`No se pudo cargar el índice de voces (${response.status})`);
+        return response.json();
+      })
+      .catch((error) => {
+        voiceTracksManifestPromise = null;
+        throw error;
+      });
+  }
+
+  const manifest = await voiceTracksManifestPromise;
+  const track = manifest[id];
+  if (!track?.audio || !Array.isArray(track.words)) {
+    throw new Error(`No existe una pista de voz válida para ${id}`);
+  }
+  return track;
+}
 
 /* Callsign por artefacto (igual que trivia.js) */
 const CALLSIGNS = {
-  'apollo11-descent-stage': 'EAGLE',
-  'apollo15-lrv': 'FALCON',
-  'viking1-lander': 'VIKING',
+  'apollo-11-descent-stage': 'EAGLE',
+  'surveyor-3': 'SURVEYOR',
+  'apollo-15-lrv': 'FALCON',
+  'apollo-alsep-lrrr': 'ALSEP',
+  'apollo17-lrv': 'CHALLENGER',
+  'viking-1-lander': 'VIKING',
+  'viking2-lander': 'VIKING-2',
+  'pathfinder-sojourner': 'SOJOURNER',
   'spirit-mer-a': 'SPIRIT',
   'opportunity-mer-b': 'OPPY',
+  'phoenix-lander': 'PHOENIX',
   'insight-lander': 'INSIGHT',
+  'ingenuity-helicopter': 'INGENUITY',
 };
 
 /* ---------- Estilos del panel (inyectados una sola vez) ----------
@@ -99,7 +131,8 @@ function injectStyles() {
       font-size: 0.85rem; line-height: 1.65; color: var(--text);
       max-height: 6.6em; overflow-y: auto;
     }
-    .st-captions mark {
+    .st-captions mark,
+    .st-captions .st-word.is-speaking {
       background: var(--echo-accent); color: #04070f;
       border-radius: 3px; padding: 0 2px; font-weight: 700;
     }
@@ -108,6 +141,8 @@ function injectStyles() {
       font-family: var(--font-mono); font-size: 0.65rem;
       letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase;
     }
+    .st-narration { display: block; width: 100%; margin-top: 0.75rem; }
+    .st-narration[hidden] { display: none; }
     .st-actions { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
     .st-btn {
       flex: 1; min-width: 140px; padding: 0.7rem 0.9rem;
@@ -151,7 +186,7 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
     <div class="st-card" role="dialog" aria-modal="true" aria-label="Minijuego de restauración de frecuencia de ${artifact.name}">
       <p class="st-kicker"><span class="st-led"></span> RESTAURANDO ENLACE · ${artifact.id.replace(/-/g, ' ').toUpperCase()}</p>
       <h3 class="st-title">Restaurar la Frecuencia</h3>
-      <p class="st-desc">El transmisor de <strong>${artifact.name}</strong> quedó en silencio en ${artifact.site || 'su sitio'}. Ajusta el dial de 100 a 500 MHz hasta sintonizar su señal oculta. La onda se limpia y la estática baja cuando te acercas.</p>
+      <p class="st-desc">El transmisor de <strong>${artifact.name}</strong> quedó en silencio en ${artifact.site || 'su sitio'}. Mueve el dial: la estática se limpiará al acercarte. Si mantienes la frecuencia correcta durante un segundo, escucharás su mensaje.</p>
 
       <canvas class="st-canvas" width="640" height="150" aria-hidden="true"></canvas>
       <div class="st-readout" aria-live="polite"><span class="st-value">100.0</span> <small>MHz</small></div>
@@ -163,12 +198,13 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
       <div class="st-feedback" aria-live="polite"></div>
 
       <div class="st-actions">
-        <button type="button" class="st-btn" data-action="sync">Sincronizar señal</button>
         <button type="button" class="st-btn ghost" data-action="sound" aria-pressed="false">🔊 Estática</button>
         <button type="button" class="st-btn ghost" data-action="close">Cerrar</button>
       </div>
 
       <div class="st-success" role="status"></div>
+      <button type="button" class="st-btn primary" data-action="play-voice" hidden>▶ ESCUCHAR RELATO</button>
+      <audio class="st-narration" controls preload="auto" hidden aria-label="Narración del artefacto"></audio>
       <p class="st-captions" aria-live="polite"></p>
     </div>
   `;
@@ -180,15 +216,21 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
   const valueEl = overlay.querySelector('.st-value');
   const feedback = overlay.querySelector('.st-feedback');
   const successBox = overlay.querySelector('.st-success');
+  const playVoiceBtn = overlay.querySelector('[data-action="play-voice"]');
+  const voicePlayer = overlay.querySelector('.st-narration');
   const captionsBox = overlay.querySelector('.st-captions');
-  const syncBtn = overlay.querySelector('[data-action="sync"]');
   const soundBtn = overlay.querySelector('[data-action="sound"]');
 
   /* ---------- Estado ---------- */
   let raf = 0;
   let synced = false;
   let staticOn = false;
-  let staticNodes = null; // { src, band, gain }
+  let lockTimer = null;
+  let voiceWords = [];
+  let voiceWordElements = [];
+  let activeVoiceMark = null;
+  let activeVoiceWordIndex = -1;
+  let staticNodes = null; // { src, band, gain, carrier, carrierGain }
 
   /* ---------- Estática sonora continua (Web Audio) ----------
      Reutiliza el AudioContext y el bus master del soundscape
@@ -214,9 +256,31 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
     const gain = ctx.createGain();                      // volumen según distancia
     gain.gain.value = 0;
 
+    const carrier = ctx.createOscillator();              // tono reconocible al acercarse
+    carrier.type = 'sine';
+    carrier.frequency.value = 440;
+    const carrierGain = ctx.createGain();
+    carrierGain.gain.value = 0;
+
     src.connect(band).connect(gain).connect(master);
+    carrier.connect(carrierGain).connect(master);
     src.start();
-    staticNodes = { src, band, gain };
+    carrier.start();
+    staticNodes = { src, band, gain, carrier, carrierGain };
+  }
+
+  function updateStatic(freq) {
+    if (!staticOn || !staticNodes || !soundscape.ctx) return;
+    const q = quality(freq);
+    const t = soundscape.ctx.currentTime;
+    const noise = (1 - q) ** 1.7;
+
+    // Lejos domina un siseo áspero; cerca cae el ruido y emerge el tono.
+    staticNodes.gain.gain.setTargetAtTime(0.015 + noise * 0.25, t, 0.08);
+    staticNodes.band.frequency.setTargetAtTime(700 + q * 1800, t, 0.08);
+    staticNodes.band.Q.setTargetAtTime(0.65 + q * 7, t, 0.08);
+    staticNodes.carrier.frequency.setTargetAtTime(360 + q * 240, t, 0.08);
+    staticNodes.carrierGain.gain.setTargetAtTime(0.01 + q * 0.11, t, 0.08);
   }
 
   function setStatic(on) {
@@ -224,10 +288,77 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
     soundBtn.setAttribute('aria-pressed', String(on));
     soundBtn.textContent = on ? '🔇 Silenciar' : '🔊 Estática';
     if (on) {
-      ensureStatic();
-      if (!soundscape.enabled) soundscape.toggle(); // habilita chime/Morse del juego
+      try {
+        ensureStatic();
+        // Habilita también los tonos de confirmación y el Morse.
+        if (!soundscape.enabled) {
+          soundscape.enabled = true;
+          document.dispatchEvent(new CustomEvent('echo:audio-state', { detail: { enabled: true } }));
+        }
+        updateStatic(parseFloat(slider.value));
+      } catch (_) {
+        staticOn = false;
+        soundBtn.setAttribute('aria-pressed', 'false');
+        soundBtn.textContent = '🔊 Estática';
+        feedback.textContent = 'El audio no está disponible en este navegador.';
+      }
     } else if (staticNodes) {
       staticNodes.gain.gain.setTargetAtTime(0, soundscape.ctx.currentTime, 0.03);
+      staticNodes.carrierGain.gain.setTargetAtTime(0, soundscape.ctx.currentTime, 0.03);
+    }
+  }
+
+  function renderVoiceTranscript(words) {
+    voiceWords = words;
+    voiceWordElements = words.map((word) => {
+      const element = document.createElement('span');
+      element.className = 'st-word';
+      element.textContent = word.text;
+      return element;
+    });
+    const transcript = document.createDocumentFragment();
+    voiceWordElements.forEach((element, index) => {
+      if (index) transcript.appendChild(document.createTextNode(' '));
+      transcript.appendChild(element);
+    });
+    captionsBox.replaceChildren(transcript);
+    captionsBox.style.display = 'block';
+    activeVoiceWordIndex = -1;
+  }
+
+  function updateVoiceHighlight() {
+    if (voicePlayer.paused || !voiceWords.length) return;
+    const elapsed = voicePlayer.currentTime;
+    let low = 0;
+    let high = voiceWords.length - 1;
+    let activeIndex = -1;
+
+    while (low <= high) {
+      const middle = (low + high) >> 1;
+      if (voiceWords[middle].start <= elapsed) {
+        activeIndex = middle;
+        low = middle + 1;
+      } else {
+        high = middle - 1;
+      }
+    }
+
+    if (activeIndex === activeVoiceWordIndex) return;
+    if (activeVoiceWordIndex >= 0) {
+      voiceWordElements[activeVoiceWordIndex].classList.remove('is-speaking');
+      voiceWordElements[activeVoiceWordIndex].removeAttribute('aria-current');
+    }
+    activeVoiceWordIndex = activeIndex;
+    if (activeIndex >= 0) {
+      const activeWord = voiceWordElements[activeIndex];
+      activeWord.classList.add('is-speaking');
+      activeWord.setAttribute('aria-current', 'true');
+      const wordRect = activeWord.getBoundingClientRect();
+      const captionRect = captionsBox.getBoundingClientRect();
+      if (wordRect.top < captionRect.top || wordRect.bottom > captionRect.bottom) {
+        captionsBox.scrollTop += wordRect.top - captionRect.top
+          - (captionsBox.clientHeight - wordRect.height) / 2;
+      }
     }
   }
 
@@ -257,123 +388,150 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
     }
     ctx2d.stroke();
 
-    // Estática sonora: volumen ∝ distancia al objetivo
-    if (staticOn && staticNodes) {
-      const level = noise * 0.22;
-      staticNodes.gain.gain.setTargetAtTime(level, soundscape.ctx.currentTime, 0.05);
-    }
-
+    updateVoiceHighlight();
     raf = requestAnimationFrame(draw);
   }
 
   /* ---------- Dial ---------- */
   slider.addEventListener('input', () => {
-    valueEl.textContent = parseFloat(slider.value).toFixed(1);
-    feedback.textContent = '';
-  });
-
-  /* ---------- Botones ---------- */
-  syncBtn.addEventListener('click', () => {
-    if (synced) return;
     const freq = parseFloat(slider.value);
+    valueEl.textContent = freq.toFixed(1);
+    updateStatic(freq);
+
+    if (lockTimer !== null) {
+      clearTimeout(lockTimer);
+      lockTimer = null;
+    }
+
     if (Math.abs(freq - TARGET) <= MARGIN) {
-      succeed();
+      feedback.textContent = '✓ Señal localizada · mantén el dial quieto durante 1 segundo…';
+      lockTimer = window.setTimeout(() => {
+        lockTimer = null;
+        if (!synced && Math.abs(parseFloat(slider.value) - TARGET) <= MARGIN) succeed();
+      }, 1000);
     } else {
-      soundscape.staticBurst(0.5, 0.08); // interferencia al fallar
-      feedback.textContent = `✕ Señal perdida en ${freq.toFixed(1)} MHz · sigue la onda limpia…`;
+      feedback.textContent = 'Señal débil · sigue moviendo el dial hasta limpiar la onda.';
     }
   });
 
+  /* ---------- Botones ---------- */
   soundBtn.addEventListener('click', () => setStatic(!staticOn));
+  playVoiceBtn.addEventListener('click', async () => {
+    try {
+      voicePlayer.currentTime = 0;
+      await voicePlayer.play();
+    } catch (_) {
+      feedback.textContent = 'No se pudo iniciar el audio. Prueba ▶ en el reproductor.';
+    }
+  });
 
   /* ---------- Éxito: conexión restablecida ---------- */
   function succeed() {
+    if (synced) return;
     synced = true;
     slider.disabled = true;
-    syncBtn.disabled = true;
-    syncBtn.textContent = 'Señal sincronizada ✓';
-    if (staticNodes) staticNodes.gain.gain.setTargetAtTime(0, soundscape.ctx.currentTime, 0.03);
+    if (staticNodes && soundscape.ctx) {
+      staticNodes.gain.gain.setTargetAtTime(0, soundscape.ctx.currentTime, 0.03);
+      staticNodes.carrierGain.gain.setTargetAtTime(0, soundscape.ctx.currentTime, 0.03);
+    }
 
     soundscape.chime();                                   // armonía de éxito
     soundscape.morse(CALLSIGNS[artifact.id] || 'ECHO');   // callsign en Morse
 
-    successBox.textContent = `🛰️ CONEXIÓN RESTABLECIDA · Reproduciendo mensaje de ${artifact.name}…`;
+    feedback.textContent = '✓ Frecuencia estable durante 1 segundo.';
+    successBox.textContent = `🛰️ CONEXIÓN RESTABLECIDA · Escucha el mensaje de ${artifact.name}…`;
     successBox.style.display = 'block';
 
-    // Mensaje de voz del rover: first_person_story.voice_text del JSON
+    // Narración MP3 local con tiempos de palabra incluidos en voice_tracks.json.
     speak(artifact.first_person_story?.voice_text || '');
 
-    // La insignia la otorga el sistema global (igual que la trivia)
-    if (!alreadyEarned) {
-      document.dispatchEvent(new CustomEvent('echo:badge-earned', { detail: { id: artifact.id } }));
-    }
+    // La trivia otorga la insignia al responder correctamente.
   }
 
-  /* ---------- Subtítulos sincronizados con la voz ----------
-     Cada palabra se ilumina al ritmo exacto del habla gracias al
-     evento `boundary` de SpeechSynthesis (estilo karaoke).       */
-  function speak(text) {
-    if (!text) return;
-
-    if (!('speechSynthesis' in window)) {
-      // Fallback: mostrar el texto completo sin sincronía
-      captionsBox.textContent = text;
+  /* ---------- Reproducción local + subtítulos cronometrados ---------- */
+  async function speak(text) {
+    if (!text) {
+      captionsBox.textContent = 'No hay un mensaje de voz disponible para este eco.';
       captionsBox.style.display = 'block';
+      addTriviaAction();
       return;
     }
 
-    speechSynthesis.cancel();
-
-    // Mapear cada palabra a su posición en el texto original
-    const words = [];
-    for (const match of text.matchAll(/\S+/g)) {
-      words.push({ text: match[0], start: match.index, end: match.index + match[0].length });
-    }
-    const current = { word: null };
-    const render = () => {
-      captionsBox.innerHTML = words.map((w) => (
-        w === current.word ? `<mark>${w.text}</mark>` : w.text
-      )).join(' ');
-    };
-    current.word = words[0];
-    render();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'es-ES';
-    utterance.rate = 0.95;
-    utterance.pitch = 1.05;
-
-    // El navegador avisa justo cuando empieza CADA palabra
-    utterance.onboundary = (e) => {
-      if (e.charIndex == null) return;
-      const spoken = words.find((w) => e.charIndex >= w.start && e.charIndex < w.end);
-      if (spoken && spoken !== current.word) {
-        current.word = spoken;
-        render();
-        // Desplaza la vista para que la palabra activa siempre se vea
-        const mark = captionsBox.querySelector('mark');
-        if (mark) mark.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-      }
-    };
-    utterance.onend = () => {
-      current.word = null;
-      render();
-      captionsBox.insertAdjacentHTML('beforeend',
-        '<span class="st-caption-end">— fin de transmisión · eco registrado —</span>');
-    };
-
     captionsBox.style.display = 'block';
-    speechSynthesis.speak(utterance);
+    captionsBox.textContent = 'Cargando la transmisión de voz…';
+
+    try {
+      const track = await narrationPromise;
+      if (!track) throw new Error('Pista de voz no disponible');
+      if (!overlay.isConnected) return;
+
+      renderVoiceTranscript(track.words);
+      playVoiceBtn.hidden = false;
+      voicePlayer.hidden = false;
+      voicePlayer.volume = 1;
+      voicePlayer.currentTime = 0;
+      voicePlayer.onplay = () => {
+        playVoiceBtn.textContent = '↻ REPETIR RELATO';
+      };
+      voicePlayer.onended = () => {
+        if (activeVoiceWordIndex >= 0) {
+          voiceWordElements[activeVoiceWordIndex].classList.remove('is-speaking');
+          voiceWordElements[activeVoiceWordIndex].removeAttribute('aria-current');
+        }
+        activeVoiceWordIndex = -1;
+        const ending = document.createElement('span');
+        ending.className = 'st-caption-end';
+        ending.textContent = '— fin de transmisión · eco registrado —';
+        captionsBox.appendChild(ending);
+        addTriviaAction();
+      };
+      voicePlayer.onerror = () => {
+        feedback.textContent = 'No se pudo reproducir el MP3 local. Usa los subtítulos y continúa con el desafío.';
+        addTriviaAction();
+      };
+
+      try {
+        await voicePlayer.play();
+      } catch (_) {
+        playVoiceBtn.textContent = '▶ INICIAR RELATO';
+        feedback.textContent = 'El audio está listo: pulsa ▶ INICIAR RELATO para escucharlo.';
+      }
+    } catch (error) {
+      console.error('[Echoes of Sol] No se pudo reproducir la voz:', error);
+      captionsBox.textContent = `${text} · No se pudo cargar el audio local.`;
+      addTriviaAction();
+    }
+  }
+
+  function addTriviaAction() {
+    if (!overlay.isConnected || overlay.querySelector('[data-action="go-trivia"]')) return;
+
+    const triviaBtn = document.createElement('button');
+    triviaBtn.type = 'button';
+    triviaBtn.className = 'st-btn primary';
+    triviaBtn.dataset.action = 'go-trivia';
+    triviaBtn.textContent = '🧩 RESPONDER DESAFÍO TRIVIA ➜';
+    triviaBtn.addEventListener('click', () => {
+      close();
+      openTrivia(artifact, alreadyEarned);
+    });
+    overlay.querySelector('.st-actions')?.appendChild(triviaBtn);
   }
 
   /* ---------- Cierre y limpieza ---------- */
   function close() {
     cancelAnimationFrame(raf);
+    if (lockTimer !== null) clearTimeout(lockTimer);
+    voicePlayer.pause();
+    voicePlayer.onended = null;
+    voicePlayer.onerror = null;
+    voicePlayer.removeAttribute('src');
+    voicePlayer.load();
     if (staticNodes) {
       try { staticNodes.src.stop(); } catch (_) { /* ya detenido */ }
+      try { staticNodes.carrier.stop(); } catch (_) { /* ya detenido */ }
       staticNodes = null;
     }
-    if ('speechSynthesis' in window) speechSynthesis.cancel();
     document.removeEventListener('keydown', escHandler);
     overlay.remove();
   }
@@ -384,6 +542,18 @@ export function openSignalTuner(artifact, alreadyEarned = false) {
   document.addEventListener('keydown', escHandler);
 
   document.body.appendChild(overlay);
+  // El botón que abrió este panel es un gesto del usuario: activa aquí el audio.
+  setStatic(true);
+  const narrationPromise = loadVoiceTrack(artifact.id)
+    .then((track) => {
+      voicePlayer.src = track.audio;
+      voicePlayer.load();
+      return track;
+    })
+    .catch((error) => {
+      console.error('[Echoes of Sol] No se pudo preparar el audio:', error);
+      return null;
+    });
   slider.focus();
   raf = requestAnimationFrame(draw);
 }
