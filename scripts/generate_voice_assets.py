@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate local Spanish narrations and per-word timing for the artifact stories.
+"""Generate local ES/EN narrations and per-word timing for the artifact stories.
 
 Build-time only: install `edge-tts` and run from any directory. The website
 plays the resulting MP3 files locally and does not contact a TTS service.
@@ -16,7 +16,7 @@ import edge_tts
 
 ROOT = Path(__file__).resolve().parents[1]
 TICKS_PER_SECOND = 10_000_000
-DEFAULT_VOICE = "es-EC-LuisNeural"
+DEFAULT_VOICES = {"es": "es-EC-LuisNeural", "en": "en-US-GuyNeural"}
 
 
 def normalize(value: str) -> str:
@@ -68,7 +68,7 @@ def align_words(text: str, events: list[dict]) -> list[dict]:
     return aligned
 
 
-async def generate_track(artifact: dict, voice: str, semaphore: asyncio.Semaphore):
+async def generate_track(artifact: dict, voice: str, semaphore: asyncio.Semaphore, output_dir: Path):
     async with semaphore:
         text = artifact["first_person_story"]["voice_text"]
         last_error = None
@@ -95,10 +95,12 @@ async def generate_track(artifact: dict, voice: str, semaphore: asyncio.Semaphor
                     raise ValueError("TTS returned empty audio or timings")
 
                 filename = f"{artifact['id']}.mp3"
-                (ROOT / "assets" / "audio" / filename).write_bytes(audio)
+                audio_path = output_dir / filename
+                audio_path.write_bytes(audio)
                 duration = max(word["start"] + word["duration"] for word in words)
+                print(f"Generated {artifact['id']}: {len(words)} words, {duration:.1f}s", flush=True)
                 return artifact["id"], {
-                    "audio": f"assets/audio/{filename}",
+                    "audio": audio_path.relative_to(ROOT).as_posix(),
                     "duration": round(duration, 3),
                     "words": words,
                 }
@@ -109,20 +111,29 @@ async def generate_track(artifact: dict, voice: str, semaphore: asyncio.Semaphor
         raise RuntimeError(f"Could not generate {artifact['id']}: {last_error}")
 
 
-async def main(voice: str) -> None:
-    artifacts = json.loads((ROOT / "data" / "equipment_data.json").read_text(encoding="utf-8"))
-    (ROOT / "assets" / "audio").mkdir(parents=True, exist_ok=True)
+async def main(voice: str, lang: str = "es") -> None:
+    suffix = "_en" if lang == "en" else ""
+    artifacts = json.loads((ROOT / "data" / f"equipment_data{suffix}.json").read_text(encoding="utf-8"))
+    output_dir = ROOT / "assets" / "audio"
+    if lang == "en":
+        output_dir /= "en"
+    output_dir.mkdir(parents=True, exist_ok=True)
     semaphore = asyncio.Semaphore(2)
-    tracks = await asyncio.gather(*(generate_track(item, voice, semaphore) for item in artifacts))
+    tracks = await asyncio.gather(*(generate_track(item, voice, semaphore, output_dir) for item in artifacts))
     manifest = dict(tracks)
-    (ROOT / "data" / "voice_tracks.json").write_text(
+    manifest_path = ROOT / "data" / f"voice_tracks{suffix}.json"
+    temporary_path = manifest_path.with_suffix(".json.tmp")
+    temporary_path.write_text(
         json.dumps(manifest, ensure_ascii=False, separators=(",", ":")) + "\n",
         encoding="utf-8",
     )
-    print(f"Generated {len(tracks)} tracks with {voice}.")
+    temporary_path.replace(manifest_path)
+    print(f"Generated {len(tracks)} {lang} tracks with {voice}: {manifest_path.relative_to(ROOT)}.")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--voice", default=DEFAULT_VOICE, help="Edge TTS voice (default: %(default)s)")
-    asyncio.run(main(parser.parse_args().voice))
+    parser.add_argument("--lang", choices=["es", "en"], default="es", help="Catalog language (default: es)")
+    parser.add_argument("--voice", help="Override the language's default Edge TTS voice")
+    args = parser.parse_args()
+    asyncio.run(main(args.voice or DEFAULT_VOICES[args.lang], args.lang))

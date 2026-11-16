@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Echoes of Sol — Monólogos interactivos del equipamiento abandonado en la Luna y Marte. NASA Space Apps Challenge 2026." />
-  <title>Echoes of Sol · Abandoned but not Forgotten</title>
+  <meta data-i18n-content="page.description" name="description" content="Echoes of Sol — Monólogos interactivos del equipamiento abandonado en la Luna y Marte. NASA Space Apps Challenge 2026." />
+  <title data-i18n="page.title">Echoes of Sol · Abandoned but not Forgotten</title>
 
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/hud.css" />
@@ -28,8 +28,8 @@
   <div id="preloader" class="hud-preloader" role="status" aria-live="polite">
     <div class="preloader-core">
       <div class="preloader-ring"></div>
-      <p class="preloader-text">ESTABLECIENDO ENLACE PROFUNDO…</p>
-      <p class="preloader-sub" id="preloader-sub">sintonizando frecuencias lunares y marcianas</p>
+      <p class="preloader-text" data-i18n="preloader.title">ESTABLECIENDO ENLACE PROFUNDO…</p>
+      <p class="preloader-sub" id="preloader-sub" data-i18n="preloader.subtitle">sintonizando frecuencias lunares y marcianas</p>
     </div>
   </div>
 
@@ -38,61 +38,64 @@
 
   <!-- Barra HUD superior -->
   <header class="hud-top" role="banner">
-    <a class="hud-logo" href="#top" aria-label="Echoes of Sol, inicio">
+    <a class="hud-logo" href="#top" data-i18n-aria-label="header.home" aria-label="Echoes of Sol, inicio">
       <span class="hud-logo-dot" aria-hidden="true"></span>
       ECHOES<em>OF</em>SOL
     </a>
     <div class="hud-top-actions">
-      <button type="button" id="btn-manual" class="hud-manual-btn"
+      <button type="button" id="btn-lang" class="hud-lang-btn" aria-label="Cambiar idioma / Switch language">
+        <span class="lang-icon" aria-hidden="true">🌐</span> <span class="lang-code">EN</span>
+      </button>
+      <button type="button" id="btn-manual" data-i18n="header.manual" class="hud-manual-btn"
               aria-haspopup="dialog" aria-controls="cadet-manual" aria-expanded="false">📖 MANUAL</button>
-      <echo-badge id="badge-tracker" aria-label="Insignias restauradas"></echo-badge>
-      <echo-audio aria-label="Control de audio"></echo-audio>
+      <echo-badge id="badge-tracker" data-i18n-aria-label="header.badges" aria-label="Insignias restauradas"></echo-badge>
+      <echo-audio data-i18n-aria-label="header.audio" aria-label="Control de audio"></echo-audio>
     </div>
   </header>
 
   <main id="top">
     <!-- Scrollytelling de introducción -->
-    <section id="intro" class="scrolly" aria-label="Introducción">
+    <section id="intro" class="scrolly" data-i18n-aria-label="intro.label" aria-label="Introducción">
       <div class="scrolly-step" data-step="1">
-        <p class="scrolly-kicker">NASA SPACE APPS CHALLENGE 2026 <br>
+        <p class="scrolly-kicker" data-i18n-html="intro.kicker1">NASA SPACE APPS CHALLENGE 2026 <br>
           «Abandoned but not Forgotten»</p>
-        <h1 class="scrolly-title">El silencio<em>también habla</em></h1>
-        <p class="scrolly-text">
+        <h1 class="scrolly-title" data-i18n-html="intro.title1">El silencio<em>también habla</em></h1>
+        <p class="scrolly-text" data-i18n="intro.text1">
           En la Luna y en Marte quedaron atrás rovers, landers y etapas de descenso.
           Máquinas con nombre, con misión y con historias que merecen ser escuchadas otra vez.
         </p>
       </div>
       <div class="scrolly-step" data-step="2">
-        <p class="scrolly-kicker">NO SON CHATARRA ESPACIAL</p>
-        <h2 class="scrolly-title">Son <em>monumentos</em></h2>
-        <p class="scrolly-text">
+        <p class="scrolly-kicker" data-i18n-html="intro.kicker2">NO SON CHATARRA ESPACIAL</p>
+        <h2 class="scrolly-title" data-i18n-html="intro.title2">Son <em>monumentos</em></h2>
+        <p class="scrolly-text" data-i18n="intro.text2">
           Cada uno fue dejado en el lugar exacto donde cumplió su deber.
           Sus «huesos de metal» son testigos eternos de la curiosidad humana.
         </p>
       </div>
       <div class="scrolly-step" data-step="3">
-        <p class="scrolly-kicker">TU MISIÓN COMO OPERADOR</p>
-        <h2 class="scrolly-title">Restaura <em>su señal</em></h2>
-        <p class="scrolly-text">
+        <p class="scrolly-kicker" data-i18n-html="intro.kicker3">TU MISIÓN COMO OPERADOR</p>
+        <h2 class="scrolly-title" data-i18n-html="intro.title3">Restaura <em>su señal</em></h2>
+        <p class="scrolly-text" data-i18n="intro.text3">
           Gira los mundos, encuentra cada eco y escucha sus monólogos en primera persona.
           Responde su trivia y repara el enlace de comunicaciones para ganar tu insignia.
         </p>
-        <a class="hud-button" href="#explorer" data-scroll>ENTRAR AL CONSULTORIO ORBITAL ↓</a>
+        <a class="hud-button" data-i18n="intro.enter" href="#explorer" data-scroll>ENTRAR AL CONSULTORIO ORBITAL ↓</a>
       </div>
     </section>
 
     <!-- Explorador 3D -->
-    <section id="explorer" class="explorer" aria-label="Globos 3D de la Luna y Marte">
+    <section id="explorer" class="explorer" data-i18n-aria-label="explorer.label" aria-label="Globos 3D de la Luna y Marte">
       <div class="explorer-head">
-        <h2 class="explorer-title">CONSULTORIO <em>ORBITAL</em></h2>
-        <div class="body-switch" role="tablist" aria-label="Seleccionar cuerpo celeste">
-          <button type="button" role="tab" data-body="mars" class="active" aria-selected="true">♂ MARTE</button>
-          <button type="button" role="tab" data-body="moon" aria-selected="false">☾ LUNA</button>
+        <h2 class="explorer-title" data-i18n-html="explorer.title">CONSULTORIO <em>ORBITAL</em></h2>
+        <div class="body-switch" role="tablist" data-i18n-aria-label="explorer.tabs" aria-label="Seleccionar cuerpo celeste">
+          <button type="button" role="tab" data-body="mars" data-i18n="explorer.mars" class="active" aria-selected="true">♂ MARTE</button>
+          <button type="button" role="tab" data-body="moon" data-i18n="explorer.moon" aria-selected="false">☾ LUNA</button>
         </div>
       </div>
 
-      <echo-globe id="globe" class="globe-wrap" aria-label="Globo 3D interactivo con marcadores de aterrizaje"></echo-globe>
-      <p class="globe-hint" aria-hidden="true">Arrastra para rotar · Rueda para acercar · Clic en un marcador <span class="pulse-dot">✦</span></p>
+      <echo-globe id="globe" class="globe-wrap" data-i18n-aria-label="explorer.globe" aria-label="Globo 3D interactivo con marcadores de aterrizaje"></echo-globe>
+      <p class="globe-hint" data-i18n-html="explorer.hint" aria-hidden="true">Arrastra para rotar · Rueda para acercar · Clic en un marcador <span class="pulse-dot">✦</span></p>
     </section>
   </main>
 
@@ -100,8 +103,8 @@
   <echo-marker id="marker-panel" hidden></echo-marker>
 
   <footer class="hud-footer" role="contentinfo">
-    <p>ECHOES OF SOL · NASA Space Apps Challenge 2026</p>
-    <p class="footer-credits">
+    <p data-i18n="footer.project">ECHOES OF SOL · NASA Space Apps Challenge 2026</p>
+    <p class="footer-credits" data-i18n="footer.credits">
       Créditos a los Estudiantes: Alomoto Ivan - Brito Priscila - Cheme Michelle - Sánchez Brandon - Taco Jorge
     </p>
   </footer>

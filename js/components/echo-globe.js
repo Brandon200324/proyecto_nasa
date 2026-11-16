@@ -28,6 +28,11 @@ class EchoGlobe extends HTMLElement {
     this._scene?.setBody(body, artifacts);
   }
 
+  /** Refresh translated records without moving the camera or rebuilding markers. */
+  updateArtifacts(artifacts) {
+    this._scene?.updateArtifacts(artifacts);
+  }
+
   /** Enfoque cinematográfico hacia un marcador. */
   focus(id) {
     this._scene?.focusMarker(id);

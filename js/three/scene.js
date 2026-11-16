@@ -117,6 +117,10 @@ export class PlanetScene {
     this._flyTo(new THREE.Vector3(0, 1.1, 3.1));
   }
 
+  updateArtifacts(artifacts) {
+    this.artifacts = artifacts;
+  }
+
   /** Mueve la cámara suavemente hacia un marcador (tween GSAP). */
   focusMarker(id) {
     const dot = this.markerGroup?.userData?.dots?.find((d) => d.userData.artifactId === id);

@@ -1,0 +1,132 @@
+[
+  {
+    "id": "retroreflector-laser-lrrr",
+    "term": "Laser Ranging Retroreflector (LRRR)",
+    "category": "Scientific Instrument",
+    "cadet_summary": "A target made of light on the Moon! It returns laser pulses toward Earth so we can measure the distance between the two worlds.",
+    "how_it_works": "Its corner-cube prisms reflect light back toward the direction it came from. An observatory on Earth sends a laser pulse and measures how long a small fraction of its light takes to return. Combining that time with the speed of light gives the distance after dividing the round-trip path by two. This entry's radio profile is fictional and belongs to the Academy's 2099 simulator; the real reflector is optical and passive.",
+    "associated_artifacts": [
+      "apollo-11-descent-stage"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 240.5,
+      "signal_type": "Telemetry Pulse",
+      "difficulty": "Cadet (Easy)"
+    },
+    "field_manual_did_you_know": "Apollo 11's reflector contains 100 prisms and works without batteries: each measurement receives its energy from Earth as light."
+  },
+  {
+    "id": "ruedas-malla-metalica-odometria",
+    "term": "Wire Mesh Wheels & Odometry",
+    "category": "Mobility Engineering",
+    "cadet_summary": "The lunar rover's wheels combined a flexible mesh with a system for estimating distance traveled. This helped astronauts explore while keeping track of their route!",
+    "how_it_works": "The metal mesh flexed over uneven ground, while the tread strips provided traction. Odometry estimated distance from wheel rotation and effective wheel size, although slipping could introduce errors. The navigation system combined this information with heading measurements to estimate position relative to the lunar module. This entry's radio profile is fictional and belongs to the Academy's 2099 simulator.",
+    "associated_artifacts": [
+      "apollo-15-lrv"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 241.5,
+      "signal_type": "Telemetry Pulse",
+      "difficulty": "Cadet (Easy)"
+    },
+    "field_manual_did_you_know": "The wheels needed no air, and each had its own electric motor: Apollo 15's rover traveled about 28 kilometers."
+  },
+  {
+    "id": "cromatografo-gases-espectrometro-masas-gcms",
+    "term": "Gas Chromatograph-Mass Spectrometer (GCMS)",
+    "category": "Scientific Instrument",
+    "cadet_summary": "This laboratory separated mixtures of gases and looked for clues to their components. It was like sorting a chemical puzzle before studying its pieces!",
+    "how_it_works": "The instrument could study atmospheric gases and gases released by heating soil samples. The chromatograph separated components because they traveled through its columns at different speeds. The spectrometer ionized molecules and analyzed their ions by mass-to-charge ratio to help identify substances. This entry's radio profile is fictional and belongs to the Academy's 2099 simulator.",
+    "associated_artifacts": [
+      "viking-1-lander"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 242.5,
+      "signal_type": "Carrier Wave",
+      "difficulty": "Specialist (Intermediate)"
+    },
+    "field_manual_did_you_know": "Identifying an organic molecule would not by itself demonstrate life: processes without living organisms can also produce organic compounds."
+  },
+  {
+    "id": "espectrometro-rayos-x-particulas-alfa-apxs",
+    "term": "Alpha Particle X-Ray Spectrometer (APXS)",
+    "category": "Scientific Instrument",
+    "cadet_summary": "This instrument helped reveal which chemical elements were present in rocks and soil. It compared their ingredients without bringing the samples back to Earth!",
+    "how_it_works": "A radioactive curium-244 source emitted alpha particles toward a nearby sample; a decay product, plutonium-240, supplied X-rays that also irradiated the sample. This interaction caused sample atoms to emit X-rays with energies characteristic of their elements. A detector measured those energies and intensities to estimate elemental composition. This entry's radio profile is fictional and belongs to the Academy's 2099 simulator.",
+    "associated_artifacts": [
+      "spirit-mer-a",
+      "opportunity-mer-b"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 243.5,
+      "signal_type": "Telemetry Pulse",
+      "difficulty": "Specialist (Intermediate)"
+    },
+    "field_manual_did_you_know": "Knowing which elements a rock contains does not identify all its minerals: scientific teams combined APXS with cameras and other instruments."
+  },
+  {
+    "id": "herramienta-abrasion-rocas-rat",
+    "term": "Rock Abrasion Tool (RAT)",
+    "category": "Scientific Instrument",
+    "cadet_summary": "A rock's surface can hide its history beneath dust and altered layers. RAT opened a small window onto material less exposed to the Martian environment.",
+    "how_it_works": "A motorized abrasive head ground a circular patch on a rock. Its mechanisms combined rotating motions to remove an outer layer, and a brush helped clear debris. Other instruments then examined the prepared surface and compared it with the original exterior. This entry's radio profile is fictional and belongs to the Academy's 2099 simulator.",
+    "associated_artifacts": [
+      "spirit-mer-a",
+      "opportunity-mer-b"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 244.5,
+      "signal_type": "Morse",
+      "difficulty": "Cadet (Easy)"
+    },
+    "field_manual_did_you_know": "RAT stands for Rock Abrasion Tool: a small instrument with an animal-like nickname that ground into Martian rocks!"
+  },
+  {
+    "id": "esferulas-hematita-arandanos-marcianos",
+    "term": "Hematite Spherules (\"Blueberries\")",
+    "category": "Planetary Geology",
+    "cadet_summary": "Opportunity found tiny mineral spheres that looked like blueberries. Their composition and distribution helped reconstruct the history of ancient water on Mars!",
+    "how_it_works": "The spherules are interpreted as concretions: mineral accumulations that grew within sediments as groundwater circulated. Precipitating minerals formed rounded bodies enriched in hematite, an iron oxide. As surrounding rock eroded, many spheres became exposed or loose on the ground. This entry's radio profile is fictional and belongs to the Academy's 2099 simulator; the spherules do not emit their own radio signals.",
+    "associated_artifacts": [
+      "opportunity-mer-b"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 245.5,
+      "signal_type": "Morse",
+      "difficulty": "Cadet (Easy)"
+    },
+    "field_manual_did_you_know": "Their nickname describes their appearance, not their nature: they are neither fruit nor fossils, and ancient water alone does not demonstrate life."
+  },
+  {
+    "id": "sismometro-banda-ancha-seis",
+    "term": "Seismic Experiment for Interior Structure (SEIS)",
+    "category": "Scientific Instrument",
+    "cadet_summary": "SEIS detected tiny vibrations in the Martian ground. Its records helped investigate deep planetary layers without drilling all the way down to them!",
+    "how_it_works": "Its sensors used suspended masses and systems sensitive to ground motion. The assembly combined three very broad-band sensors with three short-period sensors to record different vibrations. Scientists analyzed how waves traveled, while a shield reduced disturbances from wind and temperature changes. This entry's radio profile is fictional and belongs to the Academy's 2099 simulator.",
+    "associated_artifacts": [
+      "insight-lander"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 246.5,
+      "signal_type": "Telemetry Pulse",
+      "difficulty": "Specialist (Intermediate)"
+    },
+    "field_manual_did_you_know": "InSight recorded 1,319 marsquakes and vibrations from meteorite impacts: the waves helped investigate the crust, mantle, and core."
+  },
+  {
+    "id": "sonda-flujo-calor-propiedades-fisicas-hp3",
+    "term": "Heat Flow and Physical Properties Package (HP3)",
+    "category": "Scientific Instrument",
+    "cadet_summary": "The Mole tried to place sensors beneath the soil to investigate heat escaping from Mars's interior. Although it could not reach the required depth, it taught us about the challenges of digging on another planet.",
+    "how_it_works": "An internal hammering mechanism drove the penetrator, which needed friction against the surrounding soil to advance. As it descended, it was meant to pull a tether containing temperature sensors to a planned depth of three to five meters. The experiment aimed to combine the temperature gradient with soil thermal conductivity to calculate heat flow, but it could not complete that planned measurement. This entry's radio profile is fictional and belongs to the Academy's 2099 simulator.",
+    "associated_artifacts": [
+      "insight-lander"
+    ],
+    "radio_telemetry_profile": {
+      "frequency_mhz": 247.5,
+      "signal_type": "Carrier Wave",
+      "difficulty": "Specialist (Intermediate)"
+    },
+    "field_manual_did_you_know": "The penetrator was about 40 centimeters long: to advance, it needed frictional support from the surrounding ground."
+  }
+]

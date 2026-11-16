@@ -10,32 +10,61 @@ import './components/echo-badge.js';
 import { initScroll } from './ui/scroll.js';
 import { soundscape } from './audio/soundscape.js';
 import { isArtifactCompleted } from './game/progress.js';
+import { t, getLang, setLang, applyTranslations, loadCatalog, loadGlossary as loadGlossaryData, cachedGlossary, preloadLanguages } from './i18n.js';
 
 const globe = document.getElementById('globe');
 const markerPanel = document.getElementById('marker-panel');
 const badgeTracker = document.getElementById('badge-tracker');
 
 let ECHO_DATA = [];
-let glossaryPromise = null;
+let currentBody = 'mars';
+let manualRequest = 0;
 let manualDialog = null;
 
 /* ---------- Carga de datos ---------- */
-async function loadData() {
-  const res = await fetch('data/equipment_data.json');
-  if (!res.ok) throw new Error(`No se pudo cargar equipment_data.json (${res.status})`);
-  ECHO_DATA = await res.json();
-  window.ECHO_DATA = ECHO_DATA; // visible para los web components
-  document.dispatchEvent(new CustomEvent('echo:data-ready', { detail: { total: ECHO_DATA.length } }));
+async function loadData(lang = getLang()) {
+  const data = await loadCatalog(lang);
+  if (lang !== getLang()) return;
+  ECHO_DATA = data;
+  window.ECHO_DATA = ECHO_DATA;
+  document.dispatchEvent(new CustomEvent('echo:data-ready', { detail: { total: data.length, lang } }));
+}
+
+function updateLanguageButtons() {
+  document.querySelectorAll('.hud-lang-btn').forEach((button) => {
+    button.querySelector('.lang-code').textContent = getLang() === 'es' ? 'EN' : 'ES';
+    button.setAttribute('aria-label', t('language.switch'));
+    button.setAttribute('title', t('language.switch'));
+  });
+}
+
+function initLanguage() {
+  applyTranslations();
+  updateLanguageButtons();
+  document.getElementById('btn-lang').addEventListener('click', () => setLang(getLang() === 'es' ? 'en' : 'es'));
+  document.addEventListener('echo:lang-changed', async () => {
+    updateLanguageButtons();
+    const lang = getLang();
+    try {
+      await loadData(lang);
+      if (lang !== getLang()) return;
+      globe.updateArtifacts(ECHO_DATA.filter((artifact) => artifact.body === currentBody));
+      if (manualDialog?.open) populateManual(manualDialog);
+    } catch (error) {
+      console.error('[Echoes of Sol] Language catalog:', error);
+    }
+  });
 }
 
 /* ---------- Selector Luna / Marte ---------- */
 function initBodySwitch() {
   const buttons = document.querySelectorAll('.body-switch button');
-  let current = 'mars';
+  let current = '';
 
   const setBody = (body) => {
     if (body === current) return;
     current = body;
+    currentBody = body;
     buttons.forEach((b) => {
       const active = b.dataset.body === body;
       b.classList.toggle('active', active);
@@ -99,23 +128,8 @@ function callsignOf(id) {
 }
 
 /* ---------- Manual del Cadete (glosario) ---------- */
-function loadGlossary() {
-  if (!glossaryPromise) {
-    glossaryPromise = fetch('data/glossary_data.json')
-      .then((res) => {
-        if (!res.ok) throw new Error(`No se pudo cargar el glosario (${res.status})`);
-        return res.json();
-      })
-      .then((terms) => {
-        if (!Array.isArray(terms)) throw new Error('El glosario no tiene formato de lista.');
-        return terms;
-      })
-      .catch((err) => {
-        glossaryPromise = null;
-        throw err;
-      });
-  }
-  return glossaryPromise;
+function loadGlossary(lang = getLang()) {
+  return loadGlossaryData(lang);
 }
 
 function makeManualField(label, value, className = '') {
@@ -143,20 +157,28 @@ function ensureManualDialog(button) {
   const titleGroup = document.createElement('div');
   const kicker = document.createElement('p');
   kicker.className = 'manual-kicker';
-  kicker.textContent = 'ARCHIVO DE CAMPO · ACADEMIA 2099';
+  kicker.dataset.i18n = 'manual.kicker';
+  kicker.textContent = t('manual.kicker');
   const title = document.createElement('h2');
   title.className = 'manual-title';
   title.id = 'manual-title';
-  title.textContent = 'Manual del Cadete';
+  title.dataset.i18n = 'manual.title';
+  title.textContent = t('manual.title');
   titleGroup.append(kicker, title);
 
   const closeButton = document.createElement('button');
   closeButton.type = 'button';
   closeButton.className = 'manual-close';
-  closeButton.setAttribute('aria-label', 'Cerrar Manual del Cadete');
+  closeButton.setAttribute('data-i18n-aria-label', 'manual.close');
+  closeButton.setAttribute('aria-label', t('manual.close'));
   closeButton.textContent = '✕';
   closeButton.addEventListener('click', () => dialog.close());
-  header.append(titleGroup, closeButton);
+  const languageButton = document.createElement('button');
+  languageButton.type = 'button';
+  languageButton.className = 'hud-lang-btn';
+  languageButton.innerHTML = '<span class="lang-icon" aria-hidden="true">🌐</span> <span class="lang-code"></span>';
+  languageButton.addEventListener('click', () => setLang(getLang() === 'es' ? 'en' : 'es'));
+  header.append(titleGroup, languageButton, closeButton);
 
   const content = document.createElement('div');
   content.className = 'manual-content';
@@ -173,33 +195,38 @@ function ensureManualDialog(button) {
 
   document.body.appendChild(dialog);
   manualDialog = dialog;
+  updateLanguageButtons();
   return dialog;
 }
 
 async function populateManual(dialog) {
   const content = dialog.querySelector('.manual-content');
+  const lang = getLang();
+  const request = ++manualRequest;
+  const scrollTop = content.scrollTop;
   const loading = document.createElement('p');
   loading.className = 'manual-status';
-  loading.textContent = 'Cargando los términos científicos…';
-  content.replaceChildren(loading);
+  loading.textContent = t('manual.loading');
+  if (!cachedGlossary(lang)) content.replaceChildren(loading);
 
   try {
-    const terms = await loadGlossary();
+    const terms = cachedGlossary(lang) || await loadGlossary(lang);
+    if (request !== manualRequest || lang !== getLang()) return;
     const cards = document.createDocumentFragment();
 
     terms.forEach((term) => {
       const card = document.createElement('article');
       card.className = 'manual-term';
       const heading = document.createElement('h3');
-      heading.textContent = term.term || 'Término sin nombre';
+      heading.textContent = term.term || t('manual.untitled');
       const category = document.createElement('p');
       category.className = 'manual-category';
-      category.textContent = term.category || 'Campo científico';
+      category.textContent = term.category || t('manual.category');
       card.append(heading, category);
 
-      const summary = makeManualField('En pocas palabras', term.cadet_summary);
-      const explanation = makeManualField('Cómo funciona', term.how_it_works);
-      const fact = makeManualField('¿Sabías que…?', term.field_manual_did_you_know, 'manual-fact');
+      const summary = makeManualField(t('manual.summary'), term.cadet_summary);
+      const explanation = makeManualField(t('manual.how'), term.how_it_works);
+      const fact = makeManualField(t('manual.fact'), term.field_manual_did_you_know, 'manual-fact');
       [summary, explanation, fact].forEach((field) => {
         if (field) card.appendChild(field);
       });
@@ -208,21 +235,23 @@ async function populateManual(dialog) {
       if (profile) {
         const simulated = document.createElement('p');
         simulated.className = 'manual-simulated';
-        simulated.textContent = `SIMULACIÓN 2099 · No es telemetría NASA: ${profile.frequency_mhz} MHz · ${profile.signal_type} · ${profile.difficulty}`;
+        simulated.textContent = t('manual.simulation', { frequency: profile.frequency_mhz, signal: profile.signal_type, difficulty: profile.difficulty });
         card.appendChild(simulated);
       }
       cards.appendChild(card);
     });
 
     content.replaceChildren(cards);
+    content.scrollTop = scrollTop;
   } catch (error) {
+    if (request !== manualRequest || lang !== getLang()) return;
     const message = document.createElement('p');
     message.className = 'manual-status';
-    message.textContent = `No se pudo abrir el manual. ${error.message}`;
+    message.textContent = t('manual.error');
     const retry = document.createElement('button');
     retry.type = 'button';
     retry.className = 'manual-retry';
-    retry.textContent = 'Reintentar';
+    retry.textContent = t('manual.retry');
     retry.addEventListener('click', () => populateManual(dialog), { once: true });
     message.appendChild(retry);
     content.replaceChildren(message);
@@ -254,7 +283,9 @@ function hidePreloader() {
 /* ---------- Arranque ---------- */
 async function boot() {
   try {
+    initLanguage();
     initManual();
+    await preloadLanguages();
     await loadData();
     initGlobeEvents();
     initBodySwitch();
@@ -262,7 +293,7 @@ async function boot() {
   } catch (err) {
     console.error('[Echoes of Sol]', err);
     const sub = document.getElementById('preloader-sub');
-    if (sub) sub.textContent = '⚠ Error cargando datos. Sirve el proyecto con: npx serve .';
+    if (sub) { sub.dataset.i18n = 'errors.boot'; sub.textContent = t('errors.boot'); }
   } finally {
     // Pequeño retiro para que la textura termine de montar
     setTimeout(hidePreloader, 600);

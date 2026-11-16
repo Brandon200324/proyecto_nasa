@@ -443,3 +443,44 @@ echo-audio { display: inline-flex; }
   /* En pantallas táctiles el escaneo consume CPU sin aportar: se apaga */
   .hud-scan { display: none; }
 }
+
+/* ES / EN selector: shares the existing HUD glass and accent tokens. */
+.hud-lang-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text);
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.hud-lang-btn:hover {
+  color: var(--echo-accent);
+  border-color: var(--echo-accent);
+  background: var(--panel-strong);
+}
+.hud-lang-btn:focus-visible {
+  outline: 2px solid var(--echo-accent);
+  outline-offset: 3px;
+}
+@media (max-width: 480px) {
+  .hud-lang-btn { padding: 0.35rem 0.45rem; font-size: 0.65rem; }
+  .hud-lang-btn .lang-icon { display: none; }
+}
+/* Allow the extra language action and longer English labels on narrow screens. */
+@media (max-width: 640px) {
+  .hud-top { flex-wrap: wrap; justify-content: center; gap: 0.45rem; }
+  .hud-top-actions { flex-wrap: wrap; justify-content: center; }
+  .trivia-actions { flex-wrap: wrap; }
+  .manual-header > div { min-width: 0; }
+}

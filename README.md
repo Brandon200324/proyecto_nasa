@@ -46,7 +46,7 @@ Abre la carpeta `proyecto_nasa` en Visual Studio Code, haz clic derecho sobre `i
 
 2. **Relatos en Primera Persona con Audio Neural**:
    - 13 historias con rigor histórico y emocional contadas por las propias máquinas.
-   - 13 archivos de audio `.mp3` grabados con síntesis de voz neural en español (`es-EC-LuisNeural`).
+   - 26 archivos de audio `.mp3` con síntesis de voz neural: 13 en español (`es-EC-LuisNeural`) y 13 en inglés (`en-US-GuyNeural`).
    - La ficha inicial muestra datos y legado científico; **el monólogo, su texto y su voz se desbloquean únicamente al completar la sintonización**.
 
 3. **Minijuego Sintonizador de Frecuencia (Osciloscopio Interactivo)**:
@@ -54,7 +54,7 @@ Abre la carpeta `proyecto_nasa` en Visual Studio Code, haz clic derecho sobre `i
    - Cada uno de los **13 artefactos tiene una frecuencia propia**, configurada en `js/game/frequencies.js`, dentro del dial de 100 a 500 MHz.
    - Mantener el dial a ±5 MHz de su frecuencia durante **un segundo continuo** desbloquea la narración; salir del margen reinicia la espera.
    - Las frecuencias son **ficticias para el juego de la Academia 2099**, no frecuencias de telemetría reales de la NASA.
-   - Al restaurar el enlace, aparecen la fotografía real del artefacto, su audio y los **subtítulos sincronizados palabra por palabra** (`data/voice_tracks.json`).
+   - La foto real permanece en la ficha inicial. Al restaurar el enlace se desbloquean el audio y los **subtítulos sincronizados palabra por palabra**; el canvas se dedica exclusivamente a las ondas de radio.
 
 4. **Desafíos Interactivos de Trivia Científica**:
    - Cada artefacto cuenta con una pregunta técnica y un dato curioso (*fun fact*) validado con los archivos de la NASA.
@@ -68,7 +68,7 @@ Abre la carpeta `proyecto_nasa` en Visual Studio Code, haz clic derecho sobre `i
    - Diálogo nativo modal accesible (`<dialog>`) con 8 conceptos: *Retroreflector Láser (LRRR)*, *Ruedas de Malla Metálica y Odometría*, *GCMS*, *APXS*, *Herramienta de Abrasión de Rocas (RAT)*, *Esférulas de Hematita*, *Sismómetro SEIS* y *Paquete Térmico HP3*.
 
 6. **Archivo Fotográfico Real de la NASA**:
-   - Fotografías históricas locales que se muestran en el área del relato después de restaurar la señal, conservando las proporciones de cada imagen.
+   - Fotografías históricas locales en `<figure class="marker-photo">` de la ficha inicial, conservando el diseño de Michelle.
 
 7. **Paisaje Sonoro Procedural (Web Audio API)**:
    - Botón de cabina en el HUD (`🔇 / 🔊`) que genera sonido ambiental espacial en tiempo real mediante ruido blanco filtrado con paso bajo (220 Hz), campanas de confirmación y sintetizador de código Morse.
@@ -82,13 +82,39 @@ Abre la carpeta `proyecto_nasa` en Visual Studio Code, haz clic derecho sobre `i
 
 1. Seleccionar un punto de la Luna o Marte para consultar su ficha.
 2. Pulsar **SINTONIZAR VOZ** y buscar su frecuencia hasta mantenerla estable durante un segundo.
-3. Escuchar y leer el relato restaurado junto a la imagen del artefacto.
+3. Escuchar y leer el relato restaurado en el sintonizador.
 4. Abrir la trivia al finalizar la narración y responder correctamente para obtener el visto verde.
 
-El contador, el estado de la ficha y los vistos verdes comparten el progreso de `js/game/progress.js`, guardado bajo la clave `echoes_badges`. Si el navegador impide escribir en el almacenamiento, los resultados se mantienen durante la sesión, pero no se garantiza recuperarlos tras recargar. Los cambios de esta actualización conservan los archivos CSS y el catálogo Gold Master.
+El contador, el estado de la ficha y los vistos verdes comparten el progreso de `js/game/progress.js`, guardado bajo la clave `echoes_badges`. Si el navegador impide escribir en el almacenamiento, los resultados se mantienen durante la sesión, pero no se garantiza recuperarlos tras recargar. El catálogo Gold Master español conserva sus datos originales.
 
 **Validación realizada:** recorrido completo de los 13 artefactos en navegador con WebGL y audio local, frecuencias distintas sin solapamiento, bloqueo previo a sintonizar, respuestas incorrectas y reintentos, vistos inmediatos, recuperación tras recarga y cambio de planeta, compatibilidad con IDs antiguos y almacenamiento no disponible. También se verificaron la sintaxis JavaScript y `git diff --check`.
 
+---
+
+## 🌐 Español / English (ES / EN)
+
+El selector **🌐 EN / ES** cambia la interfaz, las 13 fichas científicas, los relatos, la trivia y los ocho términos del manual **sin recargar la página**. También está disponible dentro de las fichas y diálogos. Español es el idioma inicial; la preferencia se guarda en `localStorage` bajo `echoes_lang`. El cambio mantiene el planeta, la cámara, el artefacto seleccionado, la frecuencia y el progreso (`echoes_badges`). Las respuestas incorrectas y los vistos verdes conservan su estado.
+
+- **Motor:** `js/i18n.js` exporta `t(key, valores)`, `getLang()` y `setLang('es' | 'en')`. Notifica mediante `echo:lang-changed` con `detail: { lang }`, actualiza `html.lang` y mantiene los catálogos en memoria para alternar al instante.
+- **Contenido:** `data/equipment_data_en.json` y `data/glossary_data_en.json` contienen las traducciones. Comparten los IDs, coordenadas, fechas, referencias NASA y recursos gráficos de sus originales españoles.
+- **Narración local ES/EN:** el español usa los MP3 y marcas de palabra de `data/voice_tracks.json`; el inglés usa `data/voice_tracks_en.json` y los 13 MP3 incluidos en `assets/audio/en/`. Ambos se generan con `scripts/generate_voice_assets.py`, mediante `edge-tts` y eventos `WordBoundary`. El resaltado sigue el tiempo real del reproductor. **La reproducción inglesa funciona sin voces instaladas y sin Web Speech API**. La síntesis del navegador queda como respaldo si faltan archivos locales; si tampoco está disponible, el relato sigue legible y permite continuar con la trivia.
+
+  Para regenerar únicamente las pistas inglesas: `python3 scripts/generate_voice_assets.py --lang en`. El comando sin `--lang` conserva el comportamiento español. Se requiere `edge-tts` y conexión durante la generación; los usuarios de la web reciben los MP3 locales.
+- **Cambio durante un relato:** detiene la voz anterior y comienza el relato en el nuevo idioma. Si ya terminó, traduce el texto y mantiene el acceso a la trivia sin reproducirlo automáticamente. Cerrar el sintonizador cancela la narración.
+- **Diseño preservado:** fotografía inicial, sintonizador de `90vw` / máximo `85vh`, barras temáticas, subtítulos de `1.2rem` y canvas solo de ondas. El HUD permite acomodar el selector y los textos ingleses en pantallas pequeñas.
+
+Verificación reproducible desde la raíz del proyecto:
+
+```bash
+find . -path './.git' -prune -o -name '*.js' -print0 | xargs -0 -n 1 node --check
+python3 -c "import json; json.load(open('data/equipment_data_en.json')); json.load(open('data/glossary_data_en.json')); print('JSONs EN VÁLIDOS')"
+python3 scripts/check_i18n_data.py
+CHROME_BIN=/ruta/a/chrome node scripts/check_i18n_browser.cjs
+```
+
+**Validación de audio:** los 13 MP3 ingleses se decodificaron con FFmpeg y se verificó que contienen sonido; sus 1.804 palabras coinciden exactamente con los relatos y tienen marcas de tiempo válidas. Las 37 comprobaciones de la prueba principal pasaron sin excepciones JavaScript no controladas; esta prueba reproduce las 13 pistas inglesas en Chromium con Web Speech deshabilitado, además del audio español, los subtítulos y el flujo de trivia. La prueba adicional `node scripts/check_i18n_browser.cjs --speech-fallback` simula la ausencia del índice inglés y comprueba el respaldo del navegador mediante eventos de voz controlados.
+
+La prueba de navegador necesita Node.js 22 o superior, `curl`, Chromium y acceso a los CDN que ya usa la aplicación; descarga copias temporales únicamente para su servidor de pruebas y elimina su perfil al terminar.
 ---
 
 ## 🏛️ Catálogo Oficial Completo (13 Misiones NASA — NSSDCA Gold Master)
@@ -141,6 +167,7 @@ proyecto_nasa/
 │   └── scrollytelling.css           # Estilos de pasos de narrativa cinematográfica
 ├── js/
 │   ├── main.js                      # Orquestador: carga de datos, eventos, manual y switch
+│   ├── i18n.js                      # Motor ES/EN, diccionarios y caché de catálogos
 │   ├── components/
 │   │   ├── echo-globe.js            # Web Component para el visor Three.js interactivo
 │   │   ├── echo-marker.js           # Ficha lateral con datos y acceso al sintonizador
@@ -161,14 +188,19 @@ proyecto_nasa/
 │       └── progress.js              # Persistencia compartida y estado de las trivias
 ├── data/
 │   ├── equipment_data.json          # Catálogo Gold Master de las 13 misiones oficiales NASA
+│   ├── equipment_data_en.json       # Traducción inglesa de los 13 artefactos
 │   ├── glossary_data.json           # 8 términos científicos para el Manual del Cadete
-│   └── voice_tracks.json            # Alineación de texto con marcas de tiempo por palabra
+│   ├── glossary_data_en.json        # Traducción inglesa de los ocho términos
+│   ├── voice_tracks.json            # Tiempos por palabra del audio español
+│   └── voice_tracks_en.json         # Tiempos por palabra del audio inglés
 ├── assets/
-│   ├── audio/                       # 13 narraciones en MP3 locales por artefacto
+│   ├── audio/                       # 13 MP3 españoles y 13 MP3 ingleses en audio/en/
 │   ├── images/                      # Fotografías históricas reales de la NASA
 │   └── textures/                    # Texturas planetarias 2K (2k_mars.jpg y 2k_moon.jpg)
 └── scripts/
-    └── generate_voice_assets.py     # Script para generar pistas de audio con edge-tts
+    ├── generate_voice_assets.py     # Script para generar pistas de audio con edge-tts
+    ├── check_i18n_data.py           # Integridad de los catálogos ES/EN
+    └── check_i18n_browser.cjs       # Integración bilingüe en Chromium/WebGL
 ```
 
 ---

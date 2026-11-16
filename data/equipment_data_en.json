@@ -1,0 +1,574 @@
+[
+  {
+    "id": "apollo-11-descent-stage",
+    "name": "Apollo 11 Descent Stage — Eagle",
+    "nssdca_id": "1969-059C",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C",
+    "mission_type": "Descent Stage",
+    "body": "moon",
+    "site": "Mare Tranquillitatis — Tranquility Base",
+    "coordinates": {
+      "lat": 0.67416,
+      "lon": 23.47314
+    },
+    "landing_date": "1969-07-20",
+    "final_contact_date": "1969-07-21",
+    "operational_duration": "21 hours and 36 minutes of surface support.",
+    "status": "Inactive descent stage. The catalog ID identifies the complete lunar module; the final date marks separation from the ascent stage, since the descent stage had no independent transmitter. Lunar module coordinates use the lunar ME/DE421 reference frame, east longitude. NSSDCA.",
+    "monument_significance": "It supported humanity's first steps on another world and provided the launch platform for the explorers' return.",
+    "hardware_remains": [
+      "DPS descent engine and propellant tanks",
+      "Descent-stage landing radar",
+      "Landing gear and ladder with commemorative plaque"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It enabled the collection of samples that revealed ancient lava flows and the Moon's impact history.",
+      "earth_impact": "The samples help reconstruct the evolution of the Earth–Moon system and compare geological processes on both worlds."
+    },
+    "first_person_story": {
+      "title": "The Foundation of a Dream",
+      "voice_text": "I am Eagle's descent stage, the foundation beneath humanity's first steps on the Moon. I reached the Sea of Tranquility on July 20, 1969, carrying Neil Armstrong and Buzz Aldrin. My engine slowed our descent, and my legs supported their temporary home on the dust. I was no independent laboratory: I made it possible to collect samples and deploy experiments. The rocks that traveled to Earth revealed ancient lavas and a long history of impacts. The next day, the cabin lifted off from my frame to rejoin Michael Collins. My task ended when we separated; I never had an independent radio to keep transmitting from this spot. I stayed behind, a platform that had fulfilled its purpose, beside their footprints. When you look at the Moon, imagine the human team that turned an enormous question into a journey there and back."
+    },
+    "interactive_challenge": {
+      "question": "Which part of Eagle remained on the Moon when the astronauts lifted off?",
+      "options": [
+        "The descent stage",
+        "The command module Columbia",
+        "The cabin carrying the astronauts"
+      ],
+      "correct_index": 0,
+      "fun_fact": "Mare Tranquillitatis is a plain of ancient, solidified lava, not a sea of water."
+    },
+    "image": "assets/images/apollo11-descent-stage.jpg",
+    "color_accent": "#F6C453",
+    "audio_cue": "static_morse"
+  },
+  {
+    "id": "surveyor-3",
+    "name": "Surveyor 3",
+    "nssdca_id": "1967-035A",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A",
+    "mission_type": "Lander",
+    "body": "moon",
+    "site": "Oceanus Procellarum — Surveyor Crater",
+    "coordinates": {
+      "lat": -3.0162,
+      "lon": 336.582
+    },
+    "landing_date": "1967-04-20",
+    "final_contact_date": "1967-05-04",
+    "operational_duration": "Approximately 14 Earth days on the surface.",
+    "status": "Inactive structure visited by Apollo 12. Its camera and other components were returned to Earth and no longer remain at the site. Last data: May 4 at 00:04 UTC. LRO coordinates expressed as east longitude from 0 to 360 degrees. NSSDCA.",
+    "monument_significance": "It was a robotic precursor to Apollo whose components could later be examined after exposure to the lunar environment.",
+    "hardware_remains": [
+      "Solar panel and pointing mechanism",
+      "Three vernier engines and their propellant tanks",
+      "High-gain antenna and support structure"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It excavated and manipulated regolith to measure its mechanical response and help evaluate the ground for future lunar landings.",
+      "earth_impact": "Recovered components allowed researchers to investigate material exposure to the lunar environment and the effects of dust."
+    },
+    "first_person_story": {
+      "title": "The Machine That Welcomed Visitors",
+      "voice_text": "I am Surveyor 3, an explorer that tested lunar soil before astronauts arrived. I landed in April 1967 inside a small crater in the Ocean of Storms. My arrival included bounces, but I stabilized and began my work. My camera sent thousands of pictures, while my soil sampler studied how the ground responded to digging and pressure. I helped show that future missions could stand on this surface. My final transmission arrived on May 4 in Universal Time, and I did not awaken after the long lunar night. Yet my story welcomed unexpected visitors: in 1969, Pete Conrad and Alan Bean walked over to me. They recovered my camera and other components for examination on Earth. My frame stayed here. I taught a different lesson about exploration: sometimes we learn more by returning to study the machines that went before us."
+    },
+    "interactive_challenge": {
+      "question": "Which mission visited Surveyor 3 and recovered components?",
+      "options": [
+        "Apollo 11",
+        "Apollo 12",
+        "Viking 1"
+      ],
+      "correct_index": 1,
+      "fun_fact": "Surveyor 3 touched down three times because its engines continued operating after the first contacts."
+    },
+    "image": "assets/images/surveyor-3.jpg",
+    "color_accent": "#B8C2CC",
+    "audio_cue": "static_morse"
+  },
+  {
+    "id": "apollo-15-lrv",
+    "name": "Apollo 15 Lunar Roving Vehicle — LRV-1",
+    "nssdca_id": "1971-063C",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C",
+    "mission_type": "Rover",
+    "body": "moon",
+    "site": "Hadley-Apennine — Hadley Rille",
+    "coordinates": {
+      "lat": 26.132,
+      "lon": 3.633
+    },
+    "landing_date": "1971-07-30",
+    "final_contact_date": "1971-08-04",
+    "operational_duration": "3 days of traverses; approximately 5 days until the final transmission.",
+    "status": "Parked, inactive rover. The catalog ID belongs to Falcon, the lunar module that carried it; the rounded coordinates identify Falcon's landing site, not the rover's final parking position. The camera transmitted for about 13 minutes when reactivated roughly 40 hours after lunar liftoff. NASA: Apollo 15 mission report.",
+    "monument_significance": "It was the first vehicle to carry people across the surface of another world.",
+    "hardware_remains": [
+      "GCTA television camera",
+      "LCRU communications unit and high-gain antenna",
+      "Wire mesh wheels and electric motors"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It extended geological traverses and enabled collection of the Genesis Rock, an anorthosite from the ancient lunar crust.",
+      "earth_impact": "The samples help scientists investigate how the crusts of rocky worlds formed. NASA: Genesis Rock."
+    },
+    "first_person_story": {
+      "title": "Wheels to Carry Questions",
+      "voice_text": "I am Apollo 15's rover, the first automobile to carry people across the Moon. I arrived folded aboard Falcon in July 1971 and unfolded my wheels for David Scott and James Irwin. My electric motors brought us closer to mountains, craters, and Hadley Rille. Across three traverses I carried tools and samples, extending the territory my companions could explore. They collected the Genesis Rock, an anorthosite that helped scientists study the ancient lunar crust. Then they parked me so my camera could transmit their departure. My system sent more images when it was reactivated about two days later, until the link disappeared after roughly thirteen minutes. My final message was a view of the landscape. Now my wheels rest beside their tracks, evidence that engineering can carry scientific questions much farther than explorers could travel on foot alone."
+    },
+    "interactive_challenge": {
+      "question": "What powered the lunar rover's motors?",
+      "options": [
+        "Gasoline",
+        "Wind",
+        "Electric batteries"
+      ],
+      "correct_index": 2,
+      "fun_fact": "Each wheel had its own motor, and the wire mesh wheels did not need air. NSSDC: LRV."
+    },
+    "image": "assets/images/apollo15-lrv.jpg",
+    "color_accent": "#F0B45E",
+    "audio_cue": "static_rover"
+  },
+  {
+    "id": "apollo-alsep-lrrr",
+    "name": "Apollo 11 EASEP and Laser Ranging Retroreflector — LRRR",
+    "nssdca_id": "1969-059C",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C",
+    "mission_type": "Science Package",
+    "body": "moon",
+    "site": "Mare Tranquillitatis — Apollo 11 experiment field",
+    "coordinates": {
+      "lat": 0.67345,
+      "lon": 23.47307
+    },
+    "landing_date": "1969-07-20",
+    "final_contact_date": "1969-08-27",
+    "operational_duration": "About 37 elapsed days from activation to the end of EASEP operations; the optical reflector is passive and long-lived.",
+    "status": "The electronic EASEP station stopped accepting commands on August 27, 1969, following a lunar-night interruption. The reflector has no final radio transmission. NSSDCA 1969-059C identifies Apollo 11 LM/EASEP; the LRRR experiment has associated record 1969-059C-04. EASEP preceded ALSEP. Coordinates identify the LRRR deployed on July 21. NSSDCA.",
+    "monument_significance": "It began astronaut-deployed scientific measurements on the Moon and established an enduring optical link with Earth.",
+    "hardware_remains": [
+      "PSEP passive seismometer",
+      "Lunar dust detector and solar panels",
+      "LRRR array of 100 corner-cube prisms"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It recorded lunar ground vibrations and enabled laser measurements of the Earth–Moon distance.",
+      "earth_impact": "Lunar laser ranging supports studies of Earth–Moon dynamics and tests of gravitational models."
+    },
+    "first_person_story": {
+      "title": "When Silence Returns Light",
+      "voice_text": "I am Apollo 11's EASEP experiment package and its neighbor, the laser reflector. EASEP was the forerunner of the ALSEP packages deployed by later missions. Astronauts placed us near Eagle in July 1969. My seismometer recorded vibrations, and my dust detector helped investigate the surface environment. Solar panels powered my electronics during the lunar day. On August 27 I stopped accepting commands, ending that active investigation. But our reflector needed no electricity: its prisms returned part of the laser light sent from Earth toward its source. A silent instrument could therefore continue helping people measure distances. Never confuse silence with uselessness, cadet; each instrument has its own way of working. Our legacy brings together two remarkable ideas: listening to the ground beneath us and helping a pulse of light find its way back home across the space between worlds."
+    },
+    "interactive_challenge": {
+      "question": "What energy does the reflector need to return a laser pulse?",
+      "options": [
+        "Its own nuclear battery",
+        "The light it receives from Earth",
+        "Gasoline"
+      ],
+      "correct_index": 1,
+      "fun_fact": "Corner-cube prisms return light toward its source; the reflector needs neither a radio nor batteries."
+    },
+    "image": "assets/images/apollo-alsep-lrrr.jpg",
+    "color_accent": "#A8E6CF",
+    "audio_cue": "static_morse"
+  },
+  {
+    "id": "apollo17-lrv",
+    "name": "Apollo 17 Lunar Roving Vehicle — LRV-3",
+    "nssdca_id": "1972-096C",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1972-096C",
+    "mission_type": "Rover",
+    "body": "moon",
+    "site": "Taurus-Littrow Valley",
+    "coordinates": {
+      "lat": 20.191,
+      "lon": 30.772
+    },
+    "landing_date": "1972-12-11",
+    "final_contact_date": "1972-12-16",
+    "operational_duration": "3 days of traverses; subsequent transmissions continued into December 1972.",
+    "status": "Parked, inactive rover. The catalog ID belongs to Challenger, the lunar module that carried it; coordinates approximate the landing site rather than the final parking position. Television continued after liftoff; reception was documented on December 16, followed by unsuccessful reactivation attempts. Honeysuckle Creek operational record.",
+    "monument_significance": "It extended geological exploration of Taurus-Littrow and televised the departure of the Apollo program's final lunar expedition.",
+    "hardware_remains": [
+      "GCTA television camera",
+      "LCRU communications unit and high-gain antenna",
+      "Wire mesh wheels and navigation system"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It carried Cernan and Schmitt to outcrops and deposits such as the orange volcanic-glass soil.",
+      "earth_impact": "The samples help investigate lunar volcanism and the composition of the Moon's interior. NSSDCA."
+    },
+    "first_person_story": {
+      "title": "The Valley That Kept Our Tracks",
+      "voice_text": "I am Apollo 17's rover, companion to Gene Cernan and geologist Harrison Schmitt. I reached Taurus-Littrow in December 1972 to explore a valley between lunar mountains. My electric motors carried the explorers to places difficult to reach on foot. Near Shorty Crater they discovered orange soil: tiny particles of volcanic glass holding clues to the lunar interior. We also learned to improvise when a broken fender needed a repair made with maps. After the exploration I stayed parked, and my camera showed my companions lifting off. I continued transmitting views during later surface operations, before my communications equipment failed. I did not return to Earth, but the samples did. My wheels remember a lesson for every expedition: great exploration needs science, imagination, and practical solutions to the problems encountered along the way. Sometimes a map can do more than show directions."
+    },
+    "interactive_challenge": {
+      "question": "What produced the famous orange soil studied by Apollo 17?",
+      "options": [
+        "Lunar plants",
+        "Paint from the rover",
+        "Ancient volcanic activity"
+      ],
+      "correct_index": 2,
+      "fun_fact": "The astronauts improvised a fender from maps to reduce dust thrown up by the wheels. NASA: exploring Taurus-Littrow."
+    },
+    "image": "assets/images/apollo17-lrv.jpg",
+    "color_accent": "#C8A2FF",
+    "audio_cue": "static_rover"
+  },
+  {
+    "id": "viking-1-lander",
+    "name": "Viking 1 Lander",
+    "nssdca_id": "1975-075C",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C",
+    "mission_type": "Lander",
+    "body": "mars",
+    "site": "Chryse Planitia",
+    "coordinates": {
+      "lat": 22.269,
+      "lon": 312.049
+    },
+    "landing_date": "1976-07-20",
+    "final_contact_date": "1982-11-11",
+    "operational_duration": "Approximately 6.3 Earth years on the surface.",
+    "status": "Stationary laboratory without communications; its subsequent internal condition is unknown. November 11 is used for the final transmission documented by JPL; NSSDCA lists November 13 as the end of contact. NASA/JPL: final transmission. Planetocentric coordinates with east longitude from 0 to 360 degrees follow PDS ODE.",
+    "monument_significance": "It opened the era of prolonged Martian surface exploration through imaging, weather observations, and chemical analysis.",
+    "hardware_remains": [
+      "Scanning panoramic cameras",
+      "GCMS gas chromatograph–mass spectrometer",
+      "LR, PR, and GEx biology experiments"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It investigated soil and atmosphere and performed biological-activity tests that did not conclusively establish the presence of life.",
+      "earth_impact": "Its results improved methods for distinguishing chemical reactions from possible biological signals. NSSDCA."
+    },
+    "first_person_story": {
+      "title": "A Window Opened in the Dust",
+      "voice_text": "I am Viking 1, a laboratory that opened a window onto the ground of Mars. I landed in Chryse Planitia on July 20, 1976. My first images showed stones, dust, and one of my footpads, because checking my arrival was part of the job. I collected samples and analyzed gases, minerals, and possible signs of biological activity. The results did not confirm life: they showed that Martian chemistry could surprise us and that answers require careful evidence. For more than six years I recorded the weather and shared data with Earth. In November 1982 a command interrupted my communications, and contact could not be restored. My final breath was information sent by radio. My laboratory remains here, but my questions stay open. When you investigate something difficult, remember that recognizing uncertainty is valuable knowledge for the explorers who follow."
+    },
+    "interactive_challenge": {
+      "question": "What conclusion about life can be drawn from the Viking experiments?",
+      "options": [
+        "They did not conclusively confirm its presence",
+        "They found confirmed animals",
+        "They proved life could never have existed"
+      ],
+      "correct_index": 0,
+      "fun_fact": "Viking 1 landed exactly seven years after Apollo 11 landed on the Moon."
+    },
+    "image": "assets/images/viking1-lander.jpg",
+    "color_accent": "#E18A58",
+    "audio_cue": "static_morse"
+  },
+  {
+    "id": "viking2-lander",
+    "name": "Viking 2 Lander",
+    "nssdca_id": "1975-083C",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-083C",
+    "mission_type": "Lander",
+    "body": "mars",
+    "site": "Utopia Planitia",
+    "coordinates": {
+      "lat": 47.64,
+      "lon": 134.29
+    },
+    "landing_date": "1976-09-03",
+    "final_contact_date": "1980-04-11",
+    "operational_duration": "Approximately 3.6 Earth years on the surface.",
+    "status": "Inactive lander tilted by about eight degrees. Battery failure ended its operations. Rounded planetocentric coordinates published by NSSDCA: 47.64 degrees north, 134.29 degrees east. Do not use 225.990 as east longitude.",
+    "monument_significance": "It enabled comparisons between two Martian regions and showed how the seasons transformed the surface.",
+    "hardware_remains": [
+      "Scanning panoramic cameras",
+      "GCMS gas chromatograph–mass spectrometer",
+      "Temperature, pressure, and wind sensors"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It observed seasonal frost and extended surface chemistry and weather measurements without confirming life.",
+      "earth_impact": "Records from two widely separated stations support comparisons of planetary climates and exchanges between the ground and atmosphere."
+    },
+    "first_person_story": {
+      "title": "Winter Drew a Different Plain",
+      "voice_text": "I am Viking 2, the laboratory that came to know the plains of Utopia Planitia. I landed on September 3, 1976, shortly after my companion Viking 1. One foot rested on a rock, leaving me slightly tilted, but I could still work. My cameras watched a rocky landscape, and the seasons brought frost that changed its appearance. My arm collected soil to investigate its composition and search for signs of biological activity. I did not confirm life; my measurements helped scientists understand a cold, chemically complex environment. For several years I recorded temperature, pressure, and winds. On April 11, 1980, battery failure ended my operations. My voice fell silent after greatly exceeding the planned mission. I remain a reference for comparing places and seasons on Mars. Exploration learns more when it observes a world from different viewpoints rather than relying on a single window."
+    },
+    "interactive_challenge": {
+      "question": "What seasonal change did Viking 2 photograph?",
+      "options": [
+        "Trees growing new leaves",
+        "Frost on the ground",
+        "Present-day oceans"
+      ],
+      "correct_index": 1,
+      "fun_fact": "One foot rested on a rock and tilted the lander, but it continued working for several years."
+    },
+    "image": "assets/images/viking2-lander.jpg",
+    "color_accent": "#C97651",
+    "audio_cue": "static_morse"
+  },
+  {
+    "id": "pathfinder-sojourner",
+    "name": "Mars Pathfinder and Sojourner Rover",
+    "nssdca_id": "1996-068A",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-068A",
+    "mission_type": "Rover",
+    "body": "mars",
+    "site": "Ares Vallis — Carl Sagan Memorial Station",
+    "coordinates": {
+      "lat": 19.33,
+      "lon": 326.45
+    },
+    "landing_date": "1997-07-04",
+    "final_contact_date": "1997-09-27",
+    "operational_duration": "About 85 Earth days of surface operations.",
+    "status": "Combined record for the Pathfinder platform and Sojourner rover, without a link since September 1997. ID 1996-068A identifies Pathfinder; the rover's own record is MESURPR, not 1996-068B. Historical NSSDCA landing-site coordinates use east longitude from 0 to 360 degrees; they do not identify the rover's final position. NSSDCA.",
+    "monument_significance": "It demonstrated that a small rover could move across Mars and analyze its rocks.",
+    "hardware_remains": [
+      "Sojourner APXS spectrometer",
+      "Sojourner cameras and six-wheel suspension",
+      "Pathfinder IMP camera and weather station"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It explored rocks and sediments in a region shaped by ancient floods and demonstrated mobile exploration of Mars.",
+      "earth_impact": "Its navigation, communications, and operations trials helped develop the next generations of rovers."
+    },
+    "first_person_story": {
+      "title": "A Giant on Six Small Wheels",
+      "voice_text": "I am Sojourner, the small rover that traveled with Mars Pathfinder. We reached Ares Vallis on July 4, 1997, protected by airbags that cushioned our bounces. Then I rolled off the platform and explored on six wheels. I was small, but my questions were large: what are these rocks made of, and what story does this landscape tell? My spectrometer investigated chemical elements, while my cameras revealed nearby details. Pathfinder photographed my movements, measured the weather, and relayed my messages to Earth. When the platform stopped communicating on September 27, our link was lost too. We do not know how long I continued operating without being able to report my work. My adventure demonstrated that a mobile robot could explore Mars. Sometimes the first step for a great family of explorers fits inside a very small vehicle."
+    },
+    "interactive_challenge": {
+      "question": "How did Sojourner send its data to Earth?",
+      "options": [
+        "Through its own direct-to-Earth antenna",
+        "Through Viking 2",
+        "Through the Pathfinder platform"
+      ],
+      "correct_index": 2,
+      "fun_fact": "Sojourner had its own NSSDCA record, MESURPR, and used Pathfinder as its communications station. NSSDCA."
+    },
+    "image": "assets/images/pathfinder-sojourner.jpg",
+    "color_accent": "#E5B567",
+    "audio_cue": "static_rover"
+  },
+  {
+    "id": "spirit-mer-a",
+    "name": "Spirit — Mars Exploration Rover A",
+    "nssdca_id": "2003-027A",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-027A",
+    "mission_type": "Rover",
+    "body": "mars",
+    "site": "Gusev Crater — Troy, near Home Plate",
+    "coordinates": {
+      "lat": -14.569,
+      "lon": 175.473
+    },
+    "landing_date": "2004-01-04",
+    "final_contact_date": "2010-03-22",
+    "operational_duration": "Approximately 6.2 Earth years.",
+    "status": "Immobilized in soft ground since 2009 and without communications since March 2010. It could not orient its panels to gather enough energy during winter; the exact final damage was not verified. Rounded cartographic coordinates identify the landing site, not Troy. NASA: Spirit.",
+    "monument_significance": "It turned a failed wheel into a tool that uncovered clues to ancient water.",
+    "hardware_remains": [
+      "Pancam panoramic camera",
+      "APXS and Mössbauer spectrometers",
+      "RAT Rock Abrasion Tool"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It discovered silica-rich soils and water-altered rocks, evidence of ancient hydrothermal processes.",
+      "earth_impact": "Comparisons with terrestrial hot springs help identify ancient environments that may have been habitable. NASA/JPL: hydrothermal past."
+    },
+    "first_person_story": {
+      "title": "The Wheel That Uncovered a Question",
+      "voice_text": "I am Spirit, a six-wheeled geologist that learned to read Martian rocks. I reached Gusev Crater in January 2004 for a primary mission of ninety sols. I kept exploring for more than six Earth years. I found water-altered rocks and an especially exciting clue: soil rich in silica. A failed wheel exposed it as it dragged across the surface. That material pointed to ancient processes involving hot water or steam, although I never found living organisms. In 2009 I became trapped in soft ground near Home Plate. My team tried to free me and prepare my panels for winter, but I could not gather enough solar energy. My last transmission was on March 22, 2010. I now remain still, while my measurements remain available for research. Cadet, a difficulty can become a question that nobody had thought to ask."
+    },
+    "interactive_challenge": {
+      "question": "What material did Spirit's failed wheel expose?",
+      "options": [
+        "Silica-rich soil",
+        "Fossilized leaves",
+        "A present-day river"
+      ],
+      "correct_index": 0,
+      "fun_fact": "Its primary mission was planned for 90 sols; its transmissions continued for more than six Earth years."
+    },
+    "image": "assets/images/spirit-mer-a.jpg",
+    "color_accent": "#FF914D",
+    "audio_cue": "static_rover"
+  },
+  {
+    "id": "opportunity-mer-b",
+    "name": "Opportunity — Mars Exploration Rover B",
+    "nssdca_id": "2003-032A",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A",
+    "mission_type": "Rover",
+    "body": "mars",
+    "site": "Meridiani Planum — Perseverance Valley, Endeavour Crater",
+    "coordinates": {
+      "lat": -1.946,
+      "lon": 354.473
+    },
+    "landing_date": "2004-01-25",
+    "final_contact_date": "2018-06-10",
+    "operational_duration": "Approximately 14.4 Earth years.",
+    "status": "Inactive rover in Perseverance Valley. Communications were lost when solar power fell during the global dust storm of 2018; its subsequent internal condition could not be verified. Rounded cartographic coordinates identify its landing in Eagle Crater, not the final site. NASA: Opportunity.",
+    "monument_significance": "It transformed a ninety-sol mission into fourteen years of investigating ancient Martian watery environments.",
+    "hardware_remains": [
+      "Pancam panoramic camera and Microscopic Imager",
+      "APXS and Mössbauer spectrometers",
+      "RAT Rock Abrasion Tool"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It found hematite-rich spherules and water-related sedimentary deposits and also investigated clay-bearing materials.",
+      "earth_impact": "It helped compare sedimentary processes and assess how water chemistry affects potentially habitable environments."
+    },
+    "first_person_story": {
+      "title": "The Road Beneath the Dust",
+      "voice_text": "I am Opportunity, the explorer many people call Oppy. I landed in Meridiani Planum in January 2004 and found a landscape filled with clues to ancient water. My instruments studied small hematite-rich spheres, nicknamed blueberries, and rocks containing minerals formed through watery processes. Later I investigated materials associated with less acidic water, important for studying habitability. I did not discover organisms: I reconstructed past environments. My primary mission was ninety sols, but I traveled more than forty-five kilometers over fourteen Earth years. In 2018 a huge storm darkened the sky and reduced the energy from my solar panels. My last communication arrived on June 10 from Perseverance Valley. I sent data and images, not a human farewell sentence. My wheels rest beside Endeavour Crater, while my observations keep telling the story of how a planet could change."
+    },
+    "interactive_challenge": {
+      "question": "What were Opportunity's Martian blueberries?",
+      "options": [
+        "Frozen fruit",
+        "Hematite-rich mineral spherules",
+        "Animal eggs"
+      ],
+      "correct_index": 1,
+      "fun_fact": "It traveled 45.16 kilometers; its final transmissions were data and images, not a human farewell sentence. NASA: final message."
+    },
+    "image": "assets/images/opportunity-mer-b.jpg",
+    "color_accent": "#F4C95D",
+    "audio_cue": "static_rover"
+  },
+  {
+    "id": "phoenix-lander",
+    "name": "Phoenix Mars Lander",
+    "nssdca_id": "2007-034A",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2007-034A",
+    "mission_type": "Lander",
+    "body": "mars",
+    "site": "Green Valley — Vastitas Borealis",
+    "coordinates": {
+      "lat": 68.218,
+      "lon": 234.248
+    },
+    "landing_date": "2008-05-25",
+    "final_contact_date": "2008-11-02",
+    "operational_duration": "Approximately 161 Earth days.",
+    "status": "Inactive lander without communications. Later orbital images indicated damaged solar panels, probably caused by accumulated seasonal ice. Approximate landing-site coordinates use east longitude. NASA/JPL: observed damage.",
+    "monument_significance": "It was the laboratory that excavated and directly analyzed ice in the Martian arctic subsurface.",
+    "hardware_remains": [
+      "Robotic arm with scoop",
+      "TEGA Thermal and Evolved Gas Analyzer",
+      "MECA Microscopy, Electrochemistry, and Conductivity Analyzer"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It confirmed water ice beneath the soil and detected perchlorates, salts that changed interpretations of Martian chemistry.",
+      "earth_impact": "Its analyses support comparisons of terrestrial and Martian frozen soils and studies of chemical conditions that affect habitability. NASA: Phoenix."
+    },
+    "first_person_story": {
+      "title": "Water Slept Beneath My Feet",
+      "voice_text": "I am Phoenix, the laboratory that dug into the ground of northern Mars. I landed in May 2008 among terrain patterned by ice and seasons. My arm opened small trenches and delivered samples to my instruments. I found water ice beneath the surface, and my analyses confirmed its presence. I also detected perchlorates, salts important for understanding the soil's chemistry. I did not discover life, but I helped investigate the conditions future explorers would encounter here. As autumn advanced I received less sunlight, and my energy reserves declined. I sent my final signal on November 2. The following winter damaged my solar panels, as orbital images later showed. My frame remained on that frozen plain, beside the marks left by my scoop. I taught that an apparently dry world can hide water just beneath our feet."
+    },
+    "interactive_challenge": {
+      "question": "What did Phoenix find beneath the surface?",
+      "options": [
+        "Oil",
+        "A forest",
+        "Water ice"
+      ],
+      "correct_index": 2,
+      "fun_fact": "Its scoop delivered small samples to instruments that could heat them and analyze the gases released."
+    },
+    "image": "assets/images/phoenix-lander.jpg",
+    "color_accent": "#8CD3FF",
+    "audio_cue": "static_morse"
+  },
+  {
+    "id": "insight-lander",
+    "name": "InSight — Interior Exploration using Seismic Investigations, Geodesy and Heat Transport",
+    "nssdca_id": "2018-042A",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2018-042A",
+    "mission_type": "Lander",
+    "body": "mars",
+    "site": "Elysium Planitia — Homestead hollow",
+    "coordinates": {
+      "lat": 4.502,
+      "lon": 135.623
+    },
+    "landing_date": "2018-11-26",
+    "final_contact_date": "2022-12-15",
+    "operational_duration": "Approximately 4.1 Earth years.",
+    "status": "Inactive stationary lander following power loss as dust accumulated on its solar panels. Its instruments remain deployed. HiRISE/MOLA planetocentric cartographic coordinates use east longitude. Final date: NSSDCA.",
+    "monument_significance": "It opened a window into the deep interior of Mars by recording its vibrations.",
+    "hardware_remains": [
+      "SEIS seismometer and protective shield",
+      "HP3 heat-flow package and penetrator",
+      "RISE radio experiment equipment and antennas"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It recorded 1,319 marsquakes and enabled investigations of the crust, mantle, and core.",
+      "earth_impact": "Comparative seismology helps explain how rocky planets form and evolve. NASA: InSight instruments."
+    },
+    "first_person_story": {
+      "title": "I Heard a Planet's Heartbeat",
+      "voice_text": "I am InSight, the explorer that listened to Mars without traveling its roads. I landed in Elysium Planitia on November 26, 2018. My arm placed a seismometer on the ground and covered it to protect measurements from the wind. I detected more than thirteen hundred marsquakes and vibrations from impacts. Their waves helped investigate the planet's crust, mantle, and core. I also carried a thermal mole that could not reach its required depth: even that difficulty taught us how the ground behaved. Over time, dust covered my solar panels and reduced my energy. My last transmission arrived on December 15, 2022. My instruments remained there, and my records became available for new investigations. Cadet, patient listening can reveal things no photograph shows: even a distant planet holds stories within its interior, waiting for careful questions and evidence."
+    },
+    "interactive_challenge": {
+      "question": "Which instrument detected ground vibrations?",
+      "options": [
+        "The SEIS seismometer",
+        "A wheel",
+        "A solar panel"
+      ],
+      "correct_index": 0,
+      "fun_fact": "The HP3 mole did not reach its planned depth; that difficulty also provided information about the ground's behavior."
+    },
+    "image": "assets/images/insight-lander.jpg",
+    "color_accent": "#77C4D3",
+    "audio_cue": "static_morse"
+  },
+  {
+    "id": "ingenuity-helicopter",
+    "name": "Ingenuity Mars Helicopter",
+    "nssdca_id": "2020-052A",
+    "nasa_url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2020-052A",
+    "mission_type": "Helicopter",
+    "body": "mars",
+    "site": "Jezero Crater — Valinor Hills, final location",
+    "coordinates": {
+      "lat": 18.444,
+      "lon": 77.451
+    },
+    "landing_date": "2021-02-18",
+    "final_contact_date": "2024-11-26",
+    "operational_duration": "72 flights in 2021–2024; communications with Perseverance until November 2024.",
+    "status": "Unable to fly after its blades were damaged on January 18, 2024; the flight mission ended on January 25. It subsequently operated as a stationary testbed. The ID identifies Mars 2020, which carried it, not 2020-052B. Coordinates mark its arrival aboard Perseverance, not Valinor Hills. NASA Science documents the last link with Perseverance on November 26, 2024; the team received a final downlink in April 2024.",
+    "monument_significance": "It performed the first powered, controlled aircraft flight on another planet.",
+    "hardware_remains": [
+      "Two coaxial rotors with damaged blades",
+      "Navigation and color cameras",
+      "Solar panel, batteries, and flight electronics"
+    ],
+    "scientific_legacy": {
+      "breakthrough": "It demonstrated autonomous flight in the thin Martian atmosphere and explored how aerial images could support rover traverses.",
+      "earth_impact": "Its data help improve aerodynamic models, autonomous navigation, and future planetary aircraft designs. NSSDCA."
+    },
+    "first_person_story": {
+      "title": "A Path Drawn in the Air",
+      "voice_text": "I am Ingenuity, the little helicopter that learned to fly on Mars. I arrived beneath Perseverance in February 2021. Two months later my rotors lifted me into an atmosphere much thinner than Earth's. I was prepared for five test flights and completed seventy-two. My cameras helped explore routes, and my data taught engineers how to control an aircraft on another world. On January 18, 2024, my final landing damaged my blades, ending my ability to fly. Yet I kept communicating and gathering information from the ground. My last successful link with Perseverance was recorded on November 26 that year. My arrival coordinates mark the rover's landing; I finished far away in Valinor Hills. I was not a laboratory searching for life: I opened another way to explore. Cadet, some paths are drawn in the air."
+    },
+    "interactive_challenge": {
+      "question": "How many flights did Ingenuity complete?",
+      "options": [
+        "Five",
+        "Seventy-two",
+        "One"
+      ],
+      "correct_index": 1,
+      "fun_fact": "It was designed to demonstrate up to five flights but ultimately completed 72. NASA/JPL: Ingenuity."
+    },
+    "image": "assets/images/ingenuity-helicopter.jpg",
+    "color_accent": "#B8E986",
+    "audio_cue": "static_rover"
+  }
+]
